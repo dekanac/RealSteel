@@ -6,6 +6,8 @@
 #include <Engine.h>
 #include <Core/EntryPoint.h>
 
+#include <SDL_mixer.h>
+
 
 void Game::GameApp::GameSpecificWindowData()
 {
@@ -24,12 +26,17 @@ bool Game::GameApp::GameSpecificInit()
     m_CameraController = std::make_unique<CameraController>();
     m_CameraController->Init(m_EntityManager.get());
 
+    //sound test
+    //pritisni 1 ali prvo stisaj zvucnik
+    //TODO: obrisati iz Application.cpp glavnog loop-a celu petlju za input
+    m_SoundManager->AddSound("fire", "data/sounds/fire.wav");
+
     return true;
 }
 
 void Game::GameApp::GameSpecificUpdate(float dt)
 {
-    m_CameraController->Update(dt, m_EntityManager.get());
+    m_CameraController->Update(dt, m_EntityManager.get());   
 }
 
 bool Game::GameApp::GameSpecificShutdown()

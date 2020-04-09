@@ -9,8 +9,12 @@
 #include "Render/WindowData.h"
 #include "Render/TextureManager.h"
 #include "Physics/PhysicsSystem.h"
+#include "Sound/Sound.h"
+#include "Sound/SoundManager.h"
+#include "Sound/SoundSystem.h"
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 namespace Engine {
 
@@ -33,6 +37,17 @@ namespace Engine {
 
         // Texture Manager create
         m_TextureManager = std::make_unique<TextureManager>();
+
+        //Sound Manager create
+        m_SoundManager = std::make_unique<SoundManager>();
+
+        //Sound System init
+        m_SoundSystem = std::make_unique<SoundSystem>();
+        if (!m_SoundSystem->Init()) {
+            
+            LOG_CRITICAL("Failed to initialize SoundSystem");
+            return false;
+        }
 
         // Input Manager initialize
         m_InputManager = std::make_unique<InputManager>();
@@ -73,6 +88,8 @@ namespace Engine {
 
         GameSpecificShutdown();
 
+        m_SoundSystem->Shutdown();
+        m_SoundSystem.reset();
         m_RenderSystem->Shutdown();
         m_RenderSystem.reset();
 
@@ -94,6 +111,19 @@ namespace Engine {
                 {
                     m_Running = false;
                 }
+
+                //testiranje zvuka
+                //TODO: obrisati
+                else if (event.type = SDL_KEYDOWN) {
+                    switch (event.key.keysym.sym)
+                    {
+                    case SDLK_1:
+                        m_SoundManager->PlaySound("fire");
+                    default:
+                        break;
+                    }
+                }
+
             }
 
             auto frameTime = SDL_GetPerformanceCounter();
@@ -114,6 +144,7 @@ namespace Engine {
     void Application::Update(float dt)
     {
         // Update all systems
+        m_SoundSystem->Update(dt, m_EntityManager.get());
         m_InputManager->Update(dt, m_EntityManager.get());
         m_PhysicsSystem->Update(dt, m_EntityManager.get());
         m_EntityManager->Update(dt);

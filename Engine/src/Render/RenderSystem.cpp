@@ -13,6 +13,7 @@ namespace Engine
     {
         LOG_INFO("Initializing RenderSystem");
 
+
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
             LOG_CRITICAL("Unable to initialize SDL. SDL error: {}", SDL_GetError());
