@@ -19,5 +19,6 @@
 #include "Render/TextureManager.h"
 
 #include "Sound/Sound.h"
+#include "Sound/Music.h"
 #include "Sound/SoundManager.h"
 #include "Sound/SoundSystem.h"

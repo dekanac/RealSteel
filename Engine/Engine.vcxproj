@@ -122,6 +122,7 @@
     <ClCompile Include="src\Render\Texture.cpp" />
     <ClCompile Include="src\Render\TextureManager.cpp" />
     <ClCompile Include="src\Render\Window.cpp" />
+    <ClCompile Include="src\Sound\Music.cpp" />
     <ClCompile Include="src\Sound\Sound.cpp" />
     <ClCompile Include="src\Sound\SoundManager.cpp" />
     <ClCompile Include="src\Sound\SoundSystem.cpp" />
@@ -443,6 +444,7 @@
     <ClInclude Include="src\Render\TextureManager.h" />
     <ClInclude Include="src\Render\Window.h" />
     <ClInclude Include="src\Render\WindowData.h" />
+    <ClInclude Include="src\Sound\Music.h" />
     <ClInclude Include="src\Sound\Sound.h" />
     <ClInclude Include="src\Sound\SoundManager.h" />
     <ClInclude Include="src\Sound\SoundSystem.h" />

@@ -2,6 +2,7 @@
 #include "Sound/SoundSystem.h"
 #include "Sound/SoundManager.h"
 #include "Sound/Sound.h"
+#include "Sound/Music.h"
 
 #include "ECS/EntityManager.h"
 
@@ -27,11 +28,11 @@ namespace Engine {
 		return true;
 	}
 
-	void SoundSystem::Update(float dt, EntityManager* entityManager_) {
-
-	}
-
 	bool SoundSystem::Shutdown() {
+
+		if (Mix_PlayingMusic() == 1) {
+			Mix_HaltMusic();
+		}
 
 		Mix_Quit();
 		return true;

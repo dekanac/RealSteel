@@ -10,6 +10,7 @@
 #include "Render/TextureManager.h"
 #include "Physics/PhysicsSystem.h"
 #include "Sound/Sound.h"
+#include "Sound/Music.h"
 #include "Sound/SoundManager.h"
 #include "Sound/SoundSystem.h"
 
@@ -119,6 +120,20 @@ namespace Engine {
                     {
                     case SDLK_1:
                         m_SoundManager->PlaySound("fire");
+                        break;
+                    case SDLK_9:
+                        m_SoundManager->PlayMusic("music_test");
+                        break;
+                    case SDLK_0:
+                        //Stop the music
+                        m_SoundManager->StopMusic();
+                        break;
+                    case SDLK_7:
+                        m_SoundManager->PauseMusic();
+                        break;
+                    case SDLK_6:
+                        m_SoundManager->ResumeMusic();
+                        break;
                     default:
                         break;
                     }
@@ -130,7 +145,8 @@ namespace Engine {
 
             float deltaTime = (frameTime - previousFrameTime) / static_cast<float>(SDL_GetPerformanceFrequency());
 
-            LOG_INFO("Current FPS: {}", 1.f / deltaTime);
+            //dosadan si prijatelju
+            //LOG_INFO("Current FPS: {}", 1.f / deltaTime);
             Update(deltaTime);
 
             previousFrameTime = frameTime;
@@ -144,7 +160,6 @@ namespace Engine {
     void Application::Update(float dt)
     {
         // Update all systems
-        m_SoundSystem->Update(dt, m_EntityManager.get());
         m_InputManager->Update(dt, m_EntityManager.get());
         m_PhysicsSystem->Update(dt, m_EntityManager.get());
         m_EntityManager->Update(dt);

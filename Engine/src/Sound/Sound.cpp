@@ -32,6 +32,7 @@ namespace Engine {
 		if (m_Sound != nullptr) {
 
 			Mix_FreeChunk(m_Sound);
+			m_Sound = nullptr;
 		}
 	}
 }

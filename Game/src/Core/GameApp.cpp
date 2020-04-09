@@ -28,8 +28,10 @@ bool Game::GameApp::GameSpecificInit()
 
     //sound test
     //pritisni 1 ali prvo stisaj zvucnik
+    //pritisni 9 za pustanje muzike 7 za pauzu 6 za resume 0 za stop
     //TODO: obrisati iz Application.cpp glavnog loop-a celu petlju za input
     m_SoundManager->AddSound("fire", "data/sounds/fire.wav");
+    m_SoundManager->AddMusic("music_test", "data/music/music_test.ogg");
 
     return true;
 }

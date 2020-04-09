@@ -102,6 +102,7 @@
     <ClCompile Include="src\Sound\Sound.cpp" />
     <ClCompile Include="src\Sound\SoundManager.cpp" />
     <ClCompile Include="src\Sound\SoundSystem.cpp" />
+    <ClCompile Include="src\Sound\Music.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="extern\spdlog\async.h">
@@ -1055,6 +1056,7 @@
     <ClInclude Include="src\Sound\Sound.h" />
     <ClInclude Include="src\Sound\SoundManager.h" />
     <ClInclude Include="src\Sound\SoundSystem.h" />
+    <ClInclude Include="src\Sound\Music.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="extern\spdlog\LICENSE">
