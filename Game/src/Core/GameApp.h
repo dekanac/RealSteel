@@ -5,7 +5,8 @@
 namespace Game
 {
     class CameraController;
-    
+    class Background;
+    class Player;
 
     class GameApp final : public Engine::Application
     {
@@ -16,6 +17,10 @@ namespace Game
         bool GameSpecificShutdown() override;
 
         std::unique_ptr<CameraController> m_CameraController{};
+        std::unique_ptr<Background> m_Background{};
+        std::unique_ptr<Player> m_Player1{};
+        std::unique_ptr<Player> m_Player2{};
+
     };
 
 }
