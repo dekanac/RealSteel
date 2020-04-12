@@ -36,6 +36,7 @@ bool Game::GameApp::GameSpecificInit()
 
     m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "player1tank", "data/textures/tank.png");
     m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarRed", "data/textures/HBred.png");
+    m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarFrame", "data/textures/HealthBarFrame.png");
 
     //player1
     m_Player1 = std::make_unique<Player>(1, vec2(550.f, 250.f), 100.f);
@@ -46,16 +47,21 @@ bool Game::GameApp::GameSpecificInit()
     //healthbar
     m_HealthBar = std::make_unique<HealthBar>();
     m_HealthBar->Init(m_EntityManager.get(), m_TextureManager->GetTexture("healthBarRed"));
+    //health bar frame
+    m_HealthBarFrame = std::make_unique<HealthBarFrame>();
+    m_HealthBarFrame->Init(m_EntityManager.get(), m_TextureManager->GetTexture("healthBarFrame"));
 
     return true;
 }
 
 void Game::GameApp::GameSpecificUpdate(float dt)
 {
-    m_CameraController->Update(dt, m_EntityManager.get());   
+    m_CameraController->Update(dt, m_EntityManager.get());
     m_Player1->Update(dt, m_EntityManager.get());
     m_Player2->Update(dt, m_EntityManager.get());
     m_HealthBar->Update(dt, m_EntityManager.get());
+    m_HealthBarFrame->Update(dt, m_EntityManager.get());
+
 }
 
 bool Game::GameApp::GameSpecificShutdown()

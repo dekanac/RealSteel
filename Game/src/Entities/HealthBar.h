@@ -7,5 +7,11 @@ namespace Game {
 		void Update(float dt, Engine::EntityManager* entityManager_);
 
 	};
+
+	class HealthBarFrame {
+	public:
+		bool Init(Engine::EntityManager* entityManager_, Engine::Texture* texture_);
+		void Update(float dt, Engine::EntityManager* entityManager_);
+	};
 }
 

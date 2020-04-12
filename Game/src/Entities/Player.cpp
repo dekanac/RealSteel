@@ -22,7 +22,7 @@ namespace Game {
 
         auto health = player->GetComponent<Engine::HealthComponent>();
         health->m_MaxHealth = 100;
-        health->m_CurrentHealth = health->m_MaxHealth;
+        health->m_CurrentHealth = 60;
         
         auto inputComp = player->GetComponent<Engine::InputComponent>();
 
