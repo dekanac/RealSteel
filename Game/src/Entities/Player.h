@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace Engine {
 
 	class EntityManager;
@@ -22,7 +23,6 @@ namespace Game {
 		float m_Speed{ 100.f };
 		vec2 m_StartPos{};
 	};
-
 
 }
 

@@ -7,6 +7,7 @@ namespace Game
     class CameraController;
     class Background;
     class Player;
+    class HealthBar;
 
     class GameApp final : public Engine::Application
     {
@@ -20,6 +21,7 @@ namespace Game
         std::unique_ptr<Background> m_Background{};
         std::unique_ptr<Player> m_Player1{};
         std::unique_ptr<Player> m_Player2{};
+        std::unique_ptr<HealthBar> m_HealthBar{};
 
     };
 
