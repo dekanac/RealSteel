@@ -13,8 +13,9 @@ namespace Game {
         auto player = std::make_unique<Engine::Entity>();
 
         player->AddComponent<Engine::PlayerComponent>();
-        player->AddComponent<Engine::TransformComponent>(m_StartPos[0], m_StartPos[1], 30.f, 40.f);
-        player->AddComponent<Engine::CollisionComponent>(30.f, 30.f);
+        player->AddComponent<Engine::TransformComponent>(m_StartPos[0], m_StartPos[1], 35.f, 55.f);
+
+        player->AddComponent<Engine::CollisionComponent>(40.f, 40.f);
         player->AddComponent<Engine::HealthComponent>();
         player->AddComponent<Engine::MoverComponent>();
         player->AddComponent<Engine::InputComponent>();
@@ -22,7 +23,7 @@ namespace Game {
 
         auto health = player->GetComponent<Engine::HealthComponent>();
         health->m_MaxHealth = 100;
-        health->m_CurrentHealth = 60;
+        health->m_CurrentHealth = health->m_MaxHealth;
         
         auto inputComp = player->GetComponent<Engine::InputComponent>();
 

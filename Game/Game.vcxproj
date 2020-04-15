@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AI\AI.h" />
     <ClInclude Include="src\Entities\HealthBar.h" />
     <ClInclude Include="src\Entities\Player.h" />
     <ClInclude Include="src\Core\GameApp.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="src\precomp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AI\AI.cpp" />
     <ClCompile Include="src\Entities\HealthBar.cpp" />
     <ClCompile Include="src\Entities\Player.cpp" />
     <ClCompile Include="src\Core\GameApp.cpp" />

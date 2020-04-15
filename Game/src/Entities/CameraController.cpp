@@ -10,7 +10,8 @@ namespace Game
         ASSERT(entityManager_ != nullptr, "Must pass valid pointer to entitymanager to CameraController::Init()");
 
         auto camera = std::make_unique<Engine::Entity>();
-        camera->AddComponent<Engine::TransformComponent>();
+        //lakse je kad koordinate krecu od (0,0) nego da ima tacaka u sva 4 kvadranta, ovako su sve pozitivne
+        camera->AddComponent<Engine::TransformComponent>(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2);
         camera->AddComponent<Engine::CameraComponent>(100.f);
         camera->AddComponent<Engine::InputComponent>();
         camera->AddComponent<Engine::MoverComponent>();

@@ -20,4 +20,7 @@ using vec4 = glm::vec4;
 using mat4x4 = glm::mat4x4;
 using Color = glm::u8vec4;
 
+#define DEFAULT_SCREEN_SIZE_W 1280
+#define DEFAULT_SCREEN_SIZE_H 720
+
 #include "Engine.h"

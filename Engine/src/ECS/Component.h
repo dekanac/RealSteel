@@ -74,6 +74,9 @@ namespace Engine
         Texture* m_Image{};
         bool m_FlipHorizontal{ false };
         bool m_FlipVertical{ false };
+
+        SpriteComponent() = default;
+        SpriteComponent(Texture* image_) : m_Image(image_) {}
     };
 
     struct PlayerComponent : public Component

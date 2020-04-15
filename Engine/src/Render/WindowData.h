@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 
-constexpr int DEFAULT_WIDTH = 800;
-constexpr int DEFAULT_HEIGHT = 600;
+constexpr int DEFAULT_WIDTH = 1280;
+constexpr int DEFAULT_HEIGHT = 720;
 
 namespace Engine
 {
