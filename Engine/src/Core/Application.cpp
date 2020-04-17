@@ -112,33 +112,6 @@ namespace Engine {
                 {
                     m_Running = false;
                 }
-
-                //testiranje zvuka
-                //TODO: obrisati
-                else if (event.type = SDL_KEYDOWN) {
-                    switch (event.key.keysym.sym)
-                    {
-                    case SDLK_1:
-                        m_SoundManager->PlaySound("fire");
-                        break;
-                    case SDLK_9:
-                        m_SoundManager->PlayMusic("music_test");
-                        break;
-                    case SDLK_0:
-                        //Stop the music
-                        m_SoundManager->StopMusic();
-                        break;
-                    case SDLK_7:
-                        m_SoundManager->PauseMusic();
-                        break;
-                    case SDLK_6:
-                        m_SoundManager->ResumeMusic();
-                        break;
-                    default:
-                        break;
-                    }
-                }
-
             }
 
             auto frameTime = SDL_GetPerformanceCounter();

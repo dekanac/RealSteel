@@ -102,5 +102,7 @@ namespace Engine
     struct InputComponent : public Component
     {
         std::vector<InputAction> inputActions;
+        int mouse_x;
+        int mouse_y;
     };
 }

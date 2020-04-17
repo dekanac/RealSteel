@@ -4,9 +4,9 @@
 
 namespace Game {
 
-	bool HealthBar::Init(Engine::EntityManager* entityManager_, Engine::Texture* texture_) {
+	bool HealthBar::Init(Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
 
-		auto entsWithHealth = entityManager_->GetAllEntitiesWithComponent < Engine::HealthComponent>();
+		auto entsWithHealth = entityManager_->GetAllEntitiesWithComponent<Engine::HealthComponent>();
 
 		for (auto& entity : entsWithHealth) {
 
@@ -14,17 +14,28 @@ namespace Game {
 			healthBar->AddComponent<Engine::TransformComponent>();
 			healthBar->AddComponent<Engine::SpriteComponent>();
 			healthBar->AddComponent<Game::HealthBarComponent>();
-			auto healthBarSize = healthBar->GetComponent<Engine::TransformComponent>();
+			
+			auto healthBarTransf = healthBar->GetComponent<Engine::TransformComponent>();
 			//ako se menja, promeniti i u updateu
-			healthBarSize->m_Size[0] = 50.f;
-			healthBarSize->m_Size[1] = 8.f;
+			healthBarTransf->m_Size[0] = 50.f;
+			healthBarTransf->m_Size[1] = 8.f;
+			healthBar->GetComponent<Engine::SpriteComponent>()->m_Image = textureManager_->GetTexture("healthBarRed");
 
-			healthBar->GetComponent<Engine::SpriteComponent>()->m_Image = texture_;
+			auto healthBarFrame = std::make_unique<Engine::Entity>();
+			healthBarFrame->AddComponent<Engine::TransformComponent>();
+			healthBarFrame->AddComponent<Engine::SpriteComponent>().m_Image = textureManager_->GetTexture("healthBarFrame");
+			healthBarFrame->AddComponent<Game::HealthBarFrameComponent>();
+			auto healthBarFrameTransf = healthBarFrame->GetComponent<Engine::TransformComponent>();
+
+			healthBarFrameTransf->m_Size[0] = 60.f;
+			healthBarFrameTransf->m_Size[1] = 15.f;
+
+			healthBar->GetComponent<Game::HealthBarComponent>()->healthBarFrame = healthBarFrame.get();
 
 			entityManager_->AddEntity(std::move(healthBar));
+			entityManager_->AddEntity(std::move(healthBarFrame));
 
 		}
-
 
 		return true;
 	}
@@ -36,57 +47,20 @@ namespace Game {
 		for (int i = 0; i < healthBarEntities.size(); i++) {
 
 			auto healthBarTransf = healthBarEntities[i]->GetComponent<Engine::TransformComponent>();
-			auto entWithHealthPos = entsWithHealth[i]->GetComponent<Engine::TransformComponent>();
+			auto entWithHealthTransf = entsWithHealth[i]->GetComponent<Engine::TransformComponent>();
+			auto healthBarFrameTransf = healthBarEntities[i]->GetComponent<Game::HealthBarComponent>()->healthBarFrame->GetComponent<Engine::TransformComponent>();
 
 			auto healthInfo = entsWithHealth[i]->GetComponent<Engine::HealthComponent>();
-
 			//hardkodovana pozicija, 50.f je sirina HBara, posto je Hbar centriran u odnosu na igraca
 			//pozicija X se pomera levo za pola od trenutnog helta da bi bar bio levo poravnat sa igracem
-			healthBarTransf->m_Size[0] = 50.f *(static_cast<float>(healthInfo->m_CurrentHealth) / static_cast<float>(healthInfo->m_MaxHealth));
-			healthBarTransf->m_Position[0] = entWithHealthPos->m_Position[0] - (50.f - healthBarTransf->m_Size[0]) / 2.f;
-			healthBarTransf->m_Position[1] = entWithHealthPos->m_Position[1] - 30.f;
-			
+			healthBarTransf->m_Size.x = 50.f * (static_cast<float>(healthInfo->m_CurrentHealth) / static_cast<float>(healthInfo->m_MaxHealth));
+			healthBarTransf->m_Position.x = entWithHealthTransf->m_Position.x - (50.f - healthBarTransf->m_Size.x) / 2.f;
+			healthBarTransf->m_Position.y = entWithHealthTransf->m_Position.y - 40.f;
+			healthBarFrameTransf->m_Position.x = entWithHealthTransf->m_Position.x;
+			healthBarFrameTransf->m_Position.y = entWithHealthTransf->m_Position.y - 40.f;
+
 		}
 
 	}
 
-	bool HealthBarFrame::Init(Engine::EntityManager* entityManager_, Engine::Texture* texture_) {
-		
-		auto entsWithHealth = entityManager_->GetAllEntitiesWithComponent < Engine::HealthComponent>();
-
-		for (auto& entity : entsWithHealth) {
-
-			auto healthBarFrame = std::make_unique<Engine::Entity>();
-			healthBarFrame->AddComponent<Engine::TransformComponent>();
-			healthBarFrame->AddComponent<Engine::SpriteComponent>();
-			healthBarFrame->AddComponent<Game::HealthBarFrameComponent>();
-			auto healthBarFrameSize = healthBarFrame->GetComponent<Engine::TransformComponent>();
-			
-			healthBarFrameSize->m_Size[0] = 60.f;
-			healthBarFrameSize->m_Size[1] = 15.f;
-
-			healthBarFrame->GetComponent<Engine::SpriteComponent>()->m_Image = texture_;
-
-			entityManager_->AddEntity(std::move(healthBarFrame));
-
-		}
-
-		return true;
-	}
-
-	void HealthBarFrame::Update(float dt, Engine::EntityManager* entityManager_) {
-
-		auto healthBarFrameEntities = entityManager_->GetAllEntitiesWithComponent<Game::HealthBarFrameComponent>();
-		auto entsWithHealth = entityManager_->GetAllEntitiesWithComponent<Engine::HealthComponent>();
-
-		for (int i = 0; i < healthBarFrameEntities.size(); i++) {
-
-			auto healthBarFrameTransf = healthBarFrameEntities[i]->GetComponent<Engine::TransformComponent>();
-			auto entWithHealthPos = entsWithHealth[i]->GetComponent<Engine::TransformComponent>();
-
-			healthBarFrameTransf->m_Position[0] = entWithHealthPos->m_Position[0];
-			healthBarFrameTransf->m_Position[1] = entWithHealthPos->m_Position[1] - 30.f;
-
-		}
-	}
 }

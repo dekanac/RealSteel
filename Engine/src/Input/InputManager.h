@@ -21,11 +21,13 @@ namespace Engine
 
     private:
         void ProcessInput();
+        void ProcessMousePosition(int& x, int& y);
         bool IsButtonActionActive(EInputAction _eAction, EInputActionState _eState) const;
         void InitKeybinds();
 
         std::unordered_map<EInputAction, KeyboardButton> m_InputActions{ };
         std::unordered_map<EInputAction, EInputActionState> m_InputActionStates{ };
+        
 
         InputManager(const InputManager& other) = delete;
         InputManager& operator=(InputManager& other) = delete;

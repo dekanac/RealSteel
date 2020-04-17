@@ -2,6 +2,7 @@
 #include "InputManager.h"
 
 #include "ECS/EntityManager.h"
+#include <SDL.h>
 
 namespace Engine
 {
@@ -20,8 +21,14 @@ namespace Engine
         return true;
     }
 
+    void InputManager::ProcessMousePosition(int& x, int& y) {
+
+        SDL_GetMouseState(&x, &y);
+    }
+
     void InputManager::ProcessInput()
     {
+
         for (auto& [action, key] : m_InputActions)
         {
             bool bIsPressed = KeyDown(key);
@@ -55,11 +62,17 @@ namespace Engine
     {
         ProcessInput();
 
+        int mouse_x, mouse_y;
+        ProcessMousePosition(mouse_x, mouse_y);
+
         // Update entities
         auto inputComponents = entityManager->GetAllComponentInstances<InputComponent>();
 
         for (auto component : inputComponents)
         {
+            component->mouse_x = mouse_x;
+            component->mouse_y = mouse_y;
+
             for (auto& action : component->inputActions)
             {
                 action.m_Active = IsButtonActionActive(action.m_Action, action.m_ActionTriggerState);
@@ -88,12 +101,16 @@ namespace Engine
         m_InputActions["Player1MoveLeft"] = VK_LEFT;
         m_InputActions["Player1MoveDown"] = VK_DOWN;
         m_InputActions["Player1MoveRight"] = VK_RIGHT;
+        m_InputActions["Player1RotateTurretCW"] = 'I';
+        m_InputActions["Player1RotateTurretCCW"] = 'O';
+        m_InputActions["Player1Fire"] = VK_LBUTTON;
         m_InputActions["PauseGame"] = VK_ESCAPE;
         m_InputActions["RestartGame"] = 'R';
         m_InputActions["Player2MoveUp"] = 'W';
         m_InputActions["Player2MoveLeft"] = 'A';
         m_InputActions["Player2MoveDown"] = 'S';
         m_InputActions["Player2MoveRight"] = 'D';
+        m_InputActions["Player2Fire"] = 'P';
         m_InputActions["PanCameraUp"] = 'Y';
         m_InputActions["PanCameraLeft"] = 'Y';
         m_InputActions["PanCameraDown"] = 'Y';

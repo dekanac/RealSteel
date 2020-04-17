@@ -33,6 +33,7 @@
     <ClInclude Include="src\AI\AI.h">
       <Filter>src\AI</Filter>
     </ClInclude>
+    <ClInclude Include="src\Entities\Tank.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -50,6 +51,7 @@
     <ClCompile Include="src\AI\AI.cpp">
       <Filter>src\AI</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entities\Tank.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
