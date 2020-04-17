@@ -23,8 +23,7 @@ namespace Game
     
         std::unique_ptr<CameraController> m_CameraController{};
         std::unique_ptr<Background> m_Background{};
-        std::unique_ptr<Player> m_Player1{};
-        std::unique_ptr<Player> m_Player2{};
+        std::unique_ptr<Player> m_PlayersController{};
         std::unique_ptr<HealthBar> m_HealthBarsController{};
         std::unique_ptr<AI> m_AI{};
         std::unique_ptr<Tank> m_TanksController{};

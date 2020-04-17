@@ -8,18 +8,19 @@
 
 namespace Game {
 
-    bool Player::Init(Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
+    bool Player::AddPlayer(vec2 startPos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
 
         ASSERT(entityManager_ != nullptr, "Must pass valid pointer to entitymanager");
         ASSERT(textureManager_ != nullptr, "Must pass valid pointer to texture");
 
+        m_Player++;
         auto player = std::make_unique<Engine::Entity>();
 
         player->AddComponent<Game::PlayerGameComponent>();
         player->AddComponent<Engine::InputComponent>();
 
         auto playersTank = std::make_unique<Tank>();
-        auto playersTankEntity = playersTank->CreateTank(m_StartPos, entityManager_, textureManager_);
+        auto playersTankEntity = playersTank->CreateTank(startPos_, entityManager_, textureManager_);
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity = std::move(playersTankEntity);
 
         auto inputComp = player->GetComponent<Engine::InputComponent>();
@@ -73,9 +74,4 @@ namespace Game {
             i++;
         }
     }
-
-
-    Player::Player(int player_, vec2 startPos_)
-        : m_Player(player_), m_StartPos(startPos_) {}
-
 }

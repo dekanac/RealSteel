@@ -33,17 +33,16 @@ bool Game::GameApp::GameSpecificInit()
     m_CameraController = std::make_unique<CameraController>();
     m_Background = std::make_unique<Background>();
     m_TanksController = std::make_unique<Tank>();
-    m_Player1 = std::make_unique<Player>(1, vec2(600.f, 300.f));
-    m_Player2 = std::make_unique<Player>(2, vec2(800.f, 300.f));
-     m_HealthBarsController = std::make_unique<HealthBar>();
+    m_PlayersController = std::make_unique<Player>();
+    m_HealthBarsController = std::make_unique<HealthBar>();
 
     m_CameraController->Init(m_EntityManager.get());
     m_Background->Init(m_EntityManager.get(), m_TextureManager->GetTexture("background"));
     //2 random tenka za probu
     m_TanksController->CreateTank(vec2{ 200.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
     m_TanksController->CreateTank(vec2{ 400.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
-    m_Player1->Init(m_EntityManager.get(), m_TextureManager.get());
-    m_Player2->Init(m_EntityManager.get(), m_TextureManager.get());
+    m_PlayersController->AddPlayer(vec2{ 1000.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
+    m_PlayersController->AddPlayer(vec2{ 800.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
     
 
@@ -58,8 +57,7 @@ bool Game::GameApp::GameSpecificInit()
 void Game::GameApp::GameSpecificUpdate(float dt)
 {
     m_CameraController->Update(dt, m_EntityManager.get());
-    m_Player1->Update(dt, m_EntityManager.get());
-   
+    m_PlayersController->Update(dt, m_EntityManager.get());
     m_HealthBarsController->Update(dt, m_EntityManager.get());
     m_TanksController->Update(dt, m_EntityManager.get());
     
