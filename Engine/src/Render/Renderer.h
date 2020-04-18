@@ -17,6 +17,8 @@ namespace Engine
 
         void DrawEntities(const std::vector<Entity*> renderables_, const Entity* camera);
         void DrawEntity(const Entity* r, const Entity* camera);
+        void DrawAnimations(const std::vector<Entity*> animations_, const Entity* camera);
+        void DrawAnimation(const Entity* a, const Entity* camera);
         void BeginScene() const;
         void EndScene() const;
 

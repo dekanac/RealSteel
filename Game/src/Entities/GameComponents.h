@@ -29,4 +29,12 @@ namespace Game
 	struct TankTurretComponent : public Engine::Component {
 				
 	};
+
+	struct ShootComponent : public Engine::Component {
+
+	};
+
+	struct BulletComponent : public Engine::Component {
+
+	};
 }

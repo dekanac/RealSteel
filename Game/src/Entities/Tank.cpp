@@ -27,13 +27,13 @@ namespace Game {
 		tankBody->AddComponent<Engine::TransformComponent>(position_.x, position_.y, 35.f, 65.f);
 		//samo zbog crtanja kvadrata u debagu, jer glavni tank component nema sprite komponentu
 		tankBody->AddComponent<Engine::CollisionComponent>(40.f, 40.f);
-		tankBody->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankbody"));
+		tankBody->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankBody"));
 		
 
 		auto tankTurret = std::make_unique<Engine::Entity>();
 		tankTurret->AddComponent<Engine::TransformComponent>(position_.x, position_.y, 35.f, 65.f);
 		tankTurret->AddComponent<Engine::MoverComponent>();
-		tankTurret->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankturret"));
+		tankTurret->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankTurret"));
 
 		auto tankComponent = tank->GetComponent<Game::TankComponent>();
 		tankComponent->tankBodyEntity = tankBody.get();

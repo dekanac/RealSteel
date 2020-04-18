@@ -10,6 +10,7 @@ namespace Game
     class HealthBar;
     class AI;
     class Tank;
+    class Animation;
 
     class GameApp final : public Engine::Application
     {
@@ -20,16 +21,18 @@ namespace Game
         bool GameSpecificShutdown() override;
 
         bool InitTextures();
-    
+        bool InitSoundsAndMusic();
+
         std::unique_ptr<CameraController> m_CameraController{};
         std::unique_ptr<Background> m_Background{};
         std::unique_ptr<Player> m_PlayersController{};
         std::unique_ptr<HealthBar> m_HealthBarsController{};
-        std::unique_ptr<AI> m_AI{};
         std::unique_ptr<Tank> m_TanksController{};
+        std::unique_ptr<AI> m_AI{};
+        std::unique_ptr<Animation> m_AnimationsController{};
 
-
-        int m_AI_Update_Freq = 0;
+        int m_AnimationUpdateFreq = 0;
+        int m_AIUpdateFreq = 0;
 
     };
 

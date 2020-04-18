@@ -1,6 +1,8 @@
 #pragma once
 #include "Input/InputAction.h"
 
+#include <SDL.h>
+
 
 using ComponentTypeID = std::size_t;
 
@@ -104,5 +106,13 @@ namespace Engine
         std::vector<InputAction> inputActions;
         int mouse_x;
         int mouse_y;
+    };
+
+    struct AnimationComponent : public Component 
+    {
+        Texture* m_TextureSheet{};
+        std::vector<SDL_Rect> m_Rects{};
+
+        int m_CurrentRectToDraw = -1;
     };
 }

@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Entities\Animation.h" />
     <ClInclude Include="src\AI\AI.h" />
     <ClInclude Include="src\Entities\HealthBar.h" />
     <ClInclude Include="src\Entities\Player.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\Entities\Tank.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Entities\Animation.cpp" />
     <ClCompile Include="src\AI\AI.cpp" />
     <ClCompile Include="src\Entities\HealthBar.cpp" />
     <ClCompile Include="src\Entities\Player.cpp" />

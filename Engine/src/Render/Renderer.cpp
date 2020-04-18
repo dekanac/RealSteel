@@ -123,6 +123,45 @@ namespace Engine
         }
     }
 
+    void Renderer::DrawAnimations(const std::vector<Entity*> animations_, const Entity* camera)
+    {
+        for (const auto r : animations_)
+        {
+            DrawAnimation(r, camera);
+        }
+    }
+
+    void Renderer::DrawAnimation(const Entity* a, const Entity* camera) 
+    {
+        
+        auto transform = a->GetComponent<TransformComponent>();
+        auto animation = a->GetComponent<AnimationComponent>();
+
+        if (animation->m_CurrentRectToDraw == -1) {
+            return;
+        }
+
+        vec2 size = transform->m_Size;
+        ASSERT ((size != vec2{ 0.f, 0.f }), "Animation's transform component must have size initialized");
+
+        if (IsInsideScreen(transform->m_Position, vec2(size.x, size.y), camera))
+        {
+            vec2 screenPosition = GetScreenPosition(transform->m_Position, camera);
+            SDL_Rect dst{ (int)(screenPosition.x - size.x / 2), (int)(screenPosition.y - size.y / 2), (int)size.x, (int)size.y };
+            SDL_RendererFlip flip = SDL_FLIP_NONE;
+            
+            SDL_RenderCopyEx(
+                m_NativeRenderer,
+                animation->m_TextureSheet->m_Texture,
+                &animation->m_Rects[animation->m_CurrentRectToDraw],
+                &dst,
+                transform->m_Rotation,
+                NULL,
+                flip);
+        }
+        
+    }
+
     void Renderer::SetBackgroundColor(unsigned char bgR_, unsigned char bgG_, unsigned char bgB_, unsigned char bgA_)
     {
         m_BackgroundColor.r = bgR_;

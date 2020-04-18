@@ -60,10 +60,13 @@ namespace Engine
         ASSERT(!cameras.empty(), "Must have at least one camera");
 
         auto camera = *(cameras.begin());
-
+        
         // Find all entities to draw
         auto renderables = entityManager->GetAllEntitiesWithComponents<TransformComponent, SpriteComponent>();
         m_Renderer->DrawEntities(renderables, camera);
+        //draw animations here
+        auto animations = entityManager->GetAllEntitiesWithComponents<TransformComponent, AnimationComponent>();
+        m_Renderer->DrawAnimations(animations, camera);
 
         m_Renderer->EndScene();
     }
