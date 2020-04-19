@@ -23,8 +23,8 @@ namespace Game {
 		//pravimo %d,(numOfParts_) SDL_Rect-ova kako bi iz slike teksture pokupili vise manjih tekstura
 		int w, h;
 		SDL_QueryTexture(texture_->m_Texture, NULL, NULL, &w, &h);
-		int num_w = w / size_.x; //broj tekstura po horizontali
-		int num_h = h / size_.y; //broj tekstura po vertikali
+		int num_w = w / static_cast<int>(size_.x); //broj tekstura po horizontali
+		int num_h = h / static_cast<int>(size_.y); //broj tekstura po vertikali
 
 		//counter je izlazak iz petlje ako imamo recimo 7 delova teksture u matrici 3x3 (ne ucitavamo posled. dve)
 		int counter = 0;

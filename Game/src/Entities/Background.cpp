@@ -11,7 +11,7 @@ namespace Game
 
         auto imageEntity = std::make_unique<Engine::Entity>();
         imageEntity->AddComponent<Engine::TransformComponent>(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, 1280.f, 720.f);
-        imageEntity->AddComponent<Engine::SpriteComponent>().m_Image = texture_;
+        imageEntity->AddComponent<Engine::TerrainComponent>().m_Texture = texture_;
         
         entityManager_->AddEntity(std::move(imageEntity));
 

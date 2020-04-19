@@ -15,8 +15,12 @@ namespace Engine
         bool Init(const WindowData& windowData_ = WindowData());
         bool Shutdown();
 
+        void DrawTerrain(const std::vector<Entity*> renderables_, const Entity* camera);
+        void DrawTerrainEntity(const Entity* t, const Entity* camera);
         void DrawEntities(const std::vector<Entity*> renderables_, const Entity* camera);
         void DrawEntity(const Entity* r, const Entity* camera);
+        void DrawShadows(const std::vector<Entity*> shadows_, const Entity* camera);
+        void DrawShadow(const Entity* s, const Entity* camera);
         void DrawAnimations(const std::vector<Entity*> animations_, const Entity* camera);
         void DrawAnimation(const Entity* a, const Entity* camera);
         void BeginScene() const;

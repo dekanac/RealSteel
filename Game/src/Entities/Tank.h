@@ -1,5 +1,11 @@
 #pragma once
 
+#define TANK_SIZE_X 50.f
+#define TANK_SIZE_Y 90.f
+
+#define TANK_COLISION_X 55.f
+#define TANK_COLISION_Y 55.f
+
 namespace Game {
 
 	class Tank {

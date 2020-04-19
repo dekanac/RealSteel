@@ -162,6 +162,89 @@ namespace Engine
         
     }
 
+    void Renderer::DrawShadows(const std::vector<Entity*> shadows_, const Entity* camera)
+    {
+        for (const auto s : shadows_)
+        {
+            DrawShadow(s, camera);
+        }
+    }
+
+    void Renderer::DrawShadow(const Entity* s, const Entity* camera)
+    {
+        auto transform = s->GetComponent<TransformComponent>();
+        auto sprite = s->GetComponent<SpriteComponent>();
+
+        ASSERT((sprite->m_Image->m_Shadow != nullptr), "Shadow texture doesn't exist!");
+
+        vec2 size = transform->m_Size;
+        if (size == vec2{ 0.f, 0.f }) // Use size of texture if size of entity isn't set
+        {
+            int w, h;
+            SDL_QueryTexture(sprite->m_Image->m_Shadow, NULL, NULL, &w, &h);
+            size.x = static_cast<float>(w);
+            size.y = static_cast<float>(h);
+        }
+
+        //hardkodovano, TODO: namestiti da se bira "light position"
+        vec2 shadowPosition = vec2{ transform->m_Position.x + 6.f, transform->m_Position.y + 6.f };
+
+        if (IsInsideScreen(shadowPosition, vec2(size.x, size.y), camera))
+        {
+            vec2 screenPosition = GetScreenPosition(shadowPosition, camera);
+            SDL_Rect dst{ (int)(screenPosition.x - size.x / 2), (int)(screenPosition.y - size.y / 2), (int)size.x, (int)size.y };
+            SDL_RendererFlip flip = static_cast<SDL_RendererFlip>((sprite->m_FlipHorizontal ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (sprite->m_FlipVertical ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE));
+
+            SDL_RenderCopyEx(
+                m_NativeRenderer,
+                sprite->m_Image->m_Shadow,
+                NULL,
+                &dst,
+                transform->m_Rotation,
+                NULL,
+                flip);
+        }
+    }
+
+    void Renderer::DrawTerrain(const std::vector<Entity*> terrain_, const Entity* camera)
+    {
+        for (const auto t : terrain_)
+        {
+            DrawTerrainEntity(t, camera);
+        }
+    }
+
+    void Renderer::DrawTerrainEntity(const Entity* t, const Entity* camera)
+    {
+        auto transform = t->GetComponent<TransformComponent>();
+        auto sprite = t->GetComponent<TerrainComponent>();
+
+        vec2 size = transform->m_Size;
+        if (size == vec2{ 0.f, 0.f }) // Use size of texture if size of entity isn't set
+        {
+            int w, h;
+            SDL_QueryTexture(sprite->m_Texture->m_Texture, NULL, NULL, &w, &h);
+            size.x = static_cast<float>(w);
+            size.y = static_cast<float>(h);
+        }
+
+        if (IsInsideScreen(transform->m_Position, vec2(size.x, size.y), camera))
+        {
+            vec2 screenPosition = GetScreenPosition(transform->m_Position, camera);
+            SDL_Rect dst{ (int)(screenPosition.x - size.x / 2), (int)(screenPosition.y - size.y / 2), (int)size.x, (int)size.y };
+            SDL_RendererFlip flip = static_cast<SDL_RendererFlip>((sprite->m_FlipHorizontal ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE) | (sprite->m_FlipVertical ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE));
+
+            SDL_RenderCopyEx(
+                m_NativeRenderer,
+                sprite->m_Texture->m_Texture,
+                NULL,
+                &dst,
+                transform->m_Rotation,
+                NULL,
+                flip);
+        }
+    }
+
     void Renderer::SetBackgroundColor(unsigned char bgR_, unsigned char bgG_, unsigned char bgB_, unsigned char bgA_)
     {
         m_BackgroundColor.r = bgR_;

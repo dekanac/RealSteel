@@ -115,4 +115,15 @@ namespace Engine
 
         int m_CurrentRectToDraw = -1;
     };
+
+    struct ShadowComponent : public Component {
+    };
+
+    struct TerrainComponent : public Component {
+        
+        Texture* m_Texture{};
+
+        bool m_FlipHorizontal{ false };
+        bool m_FlipVertical{ false };
+    };
 }

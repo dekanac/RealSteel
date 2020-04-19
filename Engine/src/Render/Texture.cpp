@@ -16,6 +16,27 @@ namespace Engine
         }
 
         m_Texture = IMG_LoadTexture(renderer_->GetNativeRenderer(), path_.c_str());
+        m_Shadow = nullptr;
+
+        if (m_Texture == nullptr)
+        {
+            LOG_ERROR("Unable to load texture: {}, SDL_Image returned error {}", path_, IMG_GetError());
+            return false;
+        }
+
+        return true;
+    }
+
+    bool Texture::LoadTexture(Renderer* renderer_, std::string path_, std::string pathShadow_)
+    {
+        if (m_Texture != nullptr)
+        {
+            LOG_WARNING("Overwriting already loaded texture with: {}", path_);
+            SDL_DestroyTexture(m_Texture);
+        }
+
+        m_Texture = IMG_LoadTexture(renderer_->GetNativeRenderer(), path_.c_str());
+        m_Shadow = IMG_LoadTexture(renderer_->GetNativeRenderer(), pathShadow_.c_str());
 
         if (m_Texture == nullptr)
         {
@@ -29,6 +50,11 @@ namespace Engine
     Texture::Texture(Renderer* renderer_, std::string path_)
     {
         LoadTexture(renderer_, path_);
+    }
+
+    Texture::Texture(Renderer* renderer_, std::string path_, std::string pathShadow_)
+    {
+        LoadTexture(renderer_, path_, pathShadow_);
     }
 
     Texture::~Texture()

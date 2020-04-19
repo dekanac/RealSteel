@@ -28,7 +28,7 @@ void Game::GameApp::GameSpecificWindowData()
 
 bool Game::GameApp::GameSpecificInit()
 {
-    m_RenderSystem->SetBackgroundColor(0, 0, 0, 1);
+    m_RenderSystem->SetBackgroundColor(170, 170, 170, 1);
     ASSERT(InitTextures(), "Textures init fail");
     ASSERT(InitSoundsAndMusic(), "Sounds and music init fail");
 
@@ -54,7 +54,6 @@ bool Game::GameApp::GameSpecificInit()
                 20);
     
 
-
     //m_AI = std::make_unique<AI>();
     //m_AI->Init(m_EntityManager.get());
 
@@ -69,8 +68,9 @@ void Game::GameApp::GameSpecificUpdate(float dt)
     m_PlayersController->Update(dt, m_EntityManager.get());
     m_HealthBarsController->Update(dt, m_EntityManager.get());
     m_TanksController->Update(dt, m_EntityManager.get());
-    
-    if (m_AnimationUpdateFreq >= 5) {
+
+    if (m_AnimationUpdateFreq >= 4) {
+        m_AnimationUpdateFreq = 0;
         m_AnimationsController->Update(dt, m_EntityManager.get());
     }
 
@@ -93,8 +93,8 @@ bool Game::GameApp::InitTextures() {
 
     return 
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "background", "data/textures/grass.png") &&
-        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankTurret", "data/textures/tank_turret.png") &&
-        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankBody", "data/textures/tank_body.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankTurret", "data/textures/tank_turret.png", "data/textures/tank_turret_shadow.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankBody", "data/textures/tank_body.png", "data/textures/tank_body_shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarRed", "data/textures/health_bar_red.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "explosionAnimation", "data/textures/explosion_animation.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarFrame", "data/textures/health_bar_frame.png");

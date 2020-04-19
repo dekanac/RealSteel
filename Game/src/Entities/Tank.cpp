@@ -12,9 +12,9 @@ namespace Game {
 		auto tank = std::make_unique<Engine::Entity>();
 		
 		//transformation and move
-		tank->AddComponent<Engine::TransformComponent>(position_.x, position_.y, 35.f, 65.f);
+		tank->AddComponent<Engine::TransformComponent>(position_.x, position_.y, TANK_SIZE_X, TANK_SIZE_Y);
 		tank->AddComponent<Engine::MoverComponent>();
-		tank->AddComponent<Engine::CollisionComponent>(40.f, 40.f);
+		tank->AddComponent<Engine::CollisionComponent>(TANK_COLISION_X, TANK_COLISION_Y);
 		tank->AddComponent<Game::TankComponent>();
 
 		//health
@@ -22,18 +22,21 @@ namespace Game {
 		auto health = tank->GetComponent<Engine::HealthComponent>();
 		health->m_MaxHealth = 100;
 		health->m_CurrentHealth = health->m_MaxHealth;
-
+		//TANK BODY INIT
 		auto tankBody = std::make_unique<Engine::Entity>();
-		tankBody->AddComponent<Engine::TransformComponent>(position_.x, position_.y, 35.f, 65.f);
+		tankBody->AddComponent<Engine::TransformComponent>(position_.x, position_.y, TANK_SIZE_X, TANK_SIZE_Y);
 		//samo zbog crtanja kvadrata u debagu, jer glavni tank component nema sprite komponentu
-		tankBody->AddComponent<Engine::CollisionComponent>(40.f, 40.f);
+		tankBody->AddComponent<Engine::CollisionComponent>(TANK_COLISION_X, TANK_COLISION_Y);
 		tankBody->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankBody"));
-		
+		tankBody->AddComponent<Engine::ShadowComponent>();
 
+	
+		//TANK TURRET INIT
 		auto tankTurret = std::make_unique<Engine::Entity>();
-		tankTurret->AddComponent<Engine::TransformComponent>(position_.x, position_.y, 35.f, 65.f);
+		tankTurret->AddComponent<Engine::TransformComponent>(position_.x, position_.y, TANK_SIZE_X, TANK_SIZE_Y);
 		tankTurret->AddComponent<Engine::MoverComponent>();
 		tankTurret->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankTurret"));
+		tankTurret->AddComponent<Engine::ShadowComponent>();
 
 		auto tankComponent = tank->GetComponent<Game::TankComponent>();
 		tankComponent->tankBodyEntity = tankBody.get();
@@ -58,7 +61,6 @@ namespace Game {
 			auto tankBodyTransformComp = tankComp->tankBodyEntity->GetComponent<Engine::TransformComponent>();
 			auto tankTurretTransformComp = tankComp->tankTurretEntity->GetComponent<Engine::TransformComponent>();
 
-			
 			tankBodyTransformComp->m_Position = tankTransformComp->m_Position;
 			tankBodyTransformComp->m_Rotation = tankTransformComp->m_Rotation;
 
