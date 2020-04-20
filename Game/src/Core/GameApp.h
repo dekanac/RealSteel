@@ -11,6 +11,7 @@ namespace Game
     class AI;
     class Tank;
     class Animation;
+    class StaticObject;
 
     class GameApp final : public Engine::Application
     {
@@ -30,6 +31,7 @@ namespace Game
         std::unique_ptr<Tank> m_TanksController{};
         std::unique_ptr<AI> m_AI{};
         std::unique_ptr<Animation> m_AnimationsController{};
+        std::unique_ptr<StaticObject> m_StaticObjectsController{};
 
         int m_AnimationUpdateFreq = 0;
         int m_AIUpdateFreq = 0;

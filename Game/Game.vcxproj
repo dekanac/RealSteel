@@ -167,6 +167,7 @@
     <ClInclude Include="src\Entities\GameComponents.h" />
     <ClInclude Include="src\precomp.h" />
     <ClInclude Include="src\Entities\Tank.h" />
+    <ClInclude Include="src\Entities\StaticObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entities\Animation.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="src\Entities\CameraController.cpp" />
     <ClCompile Include="src\precomp.cpp" />
     <ClCompile Include="src\Entities\Tank.cpp" />
+    <ClCompile Include="src\Entities\StaticObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Engine\Engine.vcxproj">

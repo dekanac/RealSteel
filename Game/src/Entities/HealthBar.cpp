@@ -17,7 +17,7 @@ namespace Game {
 			
 			auto healthBarTransf = healthBar->GetComponent<Engine::TransformComponent>();
 			//ako se menja, promeniti i u updateu
-			healthBarTransf->m_Size[0] = 50.f;
+			healthBarTransf->m_Size[0] = HBAR_SIZE_X;
 			healthBarTransf->m_Size[1] = 8.f;
 			healthBar->GetComponent<Engine::SpriteComponent>()->m_Image = textureManager_->GetTexture("healthBarRed");
 
@@ -27,7 +27,7 @@ namespace Game {
 			healthBarFrame->AddComponent<Game::HealthBarFrameComponent>();
 			auto healthBarFrameTransf = healthBarFrame->GetComponent<Engine::TransformComponent>();
 
-			healthBarFrameTransf->m_Size[0] = 60.f;
+			healthBarFrameTransf->m_Size[0] = HBAR_SIZE_X + 10.f; //frame je siri za 10.f 
 			healthBarFrameTransf->m_Size[1] = 15.f;
 
 			healthBar->GetComponent<Game::HealthBarComponent>()->healthBarFrame = healthBarFrame.get();
@@ -51,13 +51,13 @@ namespace Game {
 			auto healthBarFrameTransf = healthBarEntities[i]->GetComponent<Game::HealthBarComponent>()->healthBarFrame->GetComponent<Engine::TransformComponent>();
 
 			auto healthInfo = entsWithHealth[i]->GetComponent<Engine::HealthComponent>();
-			//hardkodovana pozicija, 50.f je sirina HBara, posto je Hbar centriran u odnosu na igraca
+			//hardkodovana pozicija, HBAR_SIZE_X je sirina HBara, posto je Hbar centriran u odnosu na igraca
 			//pozicija X se pomera levo za pola od trenutnog helta da bi bar bio levo poravnat sa igracem
-			healthBarTransf->m_Size.x = 50.f * (static_cast<float>(healthInfo->m_CurrentHealth) / static_cast<float>(healthInfo->m_MaxHealth));
-			healthBarTransf->m_Position.x = entWithHealthTransf->m_Position.x - (50.f - healthBarTransf->m_Size.x) / 2.f;
-			healthBarTransf->m_Position.y = entWithHealthTransf->m_Position.y - 40.f;
+			healthBarTransf->m_Size.x = HBAR_SIZE_X * (static_cast<float>(healthInfo->m_CurrentHealth) / static_cast<float>(healthInfo->m_MaxHealth));
+			healthBarTransf->m_Position.x = entWithHealthTransf->m_Position.x - (HBAR_SIZE_X - healthBarTransf->m_Size.x) / 2.f;
+			healthBarTransf->m_Position.y = entWithHealthTransf->m_Position.y - 50.f;
 			healthBarFrameTransf->m_Position.x = entWithHealthTransf->m_Position.x;
-			healthBarFrameTransf->m_Position.y = entWithHealthTransf->m_Position.y - 40.f;
+			healthBarFrameTransf->m_Position.y = entWithHealthTransf->m_Position.y - 50.f;
 
 		}
 

@@ -5,15 +5,14 @@
 
 namespace Game {
 
-	bool Animation::CreateAnimation(Engine::EntityManager* entityManager_, Engine::Texture* texture_, vec2 size_, unsigned int numofParts_) {
+	Engine::Entity* Animation::CreateAnimation(vec2 size_, unsigned int numofParts_, Engine::EntityManager* em_, Engine::Texture* texture_) {
 		
 		auto animationEntity = std::make_unique<Engine::Entity>();
 		animationEntity->AddComponent<Engine::TransformComponent>();
 		animationEntity->AddComponent<Engine::AnimationComponent>();
-		
-		auto animationTransf = animationEntity->GetComponent<Engine::TransformComponent>();
-		animationTransf->m_Size = size_;
-		animationTransf->m_Position = vec2{ -1000.f, -1000.f };
+		animationEntity->AddComponent<Engine::MoverComponent>();
+	
+		animationEntity->GetComponent<Engine::TransformComponent>()->m_Size = size_;
 
 		auto animationComp = animationEntity->GetComponent<Engine::AnimationComponent>();
 		animationComp->m_CurrentRectToDraw = -1;
@@ -43,12 +42,13 @@ namespace Game {
 				}
 			}
 		}
-		
 		animationComp->m_Rects = rects;
 
-		entityManager_->AddEntity(std::move(animationEntity));
+		auto animationPtr = animationEntity.get();
+		//m_Animations.emplace(name_, animationEntity.get());
+		em_->AddEntity(std::move(animationEntity));
 
-		return true;
+		return animationPtr;
 	}
 	void Animation::Update(float dt, Engine::EntityManager* entityManager_) {
 
@@ -56,18 +56,22 @@ namespace Game {
 		
 		for (auto& animation : animationEnts) {
 
+
 			auto animationTransf = animation->GetComponent<Engine::TransformComponent>();
 			auto animationComp = animation->GetComponent<Engine::AnimationComponent>();
-
-			//animationTransf->m_Size = vec2{ 50.f, 50.f };
-			animationTransf->m_Position = vec2{ 600.f, 370.f };
 
 			if (animationComp->m_CurrentRectToDraw != -1) {
 				animationComp->m_CurrentRectToDraw++;
 			}
 
 			if (animationComp->m_CurrentRectToDraw >= animationComp->m_Rects.size()) {
-				animationComp->m_CurrentRectToDraw = 0;
+				
+				if (animationComp->m_isRepetitive) {
+					animationComp->m_CurrentRectToDraw = 0;
+				}
+				else {
+					animationComp->m_CurrentRectToDraw = -1;
+				}
 			}
 
 		}

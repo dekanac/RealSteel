@@ -4,8 +4,9 @@ namespace Game {
 
 	class Animation {
 	public:
-		bool CreateAnimation(Engine::EntityManager* entityManager_, Engine::Texture* texture_, vec2 size_, unsigned int numofParts_);
+		Engine::Entity* CreateAnimation(vec2 size_, unsigned int numofParts_, Engine::EntityManager* em_, Engine::Texture* texture_);
 		void Update(float dt, Engine::EntityManager* entityManager_);
+
 	};
 
 }

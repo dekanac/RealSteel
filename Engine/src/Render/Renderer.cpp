@@ -104,7 +104,7 @@ namespace Engine
                 NULL,
                 flip);
 
-#ifdef _DEBUG
+#ifdef _DEBUG 
             // DebugDraw
             SDL_SetRenderDrawColor(m_NativeRenderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
 
@@ -187,7 +187,7 @@ namespace Engine
         }
 
         //hardkodovano, TODO: namestiti da se bira "light position"
-        vec2 shadowPosition = vec2{ transform->m_Position.x + 6.f, transform->m_Position.y + 6.f };
+        vec2 shadowPosition = vec2{ transform->m_Position.x + 5.f, transform->m_Position.y + 5.f };
 
         if (IsInsideScreen(shadowPosition, vec2(size.x, size.y), camera))
         {

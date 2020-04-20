@@ -38,7 +38,7 @@ namespace Game {
         return true;
     }
 
-    void Player::Update(float dt, Engine::EntityManager* entityManager_) {
+    void Player::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_) {
 
         auto playerEntities = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>();
         
@@ -66,7 +66,7 @@ namespace Game {
             move->m_RotationSpeed = speed * ((moveLeftInput ? -1.0f : 0.0f) + (moveRightInput ? 1.0f : 0.0f));
             move->m_TranslationSpeed.y = speed * ((moveDownInput ? cos(rotationRad) : 0.0f) + (moveUpInput ? -cos(rotationRad) : 0.0f));
             move->m_TranslationSpeed.x = speed * ((moveDownInput ? -sin(rotationRad) : 0.0f) + (moveUpInput ? sin(rotationRad) : 0.0f));
-            
+
             //posebna rotacija za turret koja prati poziciju misa
             auto turretTransf = playersTankTurret->GetComponent<Engine::TransformComponent>();
             vec2 direction = vec2{ input->mouse_x, input->mouse_y } - tankTransf->m_Position;

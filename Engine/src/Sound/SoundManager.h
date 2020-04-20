@@ -10,7 +10,7 @@ namespace Engine {
 	public:
 		bool AddSound(std::string name_, std::string path_);
 		Sound* GetSound(std::string name_);
-		void PlaySound(std::string name_);
+		void PlaySound(std::string name_, int loops);
 		
 		bool AddMusic(std::string name_, std::string path_);
 		Music* GetMusic(std::string name_);

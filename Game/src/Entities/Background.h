@@ -12,7 +12,7 @@ namespace Game
     class Background
     {
     public:
-        bool Init(Engine::EntityManager* entityManager_, Engine::Texture* texture_);
+        bool Init(Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
         void Update(float dt);
     };
 }

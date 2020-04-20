@@ -30,7 +30,7 @@ namespace Engine {
 		return m_Sounds.at(name_).get();
 	}
 
-	void SoundManager::PlaySound(std::string name_) {
+	void SoundManager::PlaySound(std::string name_, int loops) {
 
 		if (m_Sounds.find(name_) == m_Sounds.end()) {
 
@@ -42,7 +42,7 @@ namespace Engine {
 
 			auto sound = GetSound(name_)->m_Sound;
 			
-			Mix_PlayChannel(-1, sound, 0);
+			Mix_PlayChannel(-1, sound, loops);
 
 		}
 	}

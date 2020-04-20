@@ -37,4 +37,8 @@ namespace Game
 	struct BulletComponent : public Engine::Component {
 
 	};
+
+	struct WallComponent : public Engine::Component {
+
+	};
 }

@@ -113,7 +113,8 @@ namespace Engine
         Texture* m_TextureSheet{};
         std::vector<SDL_Rect> m_Rects{};
 
-        int m_CurrentRectToDraw = -1;
+        int m_CurrentRectToDraw{ -1 };
+        bool m_isRepetitive{ false };
     };
 
     struct ShadowComponent : public Component {

@@ -1,4 +1,7 @@
 #pragma once
+
+#define HBAR_SIZE_X 70.f
+
 namespace Game {
 
 	class HealthBar {
