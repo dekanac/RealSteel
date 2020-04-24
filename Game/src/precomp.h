@@ -5,6 +5,8 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
+#include <ctime>
+#include <cstdlib>
 
 #include <string>
 #include <array>
@@ -24,3 +26,5 @@ using Color = glm::u8vec4;
 #define DEFAULT_SCREEN_SIZE_H 720
 
 #include "Engine.h"
+
+static time_t game_start_time;

@@ -3,6 +3,8 @@
 
 namespace Game
 {
+	
+
 	struct HealthBarComponent : public Engine::Component {
 		Engine::Entity* healthBarFrame;
 	};
@@ -40,5 +42,20 @@ namespace Game
 
 	struct WallComponent : public Engine::Component {
 
+	};
+
+	enum class PickupType {
+
+		Health = 0,
+		Ammunation,
+		Speed
+	};
+
+	struct PickupComponent : public Engine::Component {
+
+		PickupType m_Type{};
+
+		PickupComponent() = default;
+		PickupComponent(PickupType type_) : m_Type(type_) {}
 	};
 }

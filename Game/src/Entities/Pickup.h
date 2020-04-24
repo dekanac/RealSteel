@@ -1,0 +1,17 @@
+#pragma once
+
+
+namespace Game {
+
+#define RANDOM_SEC_RANGE(x,y)  ((rand() % x) + (y-x))
+#define PICKUP_SIZE 30.f
+
+	class Pickup {
+	public:
+		bool Init(Engine::EntityManager* em_, Engine::TextureManager* tm_);
+		void Update(float dt, Engine::EntityManager* em_, Engine::SoundManager* sm_);
+	private:
+		bool CreatePickup(std::string type_, vec2 pos_, Engine::EntityManager* em_, Engine::TextureManager* tm_);
+	};
+
+}

@@ -21,7 +21,7 @@ namespace Game {
 		tank->AddComponent<Engine::HealthComponent>();
 		auto health = tank->GetComponent<Engine::HealthComponent>();
 		health->m_MaxHealth = 100;
-		health->m_CurrentHealth = health->m_MaxHealth;
+		health->m_CurrentHealth = 40;
 		//TANK BODY INIT
 		auto tankBody = std::make_unique<Engine::Entity>();
 		tankBody->AddComponent<Engine::TransformComponent>(position_.x, position_.y, TANK_SIZE_X, TANK_SIZE_Y);
