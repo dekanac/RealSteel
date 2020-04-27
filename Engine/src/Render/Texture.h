@@ -2,6 +2,7 @@
 
 
 struct SDL_Texture;
+struct SDL_Rect;
 
 namespace Engine {
 
@@ -19,4 +20,20 @@ namespace Engine {
         Texture(Renderer* renderer_, std::string path_, std::string pathShadow_);
         ~Texture();
     };
+
+    struct AnimationTexture 
+    {
+        SDL_Texture* m_TextureSheet{};
+        SDL_Texture* m_ShadowSheet{};
+
+        std::vector<SDL_Rect> m_Rects{};
+
+        bool LoadAnimationTexture(vec2 size_, int numOfParts_, Renderer* renderer_, std::string path_);
+        bool LoadAnimationTexture(vec2 size_, int numOfParts_, Renderer* renderer_, std::string path_, std::string pathShadow_);
+        AnimationTexture() = default;
+        AnimationTexture(vec2 size_, int numOfParts_, Renderer * renderer_, std::string path_);
+        AnimationTexture(vec2 size_, int numOfParts_, Renderer * renderer_, std::string path_, std::string pathShadow_);
+        ~AnimationTexture();
+    };
+
 }

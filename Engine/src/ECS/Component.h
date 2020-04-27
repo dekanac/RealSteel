@@ -10,6 +10,7 @@ namespace Engine
 {
     class Entity;
     struct Texture;
+    struct AnimationTexture;
 
     struct Component
     {
@@ -110,8 +111,7 @@ namespace Engine
 
     struct AnimationComponent : public Component 
     {
-        Texture* m_TextureSheet{};
-        std::vector<SDL_Rect> m_Rects{};
+        AnimationTexture* m_TextureSheet{};
 
         int m_CurrentRectToDraw{ -1 };
         bool m_isRepetitive{ false };

@@ -5,7 +5,7 @@
 namespace Game
 {
     class CameraController;
-    class Background;
+    class Terrain;
     class Player;
     class HealthBar;
     class AI;
@@ -26,7 +26,7 @@ namespace Game
         bool InitSoundsAndMusic();
 
         std::unique_ptr<CameraController> m_CameraController{};
-        std::unique_ptr<Background> m_Background{};
+        std::unique_ptr<Terrain> m_Terrain{};
         std::unique_ptr<Player> m_PlayersController{};
         std::unique_ptr<HealthBar> m_HealthBarsController{};
         std::unique_ptr<Tank> m_TanksController{};

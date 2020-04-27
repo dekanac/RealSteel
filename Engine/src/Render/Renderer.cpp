@@ -146,18 +146,21 @@ namespace Engine
 
         if (IsInsideScreen(transform->m_Position, vec2(size.x, size.y), camera))
         {
+            
             vec2 screenPosition = GetScreenPosition(transform->m_Position, camera);
             SDL_Rect dst{ (int)(screenPosition.x - size.x / 2), (int)(screenPosition.y - size.y / 2), (int)size.x, (int)size.y };
             SDL_RendererFlip flip = SDL_FLIP_NONE;
             
             SDL_RenderCopyEx(
                 m_NativeRenderer,
-                animation->m_TextureSheet->m_Texture,
-                &animation->m_Rects[animation->m_CurrentRectToDraw],
+                animation->m_TextureSheet->m_TextureSheet,
+                &animation->m_TextureSheet->m_Rects[animation->m_CurrentRectToDraw],
                 &dst,
                 transform->m_Rotation,
                 NULL,
                 flip);
+            
+           
         }
         
     }
@@ -186,8 +189,7 @@ namespace Engine
             size.y = static_cast<float>(h);
         }
 
-        //hardkodovano, TODO: namestiti da se bira "light position"
-        vec2 shadowPosition = vec2{ transform->m_Position.x + 5.f, transform->m_Position.y + 5.f };
+        vec2 shadowPosition = vec2{ transform->m_Position.x + SHADOW_POS_X, transform->m_Position.y + SHADOW_POS_Y };
 
         if (IsInsideScreen(shadowPosition, vec2(size.x, size.y), camera))
         {

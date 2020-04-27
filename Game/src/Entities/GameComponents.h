@@ -18,6 +18,8 @@ namespace Game
 	};
 
 	struct TankComponent : public Engine::Component {
+		bool speedBoosted{ false };
+		bool speedReduced{ false };
 		float tankSpeed{ 100.f };
 
 		Engine::Entity* tankTurretEntity{};
@@ -57,5 +59,15 @@ namespace Game
 
 		PickupComponent() = default;
 		PickupComponent(PickupType type_) : m_Type(type_) {}
+	};
+
+	struct PalmComponent : public Engine::Component {
+
+		Engine::Entity* birdsAnimation{};
+		bool m_Birds{ true };
+	};
+
+	struct LakeComponent : public Engine::Component {
+
 	};
 }

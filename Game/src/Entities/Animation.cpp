@@ -5,47 +5,21 @@
 
 namespace Game {
 
-	Engine::Entity* Animation::CreateAnimation(vec2 size_, unsigned int numofParts_, Engine::EntityManager* em_, Engine::Texture* texture_) {
+	Engine::Entity* Animation::CreateAnimation(std::string name_, Engine::EntityManager* em_, Engine::TextureManager* tm_) {
 		
 		auto animationEntity = std::make_unique<Engine::Entity>();
 		animationEntity->AddComponent<Engine::TransformComponent>();
 		animationEntity->AddComponent<Engine::AnimationComponent>();
 		animationEntity->AddComponent<Engine::MoverComponent>();
-	
-		animationEntity->GetComponent<Engine::TransformComponent>()->m_Size = size_;
+
+		auto animationTransf = animationEntity->GetComponent<Engine::TransformComponent>();
+		//animationTransf->m_Size = size_;
 
 		auto animationComp = animationEntity->GetComponent<Engine::AnimationComponent>();
 		animationComp->m_CurrentRectToDraw = -1;
-		animationComp->m_TextureSheet = texture_;
-		auto rects = std::vector<SDL_Rect>{ numofParts_ };
-
-		//pravimo %d,(numOfParts_) SDL_Rect-ova kako bi iz slike teksture pokupili vise manjih tekstura
-		int w, h;
-		SDL_QueryTexture(texture_->m_Texture, NULL, NULL, &w, &h);
-		int num_w = w / static_cast<int>(size_.x); //broj tekstura po horizontali
-		int num_h = h / static_cast<int>(size_.y); //broj tekstura po vertikali
-
-		//counter je izlazak iz petlje ako imamo recimo 7 delova teksture u matrici 3x3 (ne ucitavamo posled. dve)
-		int counter = 0;
-		for (int i = 0; i < num_h; i++) {
-			for (int j = 0; j < num_w; j++) {
-
-				rects[counter] = SDL_Rect{
-					j * (int)size_.x,
-					i * (int)size_.y,
-					(int)size_.x,
-					(int)size_.y,
-				};
-				counter++;
-				if (counter == numofParts_) {
-					break;
-				}
-			}
-		}
-		animationComp->m_Rects = rects;
+		animationComp->m_TextureSheet = tm_->GetAnimationTexture({ fmt::format("{}Animation", name_) });
 
 		auto animationPtr = animationEntity.get();
-		//m_Animations.emplace(name_, animationEntity.get());
 		em_->AddEntity(std::move(animationEntity));
 
 		return animationPtr;
@@ -56,7 +30,6 @@ namespace Game {
 		
 		for (auto& animation : animationEnts) {
 
-
 			auto animationTransf = animation->GetComponent<Engine::TransformComponent>();
 			auto animationComp = animation->GetComponent<Engine::AnimationComponent>();
 
@@ -64,7 +37,7 @@ namespace Game {
 				animationComp->m_CurrentRectToDraw++;
 			}
 
-			if (animationComp->m_CurrentRectToDraw >= animationComp->m_Rects.size()) {
+			if (animationComp->m_CurrentRectToDraw >= animationComp->m_TextureSheet->m_Rects.size()) {
 				
 				if (animationComp->m_isRepetitive) {
 					animationComp->m_CurrentRectToDraw = 0;

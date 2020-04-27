@@ -5,6 +5,9 @@ struct SDL_Renderer;
 
 namespace Engine
 {
+#define SHADOW_POS_X 8.f
+#define SHADOW_POS_Y 5.f
+
     struct WindowData;
     class Window;
     class Entity;

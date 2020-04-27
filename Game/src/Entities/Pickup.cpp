@@ -1,8 +1,6 @@
 #include "precomp.h"
 #include "Pickup.h"
-
 #include "GameComponents.h"
-
 
 #include <ctime>
 #include <cstdlib>
@@ -51,13 +49,13 @@ namespace Game {
 		//generisi random pickup na random slobodnom mestu u svetu
 		if (pickup_exists == false && (pickups.size() != 0)) {
 			
-			//10 sekundi posle pokupljenog pikapa generisi novi
-			if ((time(0) - last_pickup) > 10) {
+			//X sekundi posle pokupljenog pikapa generisi novi
+			if ((time(0) - last_pickup) > 40) {
 				
 				auto randomPickup = pickups[rand() % pickups.size()];
 				auto pickupTransf = randomPickup->GetComponent<Engine::TransformComponent>();
 				vec2 randomPosition = vec2{ rand() % 1240 + 20, rand() % 680 + 20 };
-				//provera da li je pozicija slobodna, da nije zid ili palma
+				//TODO: provera da li je pozicija slobodna, da nije zid ili palma
 				
 				pickupTransf->m_Position = randomPosition;
 				pickup_exists = true;
@@ -79,7 +77,7 @@ namespace Game {
 					
 					if (pickupComp->m_Type == PickupType::Speed) {
 						
-						tankComp->tankSpeed = 150.f;
+						tankComp->speedBoosted = true;
 					}
 
 					if (pickupComp->m_Type == PickupType::Health) {
@@ -99,6 +97,11 @@ namespace Game {
 					pickup_exists = false;
 					last_pickup = time(0);
 				}
+			}
+
+			//vreme trajanja speedup-a
+			if (tankComp->speedBoosted == true && time(0) - last_pickup > 20) {
+				tankComp->speedBoosted = false;
 			}
 		}
  	}

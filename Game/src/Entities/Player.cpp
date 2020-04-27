@@ -73,7 +73,7 @@ namespace Game {
             float angle = atan2(direction.x, direction.y) * (180.f / 3.14f);
             //malo tvikovanja i radi :D
             turretTransf->m_Rotation = angle * (-1.f) + 180.f;
-
+          
             i++;
         }
     }

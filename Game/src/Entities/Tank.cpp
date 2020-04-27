@@ -61,12 +61,28 @@ namespace Game {
 			auto tankBodyTransformComp = tankComp->tankBodyEntity->GetComponent<Engine::TransformComponent>();
 			auto tankTurretTransformComp = tankComp->tankTurretEntity->GetComponent<Engine::TransformComponent>();
 
+			//body i turret update
 			tankBodyTransformComp->m_Position = tankTransformComp->m_Position;
 			tankBodyTransformComp->m_Rotation = tankTransformComp->m_Rotation;
-
 			tankTurretTransformComp->m_Position = tankTransformComp->m_Position;
 
-		}
+			//COLLISION
+			auto tankCollision = tank->GetComponent<Engine::CollisionComponent>();
+			tankComp->speedReduced = false;
 
+			for (auto& collided : tankCollision->m_CollidedWith) {
+
+				if (collided->HasComponent<Game::LakeComponent>()) {
+
+					tankComp->speedReduced = true;
+				}
+			}
+
+			if (tankComp->speedBoosted && tankComp->speedReduced) { tankComp->tankSpeed = 80.f; }
+			else if (tankComp->speedBoosted) { tankComp->tankSpeed = 150.f; }
+			else if (tankComp->speedReduced) { tankComp->tankSpeed = 50.f; }
+			else { tankComp->tankSpeed = 100.f;  }
+
+		}
 	}
 }
