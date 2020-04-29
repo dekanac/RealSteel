@@ -7,6 +7,9 @@ namespace Game {
 
 	Engine::Entity* Animation::CreateAnimation(std::string name_, Engine::EntityManager* em_, Engine::TextureManager* tm_) {
 		
+		ASSERT(tm_ != nullptr, "nullptr passed as textureManager_");
+		ASSERT(em_ != nullptr, "nullptr passed as entityManager_");
+
 		auto animationEntity = std::make_unique<Engine::Entity>();
 		animationEntity->AddComponent<Engine::TransformComponent>();
 		animationEntity->AddComponent<Engine::AnimationComponent>();

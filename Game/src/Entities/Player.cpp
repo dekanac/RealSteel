@@ -61,7 +61,7 @@ namespace Game {
 
             auto payersTransformComponent = playersTank->GetComponent<Engine::TransformComponent>();
             auto rotationDeg = payersTransformComponent->m_Rotation;
-            float rotationRad = (rotationDeg * (float)M_PI) / 180.f;
+            float rotationRad = (rotationDeg * 3.14f) / 180.f;
 
             move->m_RotationSpeed = speed * ((moveLeftInput ? -1.0f : 0.0f) + (moveRightInput ? 1.0f : 0.0f));
             move->m_TranslationSpeed.y = speed * ((moveDownInput ? cos(rotationRad) : 0.0f) + (moveUpInput ? -cos(rotationRad) : 0.0f));

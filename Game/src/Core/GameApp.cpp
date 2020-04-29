@@ -42,6 +42,7 @@ bool Game::GameApp::GameSpecificInit()
     res = InitSoundsAndMusic();
     ASSERT(res, "Sounds and music init fail");
 
+    //CONTROLLERS CREATION
     m_CameraController = std::make_unique<CameraController>();
     m_Terrain = std::make_unique<Terrain>();
     m_TanksController = std::make_unique<Tank>();
@@ -51,6 +52,7 @@ bool Game::GameApp::GameSpecificInit()
     m_StaticObjectsController = std::make_unique<StaticObject>();
     m_PickupsController = std::make_unique<Pickup>();
 
+    //CONTROLLERS INIT
     m_CameraController->Init(m_EntityManager.get());
     m_Terrain->Init(m_EntityManager.get(), m_TextureManager.get());
     m_PickupsController->Init(m_EntityManager.get(), m_TextureManager.get());

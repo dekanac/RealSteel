@@ -12,6 +12,10 @@ namespace Game {
 
 	bool Pickup::Init(Engine::EntityManager* em_, Engine::TextureManager* tm_) {
 		
+		ASSERT(tm_ != nullptr, "nullptr passed as textureManager_");
+		ASSERT(em_ != nullptr, "nullptr passed as entityManager_");
+
+
 		last_pickup = game_start_time;
 
 		//napravi sve pickupe van mape

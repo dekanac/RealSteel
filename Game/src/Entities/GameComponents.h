@@ -70,4 +70,8 @@ namespace Game
 	struct LakeComponent : public Engine::Component {
 
 	};
+
+	struct SolidObjectComponent : public Engine::Component {
+		//objekti kroz koje ne moze da se prodje
+	};
 }

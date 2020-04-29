@@ -16,6 +16,7 @@ namespace Game {
 		tank->AddComponent<Engine::MoverComponent>();
 		tank->AddComponent<Engine::CollisionComponent>(TANK_COLISION_X, TANK_COLISION_Y);
 		tank->AddComponent<Game::TankComponent>();
+		tank->AddComponent<Game::SolidObjectComponent>();
 
 		//health
 		tank->AddComponent<Engine::HealthComponent>();
@@ -78,10 +79,10 @@ namespace Game {
 				}
 			}
 
-			if (tankComp->speedBoosted && tankComp->speedReduced) { tankComp->tankSpeed = 80.f; }
-			else if (tankComp->speedBoosted) { tankComp->tankSpeed = 150.f; }
-			else if (tankComp->speedReduced) { tankComp->tankSpeed = 50.f; }
-			else { tankComp->tankSpeed = 100.f;  }
+			if (tankComp->speedBoosted && tankComp->speedReduced) { tankComp->tankSpeed = TANK_SPEED * 0.75; }
+			else if (tankComp->speedBoosted) { tankComp->tankSpeed = TANK_SPEED * 1.5; }
+			else if (tankComp->speedReduced) { tankComp->tankSpeed = TANK_SPEED * 0.5; }
+			else { tankComp->tankSpeed = TANK_SPEED;  }
 
 		}
 	}

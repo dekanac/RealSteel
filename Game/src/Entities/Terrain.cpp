@@ -8,7 +8,7 @@ namespace Game
     bool Terrain::Init (Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_)
     {
         ASSERT(textureManager_ != nullptr, "nullptr passed as textureManager_");
-        ASSERT(entityManager_ != nullptr, "Must pass valid pointer to entitymanager to CameraController::Init()");
+        ASSERT(entityManager_ != nullptr, "nullptr passed as entityManager_");
 
         auto imageEntity = std::make_unique<Engine::Entity>();
         imageEntity->AddComponent<Engine::TransformComponent>(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, 1280.f, 720.f);

@@ -6,6 +6,9 @@ namespace Game {
 
 	bool HealthBar::Init(Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
 
+		ASSERT(textureManager_ != nullptr, "nullptr passed as textureManager_");
+		ASSERT(entityManager_ != nullptr, "nullptr passed as entityManager_");
+
 		auto entsWithHealth = entityManager_->GetAllEntitiesWithComponent<Engine::HealthComponent>();
 
 		for (auto& entity : entsWithHealth) {

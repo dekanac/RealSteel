@@ -8,6 +8,10 @@ namespace Game {
 	//drawing all static objects in world
 	bool StaticObject::DrawWorld(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_) {
 		
+		ASSERT(tm_ != nullptr, "nullptr passed as textureManager");
+		ASSERT(em_ != nullptr, "nullptr passed as entityManager");
+		ASSERT(ac_ != nullptr, "nullptr passed as animationController");
+
 		CreateWall("NS", vec2{ 300, 300.f }, em_, tm_);
 		CreateWall("EW", vec2{ 365.f, 196.f }, em_, tm_);
 			
@@ -35,6 +39,7 @@ namespace Game {
 		
 		wall->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture({fmt::format("wall{}", type_)}));
 		wall->AddComponent<Game::WallComponent>();
+		wall->AddComponent<Game::SolidObjectComponent>();
 		wall->AddComponent<Engine::ShadowComponent>();
 		wall->AddComponent<Engine::CollisionComponent>(
 				type_ == "EW" ? WALL_SIZE_X : WALL_SIZE_Y,
@@ -53,6 +58,7 @@ namespace Game {
 		palm->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("palm"));
 		palm->AddComponent<Engine::ShadowComponent>();
 		palm->AddComponent<Engine::CollisionComponent>(40.f, 40.f);
+		palm->AddComponent<Game::SolidObjectComponent>();
 		palm->AddComponent<Game::PalmComponent>();
 		auto palmComp = palm->GetComponent<Game::PalmComponent>();
 		 
@@ -73,36 +79,42 @@ namespace Game {
 
 	void StaticObject::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_) {
 
-		auto palms = entityManager_->GetAllEntitiesWithComponents<Game::PalmComponent>();
+		auto solidObjects = entityManager_->GetAllEntitiesWithComponents<Game::SolidObjectComponent>();
 
-		for (auto& palm : palms) {
+		for (auto& solidObject : solidObjects) {
 
-			auto palmCollisionComp = palm->GetComponent<Engine::CollisionComponent>();
+			//UPDATE PALMI
+			if (solidObject->HasComponent<Game::PalmComponent>()) {
 
-			if (!(palmCollisionComp->m_CollidedWith.empty())) {
+				auto palmCollisionComp = solidObject->GetComponent<Engine::CollisionComponent>();
 
-				auto palmPalmComp = palm->GetComponent<Game::PalmComponent>();
+				if (!(palmCollisionComp->m_CollidedWith.empty())) {
 
-				if (palmPalmComp->m_Birds) {
-					
-					auto birdsTranf = palmPalmComp->birdsAnimation->GetComponent<Engine::TransformComponent>();
-					auto palmTransf = palm->GetComponent<Engine::TransformComponent>();
+					auto palmPalmComp = solidObject->GetComponent<Game::PalmComponent>();
 
-					birdsTranf->m_Position = palmTransf->m_Position;
+					//animacija sa pticurinama
+					if (palmPalmComp->m_Birds) {
 
-					auto birdMove = palmPalmComp->birdsAnimation->GetComponent<Engine::MoverComponent>();
-					birdMove->m_TranslationSpeed = vec2{ 0.f, 300.f };
+						auto birdsTranf = palmPalmComp->birdsAnimation->GetComponent<Engine::TransformComponent>();
+						auto palmTransf = solidObject->GetComponent<Engine::TransformComponent>();
 
-					auto birdsStart = palmPalmComp->birdsAnimation->GetComponent<Engine::AnimationComponent>();
-					birdsStart->m_CurrentRectToDraw = 0;
+						birdsTranf->m_Position = palmTransf->m_Position;
+						birdsTranf->m_Rotation = rand() % 360;
+						auto angleRad = (birdsTranf->m_Rotation * 3.14f) / 180.f;
 
-					soundManager_->PlaySound("birdsFly", 0);
-					palmPalmComp->m_Birds = false;
+						auto birdMove = palmPalmComp->birdsAnimation->GetComponent<Engine::MoverComponent>();
+						birdMove->m_TranslationSpeed = vec2{ sin(angleRad) * 300.f, -cos(angleRad) * 300.f };
+
+						auto birdsStart = palmPalmComp->birdsAnimation->GetComponent<Engine::AnimationComponent>();
+						birdsStart->m_CurrentRectToDraw = 0;
+
+						soundManager_->PlaySound("birdsFly", 0);
+						palmPalmComp->m_Birds = false;
+
+					}
 
 				}
-
 			}
-
 		}
 
 	}
