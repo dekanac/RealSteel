@@ -127,4 +127,8 @@ namespace Engine
         bool m_FlipHorizontal{ false };
         bool m_FlipVertical{ false };
     };
+
+    struct MenuComponent : public Component {
+        bool m_state{ false };
+    };
 }

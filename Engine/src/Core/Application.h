@@ -4,6 +4,14 @@
 
 namespace Engine {
 
+    enum class gameState {
+        RUNNING,
+        PAUSED,
+        IN_MENU,
+        RESTART,
+        STOPPED
+    };
+
     class RenderSystem;
     class PhysicsSystem;
     class InputManager;
@@ -25,7 +33,8 @@ namespace Engine {
     protected:
         void SetWindowData(const WindowData& windowData_) { m_WindowData = windowData_; }
 
-        bool m_Running{ false };
+        //bool m_Running{ false };
+        gameState m_GameState = gameState::IN_MENU;
 
         WindowData m_WindowData{};
         std::unique_ptr<RenderSystem> m_RenderSystem{};

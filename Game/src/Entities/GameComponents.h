@@ -74,4 +74,8 @@ namespace Game
 	struct SolidObjectComponent : public Engine::Component {
 		//objekti kroz koje ne moze da se prodje
 	};
+
+	struct MenuComponent : public Engine::Component {
+
+	};
 }

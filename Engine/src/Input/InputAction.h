@@ -20,6 +20,7 @@ namespace Engine {
         EInputActionState m_ActionTriggerState{ EInputActionState::Pressed };
         bool m_Active{ false };
 
-        InputAction(EInputAction action_, EInputActionState activeState_ = EInputActionState::Pressed) : m_Action(action_), m_ActionTriggerState(activeState_) { }
+        InputAction(EInputAction action_, EInputActionState activeState_ = EInputActionState::Pressed) : 
+            m_Action(action_), m_ActionTriggerState(activeState_) { }
     };
 }

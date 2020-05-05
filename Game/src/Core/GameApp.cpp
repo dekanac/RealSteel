@@ -10,6 +10,7 @@
 #include "Entities/Animation.h"
 #include "Entities/StaticObject.h"
 #include "Entities/Pickup.h"
+#include "MenuController.h"
 #include "AI/AI.h"
 
 
@@ -51,6 +52,8 @@ bool Game::GameApp::GameSpecificInit()
     m_AnimationsController = std::make_unique<Animation>();
     m_StaticObjectsController = std::make_unique<StaticObject>();
     m_PickupsController = std::make_unique<Pickup>();
+    m_MenuController = std::make_unique<MenuController>();
+    
 
     //CONTROLLERS INIT
     m_CameraController->Init(m_EntityManager.get());
@@ -62,6 +65,7 @@ bool Game::GameApp::GameSpecificInit()
     m_PlayersController->AddPlayer(vec2{ 1100.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
     m_StaticObjectsController->DrawWorld(m_EntityManager.get(), m_TextureManager.get(), m_AnimationsController.get());
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
+    m_MenuController->Init(m_EntityManager.get(), m_TextureManager.get());
 
     //m_AI = std::make_unique<AI>();
     //m_AI->Init(m_EntityManager.get());
@@ -71,27 +75,38 @@ bool Game::GameApp::GameSpecificInit()
 
 void Game::GameApp::GameSpecificUpdate(float dt)
 {
-    m_CameraController->Update(dt, m_EntityManager.get());
-    m_PlayersController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
-    m_HealthBarsController->Update(dt, m_EntityManager.get());
-    m_TanksController->Update(dt, m_EntityManager.get());
-    m_PickupsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
-    m_StaticObjectsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
-    m_Terrain->Update(dt, m_EntityManager.get());
-
-    if (m_AnimationUpdateFreq >= 4) {
-        m_AnimationUpdateFreq = 0;
-        m_AnimationsController->Update(dt, m_EntityManager.get());
-    }
-
-    //if (m_AIUpdateFreq >= 10) {
-        //m_AIUpdateFreq = 0;
-        //m_AI->Update(dt, m_EntityManager.get());
-    //}
-
-    m_AnimationUpdateFreq++;
-    m_AIUpdateFreq++;
     
+    if (m_GameState == Engine::gameState::RUNNING) {
+        m_CameraController->Update(dt, m_EntityManager.get());
+        m_PlayersController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+        m_HealthBarsController->Update(dt, m_EntityManager.get());
+        m_TanksController->Update(dt, m_EntityManager.get());
+        m_PickupsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+        m_StaticObjectsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+        m_Terrain->Update(dt, m_EntityManager.get());
+        m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+
+        if (m_AnimationUpdateFreq >= 4) {
+            m_AnimationUpdateFreq = 0;
+            m_AnimationsController->Update(dt, m_EntityManager.get());
+        }
+
+        //if (m_AIUpdateFreq >= 10) {
+            //m_AIUpdateFreq = 0;
+            //m_AI->Update(dt, m_EntityManager.get());
+        //}
+
+        m_AnimationUpdateFreq++;
+        m_AIUpdateFreq++;
+    }
+    else if (m_GameState == Engine::gameState::IN_MENU or m_GameState == Engine::gameState::PAUSED) {
+        m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+        if (m_GameState == Engine::gameState::RESTART) {
+
+            //TODO: Restart level
+            m_GameState = Engine::gameState::RUNNING;
+        }
+    }
 }
 
 bool Game::GameApp::GameSpecificShutdown()
@@ -126,7 +141,10 @@ bool Game::GameApp::InitTextures() {
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthPickup", "data/textures/pickups/health.png", "data/textures/pickups/shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "speedPickup", "data/textures/pickups/speed.png", "data/textures/pickups/shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "destroyedTank", "data/textures/destroyed_tank.png") &&
-        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "ammunitionPickup", "data/textures/pickups/ammunition.png", "data/textures/pickups/shadow.png");
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "ammunitionPickup", "data/textures/pickups/ammunition.png", "data/textures/pickups/shadow.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "mainMenu", "data/textures/Main_menu_screen.jpg") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "pauseMenu", "data/textures/Pause_menu_screen.jpg") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "selectionBox", "data/textures/Selection_box.png");
 }
 
 bool Game::GameApp::InitSoundsAndMusic() {
@@ -134,6 +152,7 @@ bool Game::GameApp::InitSoundsAndMusic() {
         m_SoundManager->AddSound("tankFire", "data/sounds/tank_fire.ogg") &&
         m_SoundManager->AddSound("birdsFly", "data/sounds/birds_fly.ogg") &&
         m_SoundManager->AddSound("pickup", "data/sounds/pickup_voice.ogg") &&
-        m_SoundManager->AddSound("tankMove", "data/sounds/tank_move.ogg");
-
+        m_SoundManager->AddSound("tankMove", "data/sounds/tank_move.ogg") &&
+        m_SoundManager->AddSound("menuScroll", "data/sounds/menu_scroll.ogg") &&
+        m_SoundManager->AddSound("menuConfirm", "data/sounds/menu_confirm.ogg");
 }

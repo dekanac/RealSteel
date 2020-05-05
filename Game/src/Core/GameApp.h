@@ -13,6 +13,7 @@ namespace Game
     class Animation;
     class StaticObject;
     class Pickup;
+    class MenuController;
 
     class GameApp final : public Engine::Application
     {
@@ -34,10 +35,10 @@ namespace Game
         std::unique_ptr<Animation> m_AnimationsController{};
         std::unique_ptr<StaticObject> m_StaticObjectsController{};
         std::unique_ptr<Pickup> m_PickupsController{};
+        std::unique_ptr<MenuController> m_MenuController{};
 
         int m_AnimationUpdateFreq = 0;
         int m_AIUpdateFreq = 0;
-
     };
 
 }

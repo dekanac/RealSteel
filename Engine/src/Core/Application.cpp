@@ -99,18 +99,18 @@ namespace Engine {
 
     int Application::Run()
     {
-        m_Running = true;
+        m_GameState = gameState::IN_MENU;
         auto previousFrameTime = SDL_GetPerformanceCounter();
 
         // Main loop
         SDL_Event event{ };
-        while (m_Running)
+        while (m_GameState != gameState::STOPPED)
         {
             while (SDL_PollEvent(&event) != 0)
             {
                 if (event.type == SDL_QUIT)
                 {
-                    m_Running = false;
+                    m_GameState = gameState::STOPPED;
                 }
             }
 
@@ -125,7 +125,7 @@ namespace Engine {
             previousFrameTime = frameTime;
         }
 
-        m_Running = false;
+        m_GameState = gameState::STOPPED;
 
         return 0;
     }
@@ -140,5 +140,4 @@ namespace Engine {
 
         GameSpecificUpdate(dt);
     }
-
 }
