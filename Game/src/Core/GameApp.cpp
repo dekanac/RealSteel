@@ -105,7 +105,6 @@ void Game::GameApp::GameSpecificUpdate(float dt)
         if (m_GameState == Engine::gameState::RESTART) {
 
             ResetLevel();
-            //TODO: Restart level
             m_GameState = Engine::gameState::RUNNING;
         }
     }
@@ -118,7 +117,7 @@ bool Game::GameApp::GameSpecificShutdown()
 
 void Game::GameApp::ResetLevel()
 {
-
+    //TODO: Reset level
 }
 
 bool Game::GameApp::InitTextures() {
