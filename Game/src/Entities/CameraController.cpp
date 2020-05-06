@@ -1,6 +1,7 @@
 #include "precomp.h"
-
 #include "CameraController.h"
+#include <random>
+
 
 namespace Game
 {
@@ -40,6 +41,7 @@ namespace Game
         for (auto& entity : entitiesToMove)
         {
             auto move = entity->GetComponent<Engine::MoverComponent>();
+            auto transform = entity->GetComponent<Engine::TransformComponent>();
             auto input = entity->GetComponent<Engine::InputComponent>();
             auto speed = entity->GetComponent<Engine::CameraComponent>()->m_PanSpeed;
 
@@ -51,6 +53,25 @@ namespace Game
 
             move->m_TranslationSpeed.x = speed * ((moveLeftInput ? -1.0f : 0.0f) + (moveRightInput ? 1.0f : 0.0f));
             move->m_TranslationSpeed.y = speed * ((moveUpInput ? -1.0f : 0.0f) + (moveDownInput ? 1.0f : 0.0f));
+
+            if (m_isShaking) {
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<> dis(0.0f, 2.2f); 
+                move->m_TranslationSpeed.x = speed * static_cast<float>(dis(gen)-1.1f); //Generisanje random broja izmedju -1.1 i 1.1
+                move->m_TranslationSpeed.y = speed * static_cast<float>(dis(gen)-1.1f);
+                m_timePassed += dt;
+
+                if (m_timePassed >= m_shakeDuration) {
+                    transform->m_Position = m_oldPosition;
+                    m_isShaking = false;
+                    m_timePassed = 0;
+                }
+            }
         }
+    }
+    void CameraController::Shake()
+    {
+        m_isShaking = true;
     }
 }

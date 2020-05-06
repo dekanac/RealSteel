@@ -22,6 +22,7 @@ namespace Game
         bool GameSpecificInit() override;
         void GameSpecificUpdate(float dt) override;
         bool GameSpecificShutdown() override;
+        void ResetLevel();
 
         bool InitTextures();
         bool InitSoundsAndMusic();

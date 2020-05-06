@@ -1,5 +1,6 @@
 #include "precomp.h"
-#include "MenuController.h"
+#include "Menu/MenuController.h"
+#include "Entities/CameraController.h"
 
 bool Game::MenuController::Init(Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_)
 {
@@ -15,6 +16,7 @@ bool Game::MenuController::Init(Engine::EntityManager* entityManager_, Engine::T
 	mainMenu->AddComponent<Engine::InputComponent>();
 	
 	mainMenu->GetComponent<Engine::InputComponent>()->inputActions.push_back({"Menu", Engine::EInputActionState::JustPressed });
+	mainMenu->GetComponent<Engine::InputComponent>()->inputActions.push_back({ "Test", Engine::EInputActionState::JustPressed });
 	mainMenu->GetComponent<Engine::SpriteComponent>()->m_Image = textureManager_->GetTexture("mainMenu");
 	mainMenu->GetComponent<Engine::MenuComponent>()->m_state = true;
 
@@ -51,7 +53,7 @@ bool Game::MenuController::Init(Engine::EntityManager* entityManager_, Engine::T
 	return true;
 }
 
-Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* sm_)
+Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* sm_, Game::CameraController* cc_)
 {
 	auto mainMenu = entityManager_->GetAllEntitiesWithComponent<Engine::MenuComponent>()[0];
 	auto pauseMenu = entityManager_->GetAllEntitiesWithComponent<Engine::MenuComponent>()[1];
@@ -70,9 +72,14 @@ Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* 
 	auto selectionBoxInputComp = selectionBox->GetComponent<Engine::InputComponent>();
 	auto selectionBoxMoveComp = selectionBox->GetComponent<Engine::TransformComponent>();
 
+	// Camera Shake
+	bool testIsPressed = Engine::InputManager::IsActionActive(mainMenuInputComp, "Test");
+	if (testIsPressed) {
+		cc_->Shake();
+	}
 
-	//pauseMenuComp->m_state = pauseMenuIsPressed && !pauseMenuComp->m_state;
 
+	// Togglovanje pause menija
 	if (pauseMenuIsPressed && !pauseMenuComp->m_state) {
 		if (!mainMenuComp->m_state) {
 			pauseMenuComp->m_state = true;
@@ -123,6 +130,7 @@ Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* 
 	else if (mainMenuComp->m_state) {
 		pauseMenuMoveComp->m_Position = m_offScreen;
 		mainMenuMoveComp->m_Position = m_onScreen;
+
 		bool selectionBoxUpPressed = Engine::InputManager::IsActionActive(selectionBoxInputComp, "Player1MoveUp");
 		bool selectionBoxDownPressed = Engine::InputManager::IsActionActive(selectionBoxInputComp, "Player1MoveDown");
 		bool selectionBoxEnterPressed = Engine::InputManager::IsActionActive(selectionBoxInputComp, "Enter");

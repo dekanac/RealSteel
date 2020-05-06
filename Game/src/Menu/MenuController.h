@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Application.h"
+#include "Entities/CameraController.h"
 
 
 namespace Game {
@@ -9,7 +10,7 @@ namespace Game {
 	class MenuController {
 	public:
 		bool Init(Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
-		Engine::gameState Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* sm_);
+		Engine::gameState Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* sm_, Game::CameraController* cc_);
 	private:
 		vec2 m_offScreen = { -5000.f, 0.f };
 		vec2 m_onScreen = { 1280.f / 2, 720.f / 2 };

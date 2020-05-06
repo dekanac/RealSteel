@@ -37,7 +37,7 @@
     <ClInclude Include="src\Entities\StaticObject.h" />
     <ClInclude Include="src\Entities\Pickup.h" />
     <ClInclude Include="src\Entities\Terrain.h" />
-    <ClInclude Include="MenuController.h" />
+    <ClInclude Include="src\Menu\MenuController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -59,7 +59,7 @@
     <ClCompile Include="src\Entities\StaticObject.cpp" />
     <ClCompile Include="src\Entities\Pickup.cpp" />
     <ClCompile Include="src\Entities\Terrain.cpp" />
-    <ClCompile Include="MenuController.cpp" />
+    <ClCompile Include="src\Menu\MenuController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

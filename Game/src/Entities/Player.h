@@ -14,6 +14,7 @@ namespace Game {
 	public:
 		bool AddPlayer(vec2 startPos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 		void Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_);
+		void Reset(Engine::EntityManager* entityManager_);
 		
 	private:
 		inline static unsigned int m_Player = 0;

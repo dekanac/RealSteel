@@ -117,6 +117,7 @@ namespace Engine
         m_InputActions["PanCameraRight"] = 'Y';
         m_InputActions["Menu"] = VK_ESCAPE;
         m_InputActions["Enter"] = VK_RETURN;
+        m_InputActions["Test"] = 'X';
 
     }
 

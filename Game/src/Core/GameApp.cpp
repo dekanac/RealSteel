@@ -10,7 +10,7 @@
 #include "Entities/Animation.h"
 #include "Entities/StaticObject.h"
 #include "Entities/Pickup.h"
-#include "MenuController.h"
+#include "Menu/MenuController.h"
 #include "AI/AI.h"
 
 
@@ -65,6 +65,7 @@ bool Game::GameApp::GameSpecificInit()
     m_PlayersController->AddPlayer(vec2{ 1100.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
     m_StaticObjectsController->DrawWorld(m_EntityManager.get(), m_TextureManager.get(), m_AnimationsController.get());
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
+    //Menu
     m_MenuController->Init(m_EntityManager.get(), m_TextureManager.get());
 
     //m_AI = std::make_unique<AI>();
@@ -84,8 +85,8 @@ void Game::GameApp::GameSpecificUpdate(float dt)
         m_PickupsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_StaticObjectsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_Terrain->Update(dt, m_EntityManager.get());
-        m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
-
+        m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());
+        
         if (m_AnimationUpdateFreq >= 4) {
             m_AnimationUpdateFreq = 0;
             m_AnimationsController->Update(dt, m_EntityManager.get());
@@ -100,9 +101,10 @@ void Game::GameApp::GameSpecificUpdate(float dt)
         m_AIUpdateFreq++;
     }
     else if (m_GameState == Engine::gameState::IN_MENU or m_GameState == Engine::gameState::PAUSED) {
-        m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+        m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());
         if (m_GameState == Engine::gameState::RESTART) {
 
+            ResetLevel();
             //TODO: Restart level
             m_GameState = Engine::gameState::RUNNING;
         }
@@ -112,6 +114,11 @@ void Game::GameApp::GameSpecificUpdate(float dt)
 bool Game::GameApp::GameSpecificShutdown()
 {
     return true;
+}
+
+void Game::GameApp::ResetLevel()
+{
+
 }
 
 bool Game::GameApp::InitTextures() {
