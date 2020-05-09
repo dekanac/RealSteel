@@ -150,7 +150,12 @@ bool Game::GameApp::InitTextures() {
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "ammunitionPickup", "data/textures/pickups/ammunition.png", "data/textures/pickups/shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "mainMenu", "data/textures/Main_menu_screen.jpg") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "pauseMenu", "data/textures/Pause_menu_screen.jpg") &&
-        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "selectionBox", "data/textures/Selection_box.png");
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "selectionBox", "data/textures/Selection_box.png") && 
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "max_ammunitionPickup", "data/textures/pickups/max_ammunition.png", "data/textures/pickups/shadow.png")&&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "health_helpPickup", "data/textures/pickups/health_help.png", "data/textures/pickups/shadow.png")&&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "missile_powerupPickup", "data/textures/pickups/missile_powerup.png", "data/textures/pickups/shadow.png")&&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "special_missilePickup", "data/textures/pickups/special_missile.png", "data/textures/pickups/shadow.png")&&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "shieldPickup", "data/textures/pickups/shield.png", "data/textures/pickups/shadow.png");
 }
 
 bool Game::GameApp::InitSoundsAndMusic() {

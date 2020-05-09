@@ -12,6 +12,8 @@ namespace Game {
 		void Update(float dt, Engine::EntityManager* em_, Engine::SoundManager* sm_);
 	private:
 		bool CreatePickup(std::string type_, vec2 pos_, Engine::EntityManager* em_, Engine::TextureManager* tm_);
+		vec2 FindPlace();
+		void PutPickup(std::vector<Engine::Entity*> pickups);
 	};
 
 }
