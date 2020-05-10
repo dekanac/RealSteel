@@ -98,8 +98,7 @@ namespace Game {
 
 			for (auto& collided : tankCollision->m_CollidedWith) {
 
-				if (collided->HasComponent<Game::LakeComponent>()) {
-
+				if (collided->HasComponent<Game::LakeComponent>() || tankComp->shieldActivated) {
 					tankComp->speedReduced = true;
 				}
 			}

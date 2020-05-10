@@ -53,16 +53,17 @@ namespace Game {
 		return true;
 	}
 
-	vec2 Pickup::FindPlace() {
+	vec2 Pickup::FindPlace(Game::GridSystem* gs_) {
 		vec2 position;
 		do {
 			position = vec2{ rand() % 1240 + 20, rand() % 680 + 20 };
-		} while (false /*TODO: uslov zaustavljanja, da nema objekata na toj poziciji*/);
+		} while (gs_->isBlockOccupied(static_cast<int>(std::ceil(position[0] / 40)) - 1, 
+									  static_cast<int>(std::ceil(position[1] / 40)) - 1));
 		
 		return position;
 	}
 
-	void Pickup::PutPickup(std::vector<Engine::Entity*> pickups) {
+	void Pickup::PutPickup(std::vector<Engine::Entity*> pickups, Game::GridSystem* gs_) {
 		
 	
 			//X sekundi posle pokupljenog pikapa generisi novi
@@ -94,7 +95,7 @@ namespace Game {
 				}
 
 				auto pickupTransf = randomPickup->GetComponent<Engine::TransformComponent>();
-				auto randomPosition = FindPlace();
+				auto randomPosition = FindPlace(gs_);
 				//TODO: provera da li je pozicija slobodna, da nije zid ili palma
 
 				pickupTransf->m_Position = randomPosition;
@@ -103,14 +104,14 @@ namespace Game {
 		
 	}
 
-	void Pickup::Update(float dt, Engine::EntityManager* em_, Engine::SoundManager* sm_) {
+	void Pickup::Update(float dt, Engine::EntityManager* em_, Engine::SoundManager* sm_, Game::GridSystem* gs_) {
 		
 		auto tanks = em_->GetAllEntitiesWithComponents<Game::TankComponent, Engine::HealthComponent>();
 		auto pickups = em_->GetAllEntitiesWithComponent<Game::PickupComponent>();
 
 		//generisi random pickup na random slobodnom mestu u svetu
 		if (m_pickupExists == false && (pickups.size() != 0)) {
-			PutPickup(pickups);
+			PutPickup(pickups, gs_);
 		}
 
 		//proveri da li je neko pokupio pickup i update-uj odgovarajuci entity
