@@ -13,6 +13,7 @@ namespace Game {
 		void Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_);
 		bool CreateWallBlock(std::string type_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 		bool CreatePalm(vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_, Game::Animation* animationsController_);
+		bool CreateLake(float rotation_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 	private:
 		//bool CreateWall(std::string type_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 	};

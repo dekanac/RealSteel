@@ -48,6 +48,28 @@ namespace Game {
 			return true;
 		}
 
+	bool GridSystem::createLake(float rotation, float screenStartingPosX, float screenStartingPosY, Engine::EntityManager* entityManager_,
+		Engine::TextureManager* textureManager_, Game::StaticObject* staticObjectManager_) {
+		
+		if (screenCoordinatesValid(screenStartingPosX, screenStartingPosY) == false) {
+			return false;
+		}
+		else
+		{
+			std::vector<int> coordinates = transformToGridCoordinates(screenStartingPosX, screenStartingPosY);
+			int x = coordinates[0];
+			int y = coordinates[1];
+
+			if (x > m_sizeX || y > m_sizeY) {
+				LOG_WARNING("Attempting to create object outside of map boundries!");
+				return false;
+			}
+
+			staticObjectManager_->CreateLake(rotation, vec2{ static_cast<float>(x * 40 + 20), static_cast<float>(y * 40 + 20) }, entityManager_, textureManager_);
+		}
+		return true;
+	}
+
 
 
 	bool GridSystem::createWallHorizontal(float  screenStartingPosX, float screenStartingPosY, int amount,

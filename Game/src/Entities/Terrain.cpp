@@ -11,13 +11,13 @@ namespace Game
         ASSERT(entityManager_ != nullptr, "nullptr passed as entityManager_");
 
         auto imageEntity = std::make_unique<Engine::Entity>();
-        imageEntity->AddComponent<Engine::TransformComponent>(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, 1280.f, 720.f);
-        imageEntity->AddComponent<Engine::TerrainComponent>().m_Texture = textureManager_->GetTexture("terrain");
+        //imageEntity->AddComponent<Engine::TransformComponent>(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, 1280.f, 720.f);
+        //imageEntity->AddComponent<Engine::TerrainComponent>().m_Texture = textureManager_->GetTexture("terrain");
         
-        entityManager_->AddEntity(std::move(imageEntity));
+        //entityManager_->AddEntity(std::move(imageEntity));
 
-        CreateLake(0.f, vec2{ 640.f, 185.f }, entityManager_, textureManager_);
-        CreateLake(127.f, vec2{ 320.f, 540.f }, entityManager_, textureManager_);
+        //CreateLake(0.f, vec2{ 640.f, 185.f }, entityManager_, textureManager_);
+        ///CreateLake(127.f, vec2{ 320.f, 540.f }, entityManager_, textureManager_);
 
 
         return true;

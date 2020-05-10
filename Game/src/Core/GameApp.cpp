@@ -146,8 +146,16 @@ bool Game::GameApp::InitSoundsAndMusic() {
     return
         m_SoundManager->AddSound("tankFire", "data/sounds/tank_fire.ogg") &&
         m_SoundManager->AddSound("birdsFly", "data/sounds/birds_fly.ogg") &&
-        m_SoundManager->AddSound("pickup", "data/sounds/pickup_voice.ogg") &&
         m_SoundManager->AddSound("tankMove", "data/sounds/tank_move.ogg") &&
         m_SoundManager->AddSound("menuScroll", "data/sounds/menu_scroll.ogg") &&
-        m_SoundManager->AddSound("menuConfirm", "data/sounds/menu_confirm.ogg");
+        m_SoundManager->AddSound("menuConfirm", "data/sounds/menu_confirm.ogg") &&
+        m_SoundManager->AddSound("ammunition", "data/sounds/ammunition.ogg") &&
+        m_SoundManager->AddSound("speed", "data/sounds/speed.ogg") &&
+        m_SoundManager->AddSound("shot", "data/sounds/shot.ogg") &&
+        m_SoundManager->AddSound("special", "data/sounds/special_attack.ogg") &&
+        m_SoundManager->AddSound("powerup", "data/sounds/powerup.ogg") &&
+        m_SoundManager->AddSound("repair", "data/sounds/repair.ogg") &&
+        m_SoundManager->AddSound("explosion", "data/sounds/explosion.ogg") &&
+        m_SoundManager->AddSound("shield", "data/sounds/shield.ogg") 
+        ;
 }

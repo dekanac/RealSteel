@@ -96,6 +96,27 @@ namespace Game {
 		return true;
 	}
 	
+	bool StaticObject::CreateLake(float rotation_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
+
+		auto lake = std::make_unique<Engine::Entity>();
+		lake->AddComponent<Engine::TransformComponent>();
+
+		auto lakeTransf = lake->GetComponent<Engine::TransformComponent>();
+		lakeTransf->m_Position = pos_;
+		lakeTransf->m_Rotation = rotation_;
+
+		//za potrebe collision boxa crtati sa sprite-om
+		//lake->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("lake"));
+		lake->AddComponent<Engine::CollisionComponent>(120.f, 120.f);
+
+		lake->AddComponent<Engine::TerrainComponent>().m_Texture = textureManager_->GetTexture("lake");
+		lake->AddComponent<Game::LakeComponent>();
+
+		entityManager_->AddEntity(std::move(lake));
+
+		return true;
+	}
+
 
 	void StaticObject::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_) {
 

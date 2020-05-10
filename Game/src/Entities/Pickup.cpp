@@ -112,7 +112,7 @@ namespace Game {
 		if (m_pickupExists == false && (pickups.size() != 0)) {
 			PutPickup(pickups);
 		}
-		
+
 		//proveri da li je neko pokupio pickup i update-uj odgovarajuci entity
 		for (auto& tank : tanks) {
 
@@ -127,47 +127,50 @@ namespace Game {
 					auto pickupComp = collidedEnt->GetComponent<Game::PickupComponent>();
 
 					if (pickupComp->m_Type == PickupType::Speed) {
-
+						sm_->PlaySound("speed", 0);
 						tankComp->speedBoosted = true;
 					}
 
 					if (pickupComp->m_Type == PickupType::Health) {
-
+						sm_->PlaySound("repair", 0);
 						tankHealth->m_CurrentHealth = 100;
 					}
 
 					if (pickupComp->m_Type == PickupType::Health_Help) {
+						sm_->PlaySound("repair", 0);
 						tankHealth->m_CurrentHealth = tankHealth->m_CurrentHealth + 20 < 100 ?
 							tankHealth->m_CurrentHealth + 20 : 100;
 					}
 
 					if (pickupComp->m_Type == PickupType::Shield) {
+						sm_->PlaySound("shield", 0);
 						tankComp->shieldActivated = true;
 						tankComp->speedReduced = true;
 					}
 
 					if (pickupComp->m_Type == PickupType::Ammunation) {
-
+						sm_->PlaySound("ammunition", 0);
 						//TODO::ammunition pickup dodaje municiju
 					}
 
 					if (pickupComp->m_Type == PickupType::Max_Ammunition) {
+						sm_->PlaySound("ammunition", 0);
 						//TODO::max_ammunition povecava municiju na max dozvoljenog
 					}
 
 					if (pickupComp->m_Type == PickupType::Missile_Powerup) {
-
+						sm_->PlaySound("powerup", 0);
 						//TODO::Missile_powerup pojacava snagu raketa, 
 						//na odredjeno vreme ili do kraja igre, kako se dogovorimo
 					}
 
 					if (pickupComp->m_Type == PickupType::Special_Missile) {
-
+						sm_->PlaySound("special", 0);
 						//TODO::Special_missile dodaje specijalnu raketu 
 						//(koja moze da se gleda kao specijalan napad)
 					}
 
-					sm_->PlaySound("pickup", 0);
+					
 					auto colidedEntTransf = collidedEnt->GetComponent<Engine::TransformComponent>();
 					//ako je pokupljen pickup premesta se van mape, tj "NESTAJE"
 					colidedEntTransf->m_Position = vec2{ -100.f, -100.f };
