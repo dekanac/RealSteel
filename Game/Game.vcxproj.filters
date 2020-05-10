@@ -38,6 +38,9 @@
     <ClInclude Include="src\Entities\Pickup.h" />
     <ClInclude Include="src\Entities\Terrain.h" />
     <ClInclude Include="src\Menu\MenuController.h" />
+    <ClInclude Include="PhysicsController.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -60,6 +63,9 @@
     <ClCompile Include="src\Entities\Pickup.cpp" />
     <ClCompile Include="src\Entities\Terrain.cpp" />
     <ClCompile Include="src\Menu\MenuController.cpp" />
+    <ClCompile Include="PhysicsController.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -25,8 +25,18 @@ namespace Engine
             auto transform = entity->GetComponent<TransformComponent>();
             auto mover = entity->GetComponent<MoverComponent>();
 
-            transform->m_Position += mover->m_TranslationSpeed * dt;
-            transform->m_Rotation += mover->m_RotationSpeed * dt;
+            if (entity->HasComponent<Box2dBodyComponent>())
+            {
+                entity->GetComponent<Engine::Box2dBodyComponent>()->body->SetLinearVelocity(b2Vec2(mover->m_TranslationSpeed.x, mover->m_TranslationSpeed.y));
+                entity->GetComponent<Engine::Box2dBodyComponent>()->body->SetAngularVelocity(mover->m_RotationSpeed);
+                transform->m_Rotation = entity->GetComponent<Engine::Box2dBodyComponent>()->body->GetAngle();
+                transform->m_Position = vec2(entity->GetComponent<Engine::Box2dBodyComponent>()->body->GetPosition().x, entity->GetComponent<Engine::Box2dBodyComponent>()->body->GetPosition().y);
+            }
+            else 
+            {
+                transform->m_Position += mover->m_TranslationSpeed * dt;
+                transform->m_Rotation += mover->m_RotationSpeed * dt;
+            }
         }
 
         // Collide

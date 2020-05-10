@@ -1,6 +1,7 @@
 #include "precomp.h"
 
 #include "GameApp.h"
+#include "PhysicsController.h"
 #include "Entities/CameraController.h"
 #include "Entities/Terrain.h"
 #include "Entities/Player.h"
@@ -18,6 +19,7 @@
 #include <Core/EntryPoint.h>
 
 #include <SDL_mixer.h>
+#include<Box2D.h>
 #include <ctime>
 
 
@@ -38,12 +40,16 @@ bool Game::GameApp::GameSpecificInit()
     game_start_time = time(0);
     srand(game_start_time);
 
+    b2Vec2 gravity(0.0f, 0.0f);
+    //world = new b2World(gravity);
+
     bool res = InitTextures();
     ASSERT(res, "Textures init fail");
     res = InitSoundsAndMusic();
     ASSERT(res, "Sounds and music init fail");
 
     //CONTROLLERS CREATION
+    m_PhysicsController = std::make_unique<PhysicsController>();
     m_CameraController = std::make_unique<CameraController>();
     m_Terrain = std::make_unique<Terrain>();
     m_TanksController = std::make_unique<Tank>();
@@ -56,6 +62,7 @@ bool Game::GameApp::GameSpecificInit()
     
 
     //CONTROLLERS INIT
+    m_PhysicsController->Init(m_EntityManager.get());
     m_CameraController->Init(m_EntityManager.get());
     m_Terrain->Init(m_EntityManager.get(), m_TextureManager.get());
     m_PickupsController->Init(m_EntityManager.get(), m_TextureManager.get());
@@ -78,6 +85,8 @@ void Game::GameApp::GameSpecificUpdate(float dt)
 {
     
     if (m_GameState == Engine::gameState::RUNNING) {
+
+        m_PhysicsController->Update(dt, m_EntityManager.get());
         m_CameraController->Update(dt, m_EntityManager.get());
         m_PlayersController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_HealthBarsController->Update(dt, m_EntityManager.get());

@@ -1,5 +1,5 @@
 #pragma once
-
+#include <Box2d.h>
 
 namespace Game {
 
@@ -15,6 +15,9 @@ namespace Game {
 	class Tank {
 	public:
 		Engine::Entity* CreateTank(vec2 position_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
+		
+		b2Body* body;
+		
 		void Update(float dt, Engine::EntityManager* entityManager_);
 	
 	};

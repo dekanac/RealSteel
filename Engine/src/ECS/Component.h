@@ -2,7 +2,7 @@
 #include "Input/InputAction.h"
 
 #include <SDL.h>
-
+#include <Box2d.h>
 
 using ComponentTypeID = std::size_t;
 
@@ -30,6 +30,10 @@ namespace Engine
             static ComponentTypeID typeID = Component::m_MaxComponentTypeId++;
             return typeID;
         }
+    };
+
+    struct Box2dBodyComponent : public Engine::Component {
+        b2Body* body;
     };
 
     struct TransformComponent : public Component

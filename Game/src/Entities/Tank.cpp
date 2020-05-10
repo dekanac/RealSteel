@@ -1,6 +1,7 @@
 #include "precomp.h"
 #include "GameComponents.h"
 #include "Tank.h"
+#include <Box2d.h>
 
 namespace Game {
 
@@ -10,7 +11,31 @@ namespace Game {
 		ASSERT(textureManager_ != nullptr, "Must pass valid pointer to texturemanager");
 
 		auto tank = std::make_unique<Engine::Entity>();
+
+		tank->AddComponent<Engine::Box2dBodyComponent>();
+
+		b2BodyDef bodyDef;
+		bodyDef.type = b2_dynamicBody;
+		bodyDef.bullet = true;
+		bodyDef.linearDamping = 0.10f;
+		bodyDef.position.Set(position_.x, position_.y);
 		
+		auto physicsComponent = entityManager_->GetAllComponentInstances<Game::PhysicsComponent>().back();
+		tank->GetComponent<Engine::Box2dBodyComponent>()->body = physicsComponent->world->CreateBody(&bodyDef);
+		
+		// Define another box shape for our dynamic body.
+		b2PolygonShape polygonShape;
+		polygonShape.SetAsBox(30, 30);
+		// Define the dynamic body fixture.
+		b2FixtureDef fixtureDef;
+		fixtureDef.shape = &polygonShape;
+		// Set the box density to be non-zero, so it will be dynamic.
+		fixtureDef.density = 1.0f;
+		// Override the default friction.
+		fixtureDef.friction = 0.02f;
+		// Add the shape to the body.
+		tank->GetComponent<Engine::Box2dBodyComponent>()->body->CreateFixture(&fixtureDef);
+
 		//transformation and move
 		tank->AddComponent<Engine::TransformComponent>(position_.x, position_.y, TANK_SIZE_X, TANK_SIZE_Y);
 		tank->AddComponent<Engine::MoverComponent>();
@@ -79,11 +104,18 @@ namespace Game {
 				}
 			}
 
-			if (tankComp->speedBoosted && tankComp->speedReduced) { tankComp->tankSpeed = TANK_SPEED * 0.75; }
-			else if (tankComp->speedBoosted) { tankComp->tankSpeed = TANK_SPEED * 1.5; }
-			else if (tankComp->speedReduced) { tankComp->tankSpeed = TANK_SPEED * 0.5; }
-			else { tankComp->tankSpeed = TANK_SPEED;  }
-
+			if (tankComp->speedBoosted && tankComp->speedReduced) {
+				tankComp->tankSpeed = TANK_SPEED * 0.75; 
+			}
+			else if (tankComp->speedBoosted) {
+				tankComp->tankSpeed = TANK_SPEED * 100.5; 
+			}
+			else if (tankComp->speedReduced) { 
+				tankComp->tankSpeed = TANK_SPEED * 0.5; 
+			}
+			else { 
+				tankComp->tankSpeed = TANK_SPEED;  
+			}
 		}
 	}
 }
