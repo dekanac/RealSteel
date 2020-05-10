@@ -5,15 +5,11 @@
 namespace Game
 {
     class CameraController;
-    class Terrain;
-    class Player;
     class HealthBar;
     class AI;
-    class Tank;
     class Animation;
-    class StaticObject;
-    class Pickup;
     class MenuController;
+    class LevelManager;
 
     class GameApp final : public Engine::Application
     {
@@ -22,20 +18,15 @@ namespace Game
         bool GameSpecificInit() override;
         void GameSpecificUpdate(float dt) override;
         bool GameSpecificShutdown() override;
-        void ResetLevel();
 
         bool InitTextures();
         bool InitSoundsAndMusic();
 
         std::unique_ptr<CameraController> m_CameraController{};
-        std::unique_ptr<Terrain> m_Terrain{};
-        std::unique_ptr<Player> m_PlayersController{};
+        std::unique_ptr<LevelManager> m_LevelManager{};
         std::unique_ptr<HealthBar> m_HealthBarsController{};
-        std::unique_ptr<Tank> m_TanksController{};
         std::unique_ptr<AI> m_AI{};
         std::unique_ptr<Animation> m_AnimationsController{};
-        std::unique_ptr<StaticObject> m_StaticObjectsController{};
-        std::unique_ptr<Pickup> m_PickupsController{};
         std::unique_ptr<MenuController> m_MenuController{};
 
         int m_AnimationUpdateFreq = 0;

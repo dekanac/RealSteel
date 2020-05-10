@@ -5,9 +5,6 @@
 #include <ctime>
 #include <cstdlib>
 
-bool pickup_exists{ false };
-time_t last_pickup;
-
 namespace Game {
 
 	bool Pickup::Init(Engine::EntityManager* em_, Engine::TextureManager* tm_) {
@@ -16,7 +13,7 @@ namespace Game {
 		ASSERT(em_ != nullptr, "nullptr passed as entityManager_");
 
 
-		last_pickup = game_start_time;
+		m_lastPickup = game_start_time;
 
 		//napravi sve pickupe van mape
 		auto res =	CreatePickup("speed", vec2{ -100.f, -100.f }, em_, tm_) &&
@@ -69,7 +66,7 @@ namespace Game {
 		
 	
 			//X sekundi posle pokupljenog pikapa generisi novi
-			if ((time(0) - last_pickup) > 30) {
+			if ((time(0) - m_lastPickup) > 30) {
 
 				auto randomPickup = pickups[rand() % pickups.size()];
 
@@ -101,7 +98,7 @@ namespace Game {
 				//TODO: provera da li je pozicija slobodna, da nije zid ili palma
 
 				pickupTransf->m_Position = randomPosition;
-				pickup_exists = true;
+				m_pickupExists = true;
 			}
 		
 	}
@@ -112,7 +109,7 @@ namespace Game {
 		auto pickups = em_->GetAllEntitiesWithComponent<Game::PickupComponent>();
 
 		//generisi random pickup na random slobodnom mestu u svetu
-		if (pickup_exists == false && (pickups.size() != 0)) {
+		if (m_pickupExists == false && (pickups.size() != 0)) {
 			PutPickup(pickups);
 		}
 		
@@ -174,16 +171,31 @@ namespace Game {
 					auto colidedEntTransf = collidedEnt->GetComponent<Engine::TransformComponent>();
 					//ako je pokupljen pickup premesta se van mape, tj "NESTAJE"
 					colidedEntTransf->m_Position = vec2{ -100.f, -100.f };
-					pickup_exists = false;
-					last_pickup = time(0);
+					m_pickupExists = false;
+					m_lastPickup = time(0);
 				}
 			}
 		
 
 			//vreme trajanja speedup-a
-			if (tankComp->speedBoosted == true && time(0) - last_pickup > 20) {
+			if (tankComp->speedBoosted == true && time(0) - m_lastPickup > 20) {
 				tankComp->speedBoosted = false;
 			}
 		}
  	}
+	void Pickup::Reset(Engine::EntityManager* em_)
+	{
+		auto pickups = em_->GetAllEntitiesWithComponent<Game::PickupComponent>();
+		for (auto pickup : pickups) {
+			pickup->GetComponent<Engine::TransformComponent>()->m_Position = vec2{ -100.f, -100.f };
+		}
+
+		if (pickups.size() != 0) {
+			auto randomPickup = pickups[rand() % pickups.size()];
+			auto pickupTransf = randomPickup->GetComponent<Engine::TransformComponent>();
+			vec2 randomPosition = vec2{ rand() % 1240 + 20, rand() % 680 + 20 };
+			pickupTransf->m_Position = randomPosition;
+			m_pickupExists = true;
+		}
+	}
 }

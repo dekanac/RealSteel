@@ -15,13 +15,14 @@ namespace Game {
         ASSERT(textureManager_ != nullptr, "Must pass valid pointer to texture");
 
         m_Player++;
+        m_startingPosition = startPos_;
         auto player = std::make_unique<Engine::Entity>();
 
         player->AddComponent<Game::PlayerGameComponent>();
         player->AddComponent<Engine::InputComponent>();
 
         auto playersTank = std::make_unique<Tank>();
-        auto playersTankEntity = playersTank->CreateTank(startPos_, entityManager_, textureManager_);
+        auto playersTankEntity = playersTank->CreateTank(m_startingPosition, entityManager_, textureManager_);
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity = std::move(playersTankEntity);
 
         auto inputComp = player->GetComponent<Engine::InputComponent>();
@@ -42,7 +43,7 @@ namespace Game {
     void Player::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_) {
 
         auto playerEntities = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>();
-        
+
         int i = 1;
         for (auto& player : playerEntities) {
             auto playersTank = player->GetComponent<Game::PlayerGameComponent>()->tankEntity;
@@ -71,17 +72,47 @@ namespace Game {
 
             //posebna rotacija za turret koja prati poziciju misa
             auto turretTransf = playersTankTurret->GetComponent<Engine::TransformComponent>();
-            vec2 direction = vec2{ input->mouse_x, input->mouse_y } - tankTransf->m_Position;
+            vec2 direction = vec2{ input->mouse_x, input->mouse_y } -tankTransf->m_Position;
             float angle = atan2(direction.x, direction.y) * (180.f / 3.14f);
             //malo tvikovanja i radi :D
             turretTransf->m_Rotation = angle * (-1.f) + 180.f;
-          
+
             i++;
         }
     }
     void Player::Reset(Engine::EntityManager* entityManager_)
     {
-        //TODO
+        auto playerEntities = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>();
 
+        for (auto& player : playerEntities) {
+            auto playersTank = player->GetComponent<Game::PlayerGameComponent>()->tankEntity;
+            ASSERT(playersTank != nullptr, "players tank not initialized!");
+
+            auto playersTankComp = playersTank->GetComponent<Game::TankComponent>();
+            auto playersTankTurret = playersTankComp->tankTurretEntity;
+
+            auto speed = playersTank->GetComponent<Game::TankComponent>()->tankSpeed;
+            auto tankTransf = playersTank->GetComponent<Engine::TransformComponent>();
+
+            //Reset speed
+            playersTankComp->speedBoosted = false;
+            playersTankComp->speedReduced = false;
+
+            //Reset tank health
+            auto healthComp = playersTank->GetComponent<Engine::HealthComponent>();
+            healthComp->m_CurrentHealth = healthComp->m_MaxHealth;
+
+            //Reset tank position
+            tankTransf->m_Position = m_startingPosition;
+
+            //Reset tank rotation
+            auto rotationDeg = tankTransf->m_Rotation;
+            float rotationRad = (rotationDeg * 3.14f) / 180.f;
+            tankTransf->m_Rotation = rotationRad;
+
+            //Reset turret rotation
+            auto turretTransf = playersTankTurret->GetComponent<Engine::TransformComponent>();
+            turretTransf->m_Rotation = rotationRad;
+        }
     }
 }

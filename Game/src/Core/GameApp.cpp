@@ -2,17 +2,18 @@
 
 #include "GameApp.h"
 #include "Entities/CameraController.h"
-#include "Entities/Terrain.h"
-#include "Entities/Player.h"
 #include "Entities/HealthBar.h"
 #include "Entities/GameComponents.h"
-#include "Entities/Tank.h"
 #include "Entities/Animation.h"
 #include "Entities/StaticObject.h"
 #include "Entities/Pickup.h"
+#include "Entities/GridSystem.h"
+#include "Entities/Tank.h"
+#include "Entities/Player.h"
+#include "Entities/Terrain.h"
 #include "Menu/MenuController.h"
+#include "Levels/LevelManager.h"
 #include "AI/AI.h"
-
 
 #include <Engine.h>
 #include <Core/EntryPoint.h>
@@ -45,27 +46,15 @@ bool Game::GameApp::GameSpecificInit()
 
     //CONTROLLERS CREATION
     m_CameraController = std::make_unique<CameraController>();
-    m_Terrain = std::make_unique<Terrain>();
-    m_TanksController = std::make_unique<Tank>();
-    m_PlayersController = std::make_unique<Player>();
     m_HealthBarsController = std::make_unique<HealthBar>();
     m_AnimationsController = std::make_unique<Animation>();
-    m_StaticObjectsController = std::make_unique<StaticObject>();
-    m_PickupsController = std::make_unique<Pickup>();
     m_MenuController = std::make_unique<MenuController>();
-    
+    m_LevelManager = std::make_unique<LevelManager>();
 
-    //CONTROLLERS INIT
+    //CONTROLLERS INIT -- Redosled je bitan!
     m_CameraController->Init(m_EntityManager.get());
-    m_Terrain->Init(m_EntityManager.get(), m_TextureManager.get());
-    m_PickupsController->Init(m_EntityManager.get(), m_TextureManager.get());
-    //2 random tenka za probu
-    m_TanksController->CreateTank(vec2{ 200.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
-    m_TanksController->CreateTank(vec2{ 400.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
-    m_PlayersController->AddPlayer(vec2{ 1100.f, 300.f }, m_EntityManager.get(), m_TextureManager.get());
-    m_StaticObjectsController->DrawWorld(m_EntityManager.get(), m_TextureManager.get(), m_AnimationsController.get());
+    m_LevelManager->Init(m_EntityManager.get(), m_TextureManager.get(), m_AnimationsController.get()); // Is supposed to draw one of the predefined levels
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
-    //Menu
     m_MenuController->Init(m_EntityManager.get(), m_TextureManager.get());
 
     //m_AI = std::make_unique<AI>();
@@ -78,14 +67,10 @@ void Game::GameApp::GameSpecificUpdate(float dt)
 {
     
     if (m_GameState == Engine::gameState::RUNNING) {
-        m_CameraController->Update(dt, m_EntityManager.get());
-        m_PlayersController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_HealthBarsController->Update(dt, m_EntityManager.get());
-        m_TanksController->Update(dt, m_EntityManager.get());
-        m_PickupsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
-        m_StaticObjectsController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
-        m_Terrain->Update(dt, m_EntityManager.get());
+        m_LevelManager->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());
+        
         
         if (m_AnimationUpdateFreq >= 4) {
             m_AnimationUpdateFreq = 0;
@@ -104,7 +89,7 @@ void Game::GameApp::GameSpecificUpdate(float dt)
         m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());
         if (m_GameState == Engine::gameState::RESTART) {
 
-            ResetLevel();
+            m_LevelManager->ResetLevel(m_EntityManager.get());
             m_GameState = Engine::gameState::RUNNING;
         }
     }
@@ -115,10 +100,6 @@ bool Game::GameApp::GameSpecificShutdown()
     return true;
 }
 
-void Game::GameApp::ResetLevel()
-{
-    //TODO: Reset level
-}
 
 bool Game::GameApp::InitTextures() {
 
@@ -143,6 +124,9 @@ bool Game::GameApp::InitTextures() {
             "data/textures/bird_animation.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "wallEW", "data/textures/static_objects/wall_EW.png", "data/textures/static_objects/wall_EW_shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "wallNS", "data/textures/static_objects/wall_NS.png", "data/textures/static_objects/wall_NS_shadow.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "wallBlockEW", "data/textures/static_objects/wall_EW_block.png", "data/textures/static_objects/wall_EW_block_shadow.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "wallBlockNS", "data/textures/static_objects/wall_NS_block.png", "data/textures/static_objects/wall_NS_block_shadow.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "wallBlock", "data/textures/static_objects/wall_block.png", "data/textures/static_objects/wall_block_shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "palm", "data/textures/static_objects/palm.png", "data/textures/static_objects/palm_shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthPickup", "data/textures/pickups/health.png", "data/textures/pickups/shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "speedPickup", "data/textures/pickups/speed.png", "data/textures/pickups/shadow.png") &&

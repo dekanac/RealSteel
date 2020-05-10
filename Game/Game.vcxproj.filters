@@ -13,6 +13,21 @@
     <Filter Include="src\AI">
       <UniqueIdentifier>{276e81e6-5631-4195-a098-2d959bfe9ec3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{3c7e9cfb-06b1-4ffe-9a86-87507a926a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\sounds">
+      <UniqueIdentifier>{2a2f44f7-ec3e-46f9-ae3a-a30a9af31971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\textures">
+      <UniqueIdentifier>{60580c04-9cb9-40cd-ac7b-4bc592425eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\music">
+      <UniqueIdentifier>{9064be9b-dc78-4f71-9010-8cefc88b428f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Menu">
+      <UniqueIdentifier>{dc729cbf-9e0b-4894-832a-5f157ef69f15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\precomp.h">
@@ -27,17 +42,35 @@
     <ClInclude Include="src\Entities\GameComponents.h">
       <Filter>src\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Player.h" />
-    <ClInclude Include="src\Entities\HealthBar.h" />
     <ClInclude Include="src\AI\AI.h">
       <Filter>src\AI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\Tank.h" />
-    <ClInclude Include="src\Entities\Animation.h" />
-    <ClInclude Include="src\Entities\StaticObject.h" />
-    <ClInclude Include="src\Entities\Pickup.h" />
-    <ClInclude Include="src\Entities\Terrain.h" />
-    <ClInclude Include="src\Menu\MenuController.h" />
+    <ClInclude Include="src\Entities\Terrain.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Pickup.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Player.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\StaticObject.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Tank.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Animation.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\HealthBar.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Menu\MenuController.h">
+      <Filter>src\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\GridSystem.h" />
+    <ClInclude Include="src\Levels\LevelManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -49,45 +82,107 @@
     <ClCompile Include="src\Entities\CameraController.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Player.cpp" />
-    <ClCompile Include="src\Entities\HealthBar.cpp" />
     <ClCompile Include="src\AI\AI.cpp">
       <Filter>src\AI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\Tank.cpp" />
-    <ClCompile Include="src\Entities\Animation.cpp" />
-    <ClCompile Include="src\Entities\StaticObject.cpp" />
-    <ClCompile Include="src\Entities\Pickup.cpp" />
-    <ClCompile Include="src\Entities\Terrain.cpp" />
-    <ClCompile Include="src\Menu\MenuController.cpp" />
+    <ClCompile Include="src\Entities\Pickup.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Player.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\StaticObject.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Tank.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Terrain.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Animation.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\HealthBar.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Menu\MenuController.cpp">
+      <Filter>src\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\GridSystem.cpp" />
+    <ClCompile Include="src\Levels\LevelManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="data\music\music_test.ogg" />
-    <None Include="data\sounds\birds_fly.ogg" />
-    <None Include="data\sounds\tank_fire.ogg" />
-    <None Include="data\sounds\tank_move.ogg" />
+    <None Include="data\sounds\birds_fly.ogg">
+      <Filter>data\textures</Filter>
+    </None>
+    <None Include="data\music\music_test.ogg">
+      <Filter>data\music</Filter>
+    </None>
+    <None Include="data\sounds\tank_move.ogg">
+      <Filter>data\sounds</Filter>
+    </None>
+    <None Include="data\sounds\tank_fire.ogg">
+      <Filter>data\sounds</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="data\textures\bird_animation.png" />
-    <Image Include="data\textures\explosion_animation.png" />
-    <Image Include="data\textures\grass.png" />
-    <Image Include="data\textures\health_bar_frame.png" />
-    <Image Include="data\textures\health_bar_green.png" />
-    <Image Include="data\textures\health_bar_red.png" />
-    <Image Include="data\textures\tank_body.png" />
-    <Image Include="data\textures\tank_body_shadow.png" />
-    <Image Include="data\textures\tank_turret.png" />
-    <Image Include="data\textures\tank_turret_shadow.png" />
-    <Image Include="data\textures\static_objects\palm.png" />
-    <Image Include="data\textures\static_objects\palm_shadow.png" />
-    <Image Include="data\textures\static_objects\terrain.png" />
-    <Image Include="data\textures\static_objects\wall_EW.png" />
-    <Image Include="data\textures\static_objects\wall_EW_shadow.png" />
-    <Image Include="data\textures\static_objects\wall_NS.png" />
-    <Image Include="data\textures\static_objects\wall_NS_shadow.png" />
+    <Image Include="data\textures\bird_animation.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\explosion_animation.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\grass.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\health_bar_frame.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\health_bar_green.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\health_bar_red.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\palm_shadow.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\tank_body.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\tank_body_shadow.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\tank_turret_shadow.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\tank_turret.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\terrain.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\wall_EW.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\wall_EW_shadow.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\wall_NS.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\wall_NS_shadow.png">
+      <Filter>data\textures</Filter>
+    </Image>
+    <Image Include="data\textures\static_objects\palm.png">
+      <Filter>data\textures</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="data\sounds\tank_explode.wav" />
+    <Media Include="data\sounds\tank_explode.wav">
+      <Filter>data\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

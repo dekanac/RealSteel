@@ -9,10 +9,11 @@ namespace Game {
 
 	class StaticObject {
 	public:
-		bool DrawWorld(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_);
+		//bool DrawWorld(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_);
 		void Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_);
-	private:
-		bool CreateWall(std::string type_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
+		bool CreateWallBlock(std::string type_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 		bool CreatePalm(vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_, Game::Animation* animationsController_);
+	private:
+		//bool CreateWall(std::string type_, vec2 pos_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 	};
 }

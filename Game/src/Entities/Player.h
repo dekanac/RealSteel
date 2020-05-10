@@ -17,6 +17,7 @@ namespace Game {
 		void Reset(Engine::EntityManager* entityManager_);
 		
 	private:
+		vec2 m_startingPosition;
 		inline static unsigned int m_Player = 0;
 	};
 

@@ -157,6 +157,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Levels\LevelManager.h" />
+    <ClInclude Include="src\Entities\GridSystem.h" />
     <ClInclude Include="src\Menu\MenuController.h" />
     <ClInclude Include="src\Entities\Pickup.h" />
     <ClInclude Include="src\Entities\Animation.h" />
@@ -172,6 +174,8 @@
     <ClInclude Include="src\Entities\StaticObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Levels\LevelManager.cpp" />
+    <ClCompile Include="src\Entities\GridSystem.cpp" />
     <ClCompile Include="src\Menu\MenuController.cpp" />
     <ClCompile Include="src\Entities\Pickup.cpp" />
     <ClCompile Include="src\Entities\Animation.cpp" />
