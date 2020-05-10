@@ -103,7 +103,8 @@ namespace Game {
             healthComp->m_CurrentHealth = healthComp->m_MaxHealth;
 
             //Reset tank position
-            tankTransf->m_Position = m_startingPosition;
+            //tankTransf->m_Position = m_startingPosition;
+            playersTank->GetComponent<Engine::Box2dBodyComponent>()->body->SetTransform(b2Vec2(m_startingPosition.x, m_startingPosition.y), 0);
 
             //Reset tank rotation
             auto rotationDeg = tankTransf->m_Rotation;

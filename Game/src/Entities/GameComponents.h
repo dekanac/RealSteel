@@ -1,9 +1,12 @@
 #pragma once
 #include "Engine.h"
+#include <Box2d.h>
 
 namespace Game
 {
-	
+	struct PhysicsComponent : public Engine::Component {
+		b2World* world;
+	};
 
 	struct HealthBarComponent : public Engine::Component {
 		Engine::Entity* healthBarFrame;

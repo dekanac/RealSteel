@@ -1,6 +1,7 @@
 #include "precomp.h"
 
 #include "GameApp.h"
+#include "PhysicsController.h"
 #include "Entities/CameraController.h"
 #include "Entities/HealthBar.h"
 #include "Entities/GameComponents.h"
@@ -19,6 +20,7 @@
 #include <Core/EntryPoint.h>
 
 #include <SDL_mixer.h>
+#include<Box2D.h>
 #include <ctime>
 
 
@@ -39,12 +41,16 @@ bool Game::GameApp::GameSpecificInit()
     game_start_time = time(0);
     srand(game_start_time);
 
+    b2Vec2 gravity(0.0f, 0.0f);
+    //world = new b2World(gravity);
+
     bool res = InitTextures();
     ASSERT(res, "Textures init fail");
     res = InitSoundsAndMusic();
     ASSERT(res, "Sounds and music init fail");
 
     //CONTROLLERS CREATION
+    m_PhysicsController = std::make_unique<PhysicsController>();
     m_CameraController = std::make_unique<CameraController>();
     m_HealthBarsController = std::make_unique<HealthBar>();
     m_AnimationsController = std::make_unique<Animation>();
@@ -52,6 +58,7 @@ bool Game::GameApp::GameSpecificInit()
     m_LevelManager = std::make_unique<LevelManager>();
 
     //CONTROLLERS INIT -- Redosled je bitan!
+    m_PhysicsController->Init(m_EntityManager.get());
     m_CameraController->Init(m_EntityManager.get());
     m_LevelManager->Init(m_EntityManager.get(), m_TextureManager.get(), m_AnimationsController.get()); // Is supposed to draw one of the predefined levels
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
@@ -67,6 +74,9 @@ void Game::GameApp::GameSpecificUpdate(float dt)
 {
     
     if (m_GameState == Engine::gameState::RUNNING) {
+
+        m_PhysicsController->Update(dt, m_EntityManager.get());
+        m_CameraController->Update(dt, m_EntityManager.get());
         m_HealthBarsController->Update(dt, m_EntityManager.get());
         m_LevelManager->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());

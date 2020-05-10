@@ -1,9 +1,10 @@
 #pragma once
-
+#include <Box2D.h>
 #include <Core\Application.h>
 
 namespace Game
 {
+    class PhysicsController;
     class CameraController;
     class HealthBar;
     class AI;
@@ -22,6 +23,7 @@ namespace Game
         bool InitTextures();
         bool InitSoundsAndMusic();
 
+        std::unique_ptr<PhysicsController> m_PhysicsController{};
         std::unique_ptr<CameraController> m_CameraController{};
         std::unique_ptr<LevelManager> m_LevelManager{};
         std::unique_ptr<HealthBar> m_HealthBarsController{};
