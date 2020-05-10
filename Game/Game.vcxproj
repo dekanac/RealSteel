@@ -95,7 +95,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)src\;$(SolutionDir)Engine\;$(SolutionDir)Engine\Extern\;$(SolutionDir)Engine\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
@@ -158,6 +158,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="PhysicsController.h" />
+    <ClInclude Include="src\Levels\LevelManager.h" />
+    <ClInclude Include="src\Entities\GridSystem.h" />
     <ClInclude Include="src\Menu\MenuController.h" />
     <ClInclude Include="src\Entities\Pickup.h" />
     <ClInclude Include="src\Entities\Animation.h" />
@@ -174,6 +176,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PhysicsController.cpp" />
+    <ClCompile Include="src\Levels\LevelManager.cpp" />
+    <ClCompile Include="src\Entities\GridSystem.cpp" />
     <ClCompile Include="src\Menu\MenuController.cpp" />
     <ClCompile Include="src\Entities\Pickup.cpp" />
     <ClCompile Include="src\Entities\Animation.cpp" />

@@ -23,6 +23,7 @@ namespace Game
 	struct TankComponent : public Engine::Component {
 		bool speedBoosted{ false };
 		bool speedReduced{ false };
+		bool shieldActivated{ false };
 		float tankSpeed{ 100.f };
 
 		Engine::Entity* tankTurretEntity{};
@@ -52,8 +53,13 @@ namespace Game
 	enum class PickupType {
 
 		Health = 0,
+		Health_Help,
 		Ammunation,
-		Speed
+		Max_Ammunition,
+		Speed,
+		Missile_Powerup,
+		Special_Missile, 
+		Shield
 	};
 
 	struct PickupComponent : public Engine::Component {

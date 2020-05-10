@@ -62,7 +62,6 @@ Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* 
 	auto mainMenuComp = mainMenu->GetComponent<Engine::MenuComponent>();
 	auto mainMenuInputComp = mainMenu->GetComponent<Engine::InputComponent>();
 	auto mainMenuMoveComp = mainMenu->GetComponent<Engine::TransformComponent>();
-	//bool mainMenuIsPressed = Engine::InputManager::IsActionActive(mainMenuInputComp, "Menu");
 
 	auto pauseMenuComp = pauseMenu->GetComponent<Engine::MenuComponent>();
 	auto pauseMenuInputComp = pauseMenu->GetComponent<Engine::InputComponent>();
@@ -115,7 +114,7 @@ Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* 
 			switch (m_selectionIndex) {
 			case 0:
 				pauseMenuComp->m_state = false;
-				return Engine::gameState::RESTART;
+				return Engine::gameState::PAUSED;
 			case 1:
 				mainMenuComp->m_state = true;
 				pauseMenuComp->m_state = false;
@@ -151,7 +150,7 @@ Engine::gameState Game::MenuController::Update(float dt, Engine::EntityManager* 
 			switch (m_selectionIndex) {
 				case 0:
 					mainMenuComp->m_state = false;
-					return Engine::gameState::RUNNING;
+					return Engine::gameState::RESTART;
 				case 1:
 					//TODO
 					m_selectionIndex = 0;
