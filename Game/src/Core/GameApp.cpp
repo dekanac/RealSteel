@@ -77,7 +77,6 @@ void Game::GameApp::GameSpecificUpdate(float dt)
 
         m_PhysicsController->Update(dt, m_EntityManager.get());
         m_CameraController->Update(dt, m_EntityManager.get());
-        m_PlayersController->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_HealthBarsController->Update(dt, m_EntityManager.get());
         m_LevelManager->Update(dt, m_EntityManager.get(), m_SoundManager.get());
         m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());
