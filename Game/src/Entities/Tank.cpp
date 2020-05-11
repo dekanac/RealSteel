@@ -111,9 +111,9 @@ namespace Game {
 
 				if (collided->HasComponent<Game::BulletComponent>()) {
 					if (tank->GetComponent<OwnershipComponent>()->ownedByPlayer 
-						!= collided->GetComponent<OwnershipComponent>()->ownedByPlayer && healthComp->dead == false)
+						!= collided->GetComponent<OwnershipComponent>()->ownedByPlayer)
 					{
-						if (collided->GetComponent<OwnershipComponent>()->ownedByPlayer)
+						if (collided->GetComponent<OwnershipComponent>()->ownedByPlayer && healthComp->dead == false)
 						{
 							auto xs = entityManager_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
 							if (xs.size() != 0)
@@ -124,10 +124,10 @@ namespace Game {
 								s->score_num += 2;
 							}
 						}
-						
+						collided->GetComponent<BulletComponent>()->collided = true;
 						healthComp->m_CurrentHealth = healthComp->m_CurrentHealth - 35;
 					}
-					collided->GetComponent<BulletComponent>()->collided = true;
+					
 				}
 			}
 
