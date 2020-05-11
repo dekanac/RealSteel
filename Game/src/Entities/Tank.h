@@ -14,6 +14,8 @@ namespace Game {
 
 #define TANK_SPEED 100.f
 
+#define TANK_RELOAD_SPEED 2000.f
+
 	class Tank {
 	public:
 		Engine::Entity* CreateTank(vec2 position_, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
