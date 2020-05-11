@@ -82,7 +82,7 @@ namespace Game {
 
 		return tankPtr;
 	}
-	void Tank::Update(float dt, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
+	void Tank::Update(float dt, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_, Engine::SoundManager* soundManager_) {
 		
 		auto tanks = entityManager_->GetAllEntitiesWithComponent<Game::TankComponent>();
 		
@@ -125,7 +125,13 @@ namespace Game {
 							}
 						}
 						collided->GetComponent<BulletComponent>()->collided = true;
-						healthComp->m_CurrentHealth = healthComp->m_CurrentHealth - 35;
+						if (tankComp->shieldActivated) {
+							tankComp->shieldActivated = false;
+						}
+						else {
+							healthComp->m_CurrentHealth = healthComp->m_CurrentHealth - collided->GetComponent<BulletComponent>()->m_power;
+							soundManager_->PlaySound("explosion", 0);
+						}
 					}
 					
 				}
@@ -163,7 +169,10 @@ namespace Game {
 			}
 		}
 	}
-	void Tank::Shoot(Engine::Entity* e, bool players, Engine::EntityManager* entityManager_ , Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_)
+	void Tank::Shoot(Engine::Entity* e, 
+					bool players, Engine::EntityManager* entityManager_ , 
+					Engine::SoundManager* soundManager_, 
+					Engine::TextureManager* textureManager_, bool special, int missilePower)
 	{
 		using namespace std::chrono;
 		
@@ -186,7 +195,11 @@ namespace Game {
 		vec2 spawn = e->GetComponent<Engine::TransformComponent>()->m_Position
 			+ turret;
 
-		Bullet::CreateBullet(spawn, rot, players, entityManager_, soundManager_, textureManager_);
+		Bullet::CreateBullet(spawn, rot, players, entityManager_, soundManager_, textureManager_, special, missilePower);
+		if (special) {
+			e->GetComponent<Game::TankComponent>()->hasSpecial = false;
+		}
+
 		shoot->cooldown = true;
 		shoot->last_fired = high_resolution_clock::now();
 

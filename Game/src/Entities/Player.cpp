@@ -33,6 +33,7 @@ namespace Game {
         inputComp->inputActions.push_back({ fmt::format("Player{}MoveLeft", m_Player) });
         inputComp->inputActions.push_back({ fmt::format("Player{}MoveRight", m_Player) });
         inputComp->inputActions.push_back({ fmt::format("Player{}Fire", m_Player) });
+        inputComp->inputActions.push_back({ fmt::format("Player{}Special", m_Player) });
         //inputComp->inputActions.push_back({ fmt::format("Player{}RotateTurretCW", m_Player) });
         //inputComp->inputActions.push_back({ fmt::format("Player{}RotateTurretCCW", m_Player) });
 
@@ -62,6 +63,7 @@ namespace Game {
             bool moveRightInput = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveRight", i));
             bool moveLeftInput = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveLeft", i));
             bool Fire = Engine::InputManager::IsActionActive(input, fmt::format("Player{}Fire", i));
+            bool specialFire = Engine::InputManager::IsActionActive(input, fmt::format("Player{}Special", i));
 
             auto payersTransformComponent = playersTank->GetComponent<Engine::TransformComponent>();
             auto rotationDeg = payersTransformComponent->m_Rotation;
@@ -79,7 +81,15 @@ namespace Game {
             turretTransf->m_Rotation = angle * (-1.f) + 180.f;
 
             if (Fire)
-                Tank::Shoot(playersTank, true, entityManager_, soundManager_, textureManager_);
+                Tank::Shoot(playersTank, true, entityManager_, soundManager_, textureManager_, false, 
+                    playersTank->GetComponent<Game::TankComponent>()->missilePower);
+            else if (specialFire) {
+                if (playersTank->GetComponent<Game::TankComponent>()->hasSpecial)
+                    Tank::Shoot(playersTank, true, entityManager_, soundManager_, textureManager_, true,
+                        playersTank->GetComponent<Game::TankComponent>()->missilePower);
+                else
+                    soundManager_->PlaySound("empty", 0);
+            }
 
             i++;
         }

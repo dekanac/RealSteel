@@ -25,6 +25,8 @@ namespace Game
 		bool speedBoosted{ false };
 		bool speedReduced{ false };
 		bool shieldActivated{ false };
+		bool hasSpecial{ false };
+		int missilePower{ 10 };
 		float tankSpeed{ 100.f };
 
 		Engine::Entity* tankTurretEntity{};
@@ -48,6 +50,9 @@ namespace Game
 
 	struct BulletComponent : public Engine::Component {
 		bool collided{false};
+		bool m_specialBullet{ false };
+		int m_power{ 10 };
+
 
 		BulletComponent() = default;
 	};

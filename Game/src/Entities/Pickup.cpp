@@ -146,7 +146,7 @@ namespace Game {
 					if (pickupComp->m_Type == PickupType::Shield) {
 						sm_->PlaySound("shield", 0);
 						tankComp->shieldActivated = true;
-						tankComp->speedReduced = true;
+						//tankComp->speedReduced = true;
 					}
 
 					if (pickupComp->m_Type == PickupType::Ammunation) {
@@ -161,12 +161,15 @@ namespace Game {
 
 					if (pickupComp->m_Type == PickupType::Missile_Powerup) {
 						sm_->PlaySound("powerup", 0);
+
+						tankComp->missilePower += 3;
 						//TODO::Missile_powerup pojacava snagu raketa, 
 						//na odredjeno vreme ili do kraja igre, kako se dogovorimo
 					}
 
 					if (pickupComp->m_Type == PickupType::Special_Missile) {
 						sm_->PlaySound("special", 0);
+						tankComp->hasSpecial = true;
 						//TODO::Special_missile dodaje specijalnu raketu 
 						//(koja moze da se gleda kao specijalan napad)
 					}

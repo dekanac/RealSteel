@@ -138,6 +138,7 @@ bool Game::GameApp::InitTextures() {
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarRed", "data/textures/health_bar_red.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarFrame", "data/textures/health_bar_frame.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "bullet", "data/textures/bullet.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "specialBullet", "data/textures/specialBullet.png") &&
         m_TextureManager->CreateAnimationTexture(
             vec2{ 200, 200 }, 
             4, 
@@ -184,6 +185,7 @@ bool Game::GameApp::InitSoundsAndMusic() {
         m_SoundManager->AddSound("powerup", "data/sounds/powerup.ogg") &&
         m_SoundManager->AddSound("repair", "data/sounds/repair.ogg") &&
         m_SoundManager->AddSound("explosion", "data/sounds/explosion.ogg") &&
+        m_SoundManager->AddSound("empty", "data/sounds/empty.ogg") &&
         m_SoundManager->AddSound("shield", "data/sounds/shield.ogg") 
         ;
 }

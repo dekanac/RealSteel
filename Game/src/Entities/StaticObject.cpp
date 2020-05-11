@@ -121,7 +121,6 @@ namespace Game {
 
 						soundManager_->PlaySound("birdsFly", 0);
 						palmPalmComp->m_Birds = false;
-
 					}
 
 				}

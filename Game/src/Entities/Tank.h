@@ -20,9 +20,10 @@ namespace Game {
 		
 		b2Body* body;
 		
-		void Update(float dt, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
+		void Update(float dt, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_, Engine::SoundManager* soundManager_);
 
-		static void Shoot(Engine::Entity* e, bool players, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_);
+		static void Shoot(Engine::Entity* e, bool players, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, 
+			Engine::TextureManager* textureManager_,bool special, int missilePower);
 	
 	};
 

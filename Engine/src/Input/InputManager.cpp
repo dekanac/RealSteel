@@ -104,6 +104,7 @@ namespace Engine
         m_InputActions["Player1RotateTurretCW"] = 'I';
         m_InputActions["Player1RotateTurretCCW"] = 'O';
         m_InputActions["Player1Fire"] = VK_LBUTTON;
+        m_InputActions["Player1Special"] = VK_RBUTTON;
         m_InputActions["PauseGame"] = VK_ESCAPE;
         m_InputActions["RestartGame"] = 'R';
         m_InputActions["Player2MoveUp"] = 'W';

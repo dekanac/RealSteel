@@ -14,8 +14,8 @@ namespace Game {
 	{
 	public:
 		static Engine::Entity* CreateBullet(vec2 position_, float rotation_, bool players,
-			Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_);
+			Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_, bool special, int missilePower);
 
-		static void Update(float dt, Engine::EntityManager* entityManager_);
+		static void Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_);
 	};
 }
