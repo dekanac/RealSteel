@@ -206,7 +206,11 @@ namespace Engine
         auto transform = s->GetComponent<TransformComponent>();
         auto sprite = s->GetComponent<SpriteComponent>();
 
-        ASSERT((sprite->m_Image->m_Shadow != nullptr), "Shadow texture doesn't exist!");
+        //ASSERT((sprite->m_Image->m_Shadow != nullptr), "Shadow texture doesn't exist!");
+        if (sprite->m_Image->m_Shadow != nullptr)
+        {
+            return;
+        }
 
         vec2 size = transform->m_Size;
         if (size == vec2{ 0.f, 0.f }) // Use size of texture if size of entity isn't set
