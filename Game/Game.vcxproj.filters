@@ -31,6 +31,9 @@
     <Filter Include="data\fonts">
       <UniqueIdentifier>{ad07be75-fb51-4793-81c3-8d0eefb03b55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Levels">
+      <UniqueIdentifier>{ea6f9b5b-02eb-46aa-88ff-615b705781de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\precomp.h">
@@ -81,11 +84,16 @@
     <ClInclude Include="src\Menu\MenuController.h">
       <Filter>src\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entities\GridSystem.h" />
-    <ClInclude Include="src\Levels\LevelManager.h" />
     <ClInclude Include="src\Entities\Bullet.h">
       <Filter>src\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="src\Entities\GridSystem.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Levels\LevelManager.h">
+      <Filter>src\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entities\Bot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -133,11 +141,16 @@
     <ClCompile Include="src\Menu\MenuController.cpp">
       <Filter>src\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entities\GridSystem.cpp" />
-    <ClCompile Include="src\Levels\LevelManager.cpp" />
     <ClCompile Include="src\Entities\Bullet.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entities\GridSystem.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Levels\LevelManager.cpp">
+      <Filter>src\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entities\Bot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

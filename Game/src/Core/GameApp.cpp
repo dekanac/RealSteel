@@ -11,6 +11,7 @@
 #include "Entities/GridSystem.h"
 #include "Entities/Tank.h"
 #include "Entities/Player.h"
+#include "Entities/Bot.h"
 #include "Entities/Terrain.h"
 #include "Menu/MenuController.h"
 #include "Levels/LevelManager.h"

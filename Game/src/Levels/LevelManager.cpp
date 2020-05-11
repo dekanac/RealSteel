@@ -6,6 +6,7 @@
 #include "Entities/Player.h"
 #include "Entities/GameComponents.h"
 #include "Entities/Tank.h"
+#include "Entities/Bot.h"
 #include "Entities/StaticObject.h"
 #include "Entities/Pickup.h"
 #include "Entities/GridSystem.h"
@@ -15,6 +16,7 @@
 void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_)
 {
     m_Terrain = std::make_unique<Terrain>();
+    m_BotController = std::make_unique<Bot>();
     m_TanksController = std::make_unique<Tank>();
     m_PlayersController = std::make_unique<Player>();
     m_StaticObjectsController = std::make_unique<StaticObject>();
@@ -23,8 +25,9 @@ void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager
 
 
     //CONTROLLERS INIT
+    m_GridSystem->Init();
     auto randLevel = rand() % 3 + 1;
-    LoadLevel(1, em_, tm_, ac_, m_GridSystem.get(), m_StaticObjectsController.get()); //TODO: Ubaciti randLevel kao prvi parametar kad se odrade ostali tereni
+    LoadLevel(randLevel, em_, tm_, ac_, m_GridSystem.get(), m_StaticObjectsController.get()); //TODO: Ubaciti randLevel kao prvi parametar kad se odrade ostali tereni
     m_Terrain->Init(em_, tm_);
     m_PickupsController->Init(em_, tm_);
     
@@ -34,6 +37,7 @@ void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::Sou
 {
     m_Terrain->Update(dt, em_);
     m_PickupsController->Update(dt, em_, sm_, m_GridSystem.get());
+    m_BotController->Update(dt, em_, m_GridSystem.get());
     m_TanksController->Update(dt, em_, tm_, sm_);
     m_PlayersController->Update(dt, em_, sm_, tm_);    
     m_StaticObjectsController->Update(dt, em_, sm_);
@@ -94,8 +98,8 @@ void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine
         gs_->createLake(0.f, 880.f, 210.f, em_, tm_, sc_);
       
         //2 random tenka za probu
-        m_TanksController->CreateTank(vec2{ 200.f, 250.f }, em_, tm_);
-        m_TanksController->CreateTank(vec2{ 200.f, 470.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 200.f, 470.f }, em_, tm_);
         m_PlayersController->AddPlayer(vec2{ 1100.f, 250.f }, em_, tm_);
         
         //Palme
@@ -113,8 +117,8 @@ void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine
         gs_->createWallVertical(130.f, 170.f, 3, em_, tm_, sc_);
         gs_->createWallVertical(600.f, 400.f, 5, em_, tm_, sc_);
         //2 random tenka za probu
-        m_TanksController->CreateTank(vec2{ 200.f, 250.f }, em_, tm_);
-        m_TanksController->CreateTank(vec2{ 200.f, 470.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 200.f, 470.f }, em_, tm_);
         m_PlayersController->AddPlayer(vec2{ 1100.f, 250.f }, em_, tm_);
 
         //Palme
@@ -130,8 +134,8 @@ void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine
         gs_->createWallVertical(130.f, 170.f, 3, em_, tm_, sc_);
         gs_->createWallVertical(600.f, 400.f, 5, em_, tm_, sc_);
         //2 random tenka za probu
-        m_TanksController->CreateTank(vec2{ 200.f, 250.f }, em_, tm_);
-        m_TanksController->CreateTank(vec2{ 200.f, 470.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 200.f, 470.f }, em_, tm_);
         m_PlayersController->AddPlayer(vec2{ 1100.f, 250.f }, em_, tm_);
 
         //Palme
@@ -148,6 +152,7 @@ void Game::LevelManager::ResetLevel(Engine::EntityManager* em_)
 {
     m_PlayersController->Reset(em_);
     m_PickupsController->Reset(em_);
+    m_BotController->Reset(em_);
 }
 
 

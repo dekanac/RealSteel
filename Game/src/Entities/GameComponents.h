@@ -104,4 +104,13 @@ namespace Game
 	struct MenuComponent : public Engine::Component {
 
 	};
+
+	struct BotComponent : public Engine::Component {
+		Engine::Entity* tankEntity;
+		vec2 m_CurrentPosition{};
+		int m_GridX;
+		int m_GridY;
+		bool m_FiredRecently;
+		bool m_isMoving = true;
+	};
 }

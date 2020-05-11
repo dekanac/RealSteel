@@ -7,6 +7,7 @@ namespace Game {
 
 	class Terrain;
 	class Player;
+	class Bot;
 	class Tank;
 	class StaticObject;
 	class Pickup;
@@ -22,6 +23,7 @@ namespace Game {
 	private:
 		std::unique_ptr<Terrain> m_Terrain{};
 		std::unique_ptr<Player> m_PlayersController{};
+		std::unique_ptr<Bot> m_BotController{};
 		std::unique_ptr<Tank> m_TanksController{};
 		std::unique_ptr<StaticObject> m_StaticObjectsController{};
 		std::unique_ptr<Pickup> m_PickupsController{};
