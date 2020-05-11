@@ -20,7 +20,8 @@
 #include <Core/EntryPoint.h>
 
 #include <SDL_mixer.h>
-#include<Box2D.h>
+#include <SDL_ttf.h>
+#include <Box2D.h>
 #include <ctime>
 
 
@@ -49,6 +50,19 @@ bool Game::GameApp::GameSpecificInit()
     res = InitSoundsAndMusic();
     ASSERT(res, "Sounds and music init fail");
 
+    m_RenderSystem->GetRenderer()->font = TTF_OpenFont("data/fonts/arial.ttf", 30);
+
+
+    // Refaktorisati
+    auto score = std::make_unique<Engine::Entity>();
+    score->AddComponent<Engine::ScoreComponent>();
+    auto scoreComp = score->GetComponent<Engine::ScoreComponent>();
+    scoreComp->score_num = 0;
+    scoreComp->score = std::string("Score: 0");
+    score->AddComponent<Engine::TransformComponent>(0,0,0,0);
+
+    m_EntityManager->AddEntity(std::move(score));
+
     //CONTROLLERS CREATION
     m_PhysicsController = std::make_unique<PhysicsController>();
     m_CameraController = std::make_unique<CameraController>();
@@ -64,6 +78,9 @@ bool Game::GameApp::GameSpecificInit()
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
     m_MenuController->Init(m_EntityManager.get(), m_TextureManager.get());
 
+
+   
+
     //m_AI = std::make_unique<AI>();
     //m_AI->Init(m_EntityManager.get());
 
@@ -78,7 +95,7 @@ void Game::GameApp::GameSpecificUpdate(float dt)
         m_PhysicsController->Update(dt, m_EntityManager.get());
         m_CameraController->Update(dt, m_EntityManager.get());
         m_HealthBarsController->Update(dt, m_EntityManager.get());
-        m_LevelManager->Update(dt, m_EntityManager.get(), m_SoundManager.get());
+        m_LevelManager->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_TextureManager.get());
         m_GameState = m_MenuController->Update(dt, m_EntityManager.get(), m_SoundManager.get(), m_CameraController.get());
         
         
@@ -120,6 +137,7 @@ bool Game::GameApp::InitTextures() {
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankBody", "data/textures/tank_body.png", "data/textures/tank_body_shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarRed", "data/textures/health_bar_red.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarFrame", "data/textures/health_bar_frame.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "bullet", "data/textures/bullet.png") &&
         m_TextureManager->CreateAnimationTexture(
             vec2{ 200, 200 }, 
             4, 

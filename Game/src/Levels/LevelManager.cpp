@@ -9,7 +9,7 @@
 #include "Entities/Pickup.h"
 #include "Entities/GridSystem.h"
 #include "Entities/Animation.h"
-
+#include "Entities/Bullet.h"
 
 void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_)
 {
@@ -29,13 +29,25 @@ void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager
     
 }
 
-void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::SoundManager* sm_)
+void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::SoundManager* sm_, Engine::TextureManager* tm_)
 {
     m_Terrain->Update(dt, em_);
     m_PickupsController->Update(dt, em_, sm_, m_GridSystem.get());
-    m_TanksController->Update(dt, em_);
-    m_PlayersController->Update(dt, em_, sm_);
+    m_TanksController->Update(dt, em_, tm_);
+    m_PlayersController->Update(dt, em_, sm_, tm_);    
     m_StaticObjectsController->Update(dt, em_, sm_);
+    Game::Bullet::Update(dt, em_);
+
+    // Refaktorisati
+    auto xs = em_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
+    if (xs.size() != 0)
+    {
+        auto x = xs.at(0);
+        auto s = x->GetComponent<Engine::ScoreComponent>();
+
+        s->score = fmt::format("Score: {}", s->score_num);
+    }
+
 }
 
 void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_, Game::GridSystem* gs_, Game::StaticObject* sc_)

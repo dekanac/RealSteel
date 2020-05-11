@@ -1415,4 +1415,7 @@
       <Filter>extern\glm\detail</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="fonts\arial.ttf" />
+  </ItemGroup>
 </Project>

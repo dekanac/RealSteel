@@ -1,7 +1,10 @@
 #include "precomp.h"
+#include "Engine.h"
 #include "GameComponents.h"
 #include "Tank.h"
+#include "Bullet.h"
 #include <Box2d.h>
+
 
 namespace Game {
 
@@ -41,7 +44,9 @@ namespace Game {
 		tank->AddComponent<Engine::MoverComponent>();
 		tank->AddComponent<Engine::CollisionComponent>(TANK_COLISION_X, TANK_COLISION_Y);
 		tank->AddComponent<Game::TankComponent>();
+		tank->AddComponent<ShootComponent>();
 		tank->AddComponent<Game::SolidObjectComponent>();
+		tank->AddComponent<OwnershipComponent>(false);
 
 		//health
 		tank->AddComponent<Engine::HealthComponent>();
@@ -55,6 +60,7 @@ namespace Game {
 		tankBody->AddComponent<Engine::CollisionComponent>(TANK_COLISION_X, TANK_COLISION_Y);
 		tankBody->AddComponent<Engine::SpriteComponent>(textureManager_->GetTexture("tankBody"));
 		tankBody->AddComponent<Engine::ShadowComponent>();
+		
 
 	
 		//TANK TURRET INIT
@@ -76,7 +82,7 @@ namespace Game {
 
 		return tankPtr;
 	}
-	void Tank::Update(float dt, Engine::EntityManager* entityManager_) {
+	void Tank::Update(float dt, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_) {
 		
 		auto tanks = entityManager_->GetAllEntitiesWithComponent<Game::TankComponent>();
 		
@@ -94,12 +100,34 @@ namespace Game {
 
 			//COLLISION
 			auto tankCollision = tank->GetComponent<Engine::CollisionComponent>();
+			auto healthComp = tank->GetComponent<Engine::HealthComponent>();
 			tankComp->speedReduced = false;
 
 			for (auto& collided : tankCollision->m_CollidedWith) {
 
 				if (collided->HasComponent<Game::LakeComponent>() || tankComp->shieldActivated) {
 					tankComp->speedReduced = true;
+				}
+
+				if (collided->HasComponent<Game::BulletComponent>()) {
+					if (tank->GetComponent<OwnershipComponent>()->ownedByPlayer 
+						!= collided->GetComponent<OwnershipComponent>()->ownedByPlayer && healthComp->dead == false)
+					{
+						if (collided->GetComponent<OwnershipComponent>()->ownedByPlayer)
+						{
+							auto xs = entityManager_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
+							if (xs.size() != 0)
+							{
+								auto x = xs.at(0);
+								auto s = x->GetComponent<Engine::ScoreComponent>();
+
+								s->score_num += 2;
+							}
+						}
+						
+						healthComp->m_CurrentHealth = healthComp->m_CurrentHealth - 35;
+					}
+					collided->GetComponent<BulletComponent>()->collided = true;
 				}
 			}
 
@@ -115,6 +143,52 @@ namespace Game {
 			else { 
 				tankComp->tankSpeed = TANK_SPEED;  
 			}
+			if (healthComp->m_CurrentHealth <= 0 && healthComp->dead == false)
+			{
+				// Tenk je unisten.
+				auto xs = entityManager_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
+				if (xs.size() != 0)
+				{
+					auto x = xs.at(0);
+					auto s = x->GetComponent<Engine::ScoreComponent>();
+
+					s->score_num += 8;
+				}
+
+				healthComp->dead = true;
+
+				// FIX: Samo privremeno... Brisanje tenka donosi probleme.
+				tankComp->tankBodyEntity->GetComponent<Engine::SpriteComponent>()->m_Image
+					= textureManager_->GetTexture("destroyedTank");
+			}
 		}
+	}
+	void Tank::Shoot(Engine::Entity* e, bool players, Engine::EntityManager* entityManager_ , Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_)
+	{
+		using namespace std::chrono;
+		
+		auto shoot = e->GetComponent<ShootComponent>();
+		if (shoot->cooldown)
+		{
+			duration<double, std::milli> diff = (high_resolution_clock::now() - shoot->last_fired);
+			if(diff.count() > 1000)
+				shoot->cooldown = false;
+		}
+
+		if (shoot->cooldown == true || (shoot->ammo == 0 && shoot->infinite_ammo == false))
+		{
+			return;
+		}
+
+		auto rot = (-90.f + e->GetComponent<Game::TankComponent>()->tankTurretEntity->GetComponent<Engine::TransformComponent>()->m_Rotation) 
+			* 3.14f / 180.f;
+		vec2 turret = {cos(rot) * 45, sin(rot) * 45};
+		vec2 spawn = e->GetComponent<Engine::TransformComponent>()->m_Position
+			+ turret;
+
+		Bullet::CreateBullet(spawn, rot, players, entityManager_, soundManager_, textureManager_);
+		shoot->cooldown = true;
+		shoot->last_fired = high_resolution_clock::now();
+
 	}
 }

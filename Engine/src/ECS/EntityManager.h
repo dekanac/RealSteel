@@ -61,6 +61,8 @@ namespace Engine
             return returnVec;
         }
 
+        void RemoveEntity(Entity* entity);
+
         EntityManager() = default;
     private:
         using EntityList = std::vector<std::unique_ptr<Entity>>;

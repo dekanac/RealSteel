@@ -5,6 +5,7 @@
 #include "ECS/Entity.h"
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 namespace Engine
 {
@@ -163,6 +164,33 @@ namespace Engine
            
         }
         
+    }
+
+    void Renderer::DrawScore(const Entity* s, const Entity* camera)
+    {
+        auto transform = s->GetComponent<TransformComponent>();
+        auto score = s->GetComponent<ScoreComponent>()->score;
+
+        SDL_Color color = { 255, 255, 255 };
+        SDL_Surface* score_display = TTF_RenderText_Solid(font, score.c_str(), color);
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(m_NativeRenderer, score_display);
+
+        int x = 0;
+        int y = 0;
+        SDL_QueryTexture(texture, NULL, NULL, &x, &y);
+        SDL_Rect rect = { 10, 10, x, y };
+
+        SDL_RenderCopyEx(
+            m_NativeRenderer,
+            texture,
+            NULL,
+            &rect,
+            NULL,
+            NULL,
+            SDL_FLIP_NONE);
+
+        SDL_DestroyTexture(texture);
+        SDL_FreeSurface(score_display);
     }
 
     void Renderer::DrawShadows(const std::vector<Entity*> shadows_, const Entity* camera)

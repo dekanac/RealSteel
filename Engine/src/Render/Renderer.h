@@ -1,5 +1,6 @@
 #pragma once
 #include "Render/WindowData.h"
+#include "SDL_ttf.h"
 
 struct SDL_Renderer;
 
@@ -26,6 +27,7 @@ namespace Engine
         void DrawShadow(const Entity* s, const Entity* camera);
         void DrawAnimations(const std::vector<Entity*> animations_, const Entity* camera);
         void DrawAnimation(const Entity* a, const Entity* camera);
+        void DrawScore(const Entity* score, const Entity* camera);
         void BeginScene() const;
         void EndScene() const;
 
@@ -35,9 +37,12 @@ namespace Engine
         void SetBackgroundColor(const Color& col_);
         ~Renderer();
 
+        TTF_Font* font;
     private:
         std::unique_ptr<Window> m_Window;
         SDL_Renderer* m_NativeRenderer{ };
+
         Color m_BackgroundColor{ };
+
     };
 }

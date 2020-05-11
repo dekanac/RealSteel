@@ -16,7 +16,7 @@ namespace Game {
 	class LevelManager {
 	public:
 		void Init(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_);
-		void Update(float dt, Engine::EntityManager* em_, Engine::SoundManager* sm_);
+		void Update(float dt, Engine::EntityManager* em_, Engine::SoundManager* sm_, Engine::TextureManager* tm_);
 		void LoadLevel(int level, Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_, Game::GridSystem* gs_, Game::StaticObject* sc_);
 		void ResetLevel(Engine::EntityManager* em_);
 	private:

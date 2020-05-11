@@ -3,9 +3,12 @@
 #include "Render/Renderer.h"
 #include "Render/Window.h"
 #include "ECS/EntityManager.h"
+#include "ECS/Component.h"
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <SDL_image.h>
+
 
 namespace Engine
 {
@@ -17,6 +20,12 @@ namespace Engine
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
             LOG_CRITICAL("Unable to initialize SDL. SDL error: {}", SDL_GetError());
+            return false;
+        }
+
+        if(TTF_Init() != 0)
+        {
+            LOG_CRITICAL("Unable to initialize TTF.");
             return false;
         }
 
@@ -46,6 +55,7 @@ namespace Engine
 
         m_Renderer.reset();
         SDL_Quit();
+        TTF_Quit();
 
         return true;
     }
@@ -65,11 +75,20 @@ namespace Engine
         auto shadows = entityManager->GetAllEntitiesWithComponents<TransformComponent , SpriteComponent, ShadowComponent>();
         auto renderables = entityManager->GetAllEntitiesWithComponents<TransformComponent, SpriteComponent>();
         auto animations = entityManager->GetAllEntitiesWithComponents<TransformComponent, AnimationComponent>();
+        auto scores = entityManager->GetAllEntitiesWithComponent< ScoreComponent>();
+        Entity* score = NULL;
+        if (scores.size() != 0)
+            score = scores.at(0);
+
         
         m_Renderer->DrawTerrain(terrain, camera);
         m_Renderer->DrawShadows(shadows, camera);
         m_Renderer->DrawEntities(renderables, camera);
         m_Renderer->DrawAnimations(animations, camera);
+        if (scores.size() != 0)
+        {
+            m_Renderer->DrawScore(score, camera);
+        }
 
         m_Renderer->EndScene();
     }

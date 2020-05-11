@@ -91,10 +91,17 @@ namespace Engine
 
     };
 
+    struct ScoreComponent : public Component
+    {
+        std::string score{ "" };
+        int score_num = 0;
+    };
+
     struct HealthComponent : public Component
     {
         int m_CurrentHealth;
         int m_MaxHealth;
+        bool dead = false;
     };
 
     struct CameraComponent : public Component

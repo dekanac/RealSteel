@@ -1,5 +1,7 @@
 #pragma once
+#define __STDC_LINMIT_MACROS 1
 #include <Box2d.h>
+#include <chrono>
 
 namespace Game {
 
@@ -18,9 +20,12 @@ namespace Game {
 		
 		b2Body* body;
 		
-		void Update(float dt, Engine::EntityManager* entityManager_);
+		void Update(float dt, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
+
+		static void Shoot(Engine::Entity* e, bool players, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_);
 	
 	};
 
 
 }
+

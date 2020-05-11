@@ -28,6 +28,9 @@
     <Filter Include="src\Menu">
       <UniqueIdentifier>{dc729cbf-9e0b-4894-832a-5f157ef69f15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data\fonts">
+      <UniqueIdentifier>{ad07be75-fb51-4793-81c3-8d0eefb03b55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\precomp.h">
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="src\Entities\GridSystem.h" />
     <ClInclude Include="src\Levels\LevelManager.h" />
+    <ClInclude Include="src\Entities\Bullet.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -129,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="src\Entities\GridSystem.cpp" />
     <ClCompile Include="src\Levels\LevelManager.cpp" />
+    <ClCompile Include="src\Entities\Bullet.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -202,5 +211,22 @@
     <Media Include="data\sounds\tank_explode.wav">
       <Filter>data\sounds</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="data\fonts\arial.ttf">
+      <Filter>data\fonts</Filter>
+    </Font>
+    <Font Include="data\fonts\ariblk.ttf">
+      <Filter>data\fonts</Filter>
+    </Font>
+    <Font Include="data\fonts\arialbd.ttf">
+      <Filter>data\fonts</Filter>
+    </Font>
+    <Font Include="data\fonts\ariali.ttf">
+      <Filter>data\fonts</Filter>
+    </Font>
+    <Font Include="data\fonts\arialbi.ttf">
+      <Filter>data\fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

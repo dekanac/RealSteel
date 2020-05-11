@@ -24,4 +24,24 @@ namespace Engine
         m_Entities.push_back(std::move(e));
     }
 
+    void EntityManager::RemoveEntity(Entity* e)
+    {
+
+
+        for (auto i = m_Entities.begin(); i < m_Entities.end(); i++)
+        {
+            if ((*i).get() == e)
+            {
+                if ((*i).get()->HasComponent<Box2dBodyComponent>())
+                {
+                    auto tmp = (*i).get()->GetComponent<Box2dBodyComponent>();
+                    tmp->body->GetWorld()->DestroyBody(tmp->body);
+                }
+                m_Entities.erase(i);
+                break;
+            }
+
+        }
+    }
+
 }

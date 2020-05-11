@@ -24,6 +24,7 @@ namespace Game {
         auto playersTank = std::make_unique<Tank>();
         auto playersTankEntity = playersTank->CreateTank(m_startingPosition, entityManager_, textureManager_);
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity = std::move(playersTankEntity);
+        player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<OwnershipComponent>()->ownedByPlayer = true;
 
         auto inputComp = player->GetComponent<Engine::InputComponent>();
 
@@ -40,7 +41,7 @@ namespace Game {
         return true;
     }
 
-    void Player::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_) {
+    void Player::Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_) {
 
         auto playerEntities = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>();
 
@@ -60,7 +61,7 @@ namespace Game {
             bool moveDownInput = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveDown", i));
             bool moveRightInput = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveRight", i));
             bool moveLeftInput = Engine::InputManager::IsActionActive(input, fmt::format("Player{}MoveLeft", i));
-
+            bool Fire = Engine::InputManager::IsActionActive(input, fmt::format("Player{}Fire", i));
 
             auto payersTransformComponent = playersTank->GetComponent<Engine::TransformComponent>();
             auto rotationDeg = payersTransformComponent->m_Rotation;
@@ -76,6 +77,9 @@ namespace Game {
             float angle = atan2(direction.x, direction.y) * (180.f / 3.14f);
             //malo tvikovanja i radi :D
             turretTransf->m_Rotation = angle * (-1.f) + 180.f;
+
+            if (Fire)
+                Tank::Shoot(playersTank, true, entityManager_, soundManager_, textureManager_);
 
             i++;
         }

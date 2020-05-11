@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include <Box2d.h>
+#include <chrono>
 
 namespace Game
 {
@@ -39,11 +40,22 @@ namespace Game
 	};
 
 	struct ShootComponent : public Engine::Component {
-
+		bool cooldown = false;
+		int ammo = 100;
+		bool infinite_ammo = true;
+		std::chrono::steady_clock::time_point last_fired;
 	};
 
 	struct BulletComponent : public Engine::Component {
+		bool collided{false};
 
+		BulletComponent() = default;
+	};
+
+	struct OwnershipComponent : public Engine::Component {
+		bool ownedByPlayer{false};
+
+		OwnershipComponent(bool p_) : ownedByPlayer(p_ ) {};
 	};
 
 	struct WallComponent : public Engine::Component {
