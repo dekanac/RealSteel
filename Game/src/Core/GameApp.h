@@ -11,6 +11,7 @@ namespace Game
     class Animation;
     class MenuController;
     class LevelManager;
+    class InvisibleWallSpawner;
 
     class GameApp final : public Engine::Application
     {
@@ -30,6 +31,7 @@ namespace Game
         std::unique_ptr<AI> m_AI{};
         std::unique_ptr<Animation> m_AnimationsController{};
         std::unique_ptr<MenuController> m_MenuController{};
+        std::unique_ptr<InvisibleWallSpawner> m_InvisibleWallSpawner{};
 
         int m_AnimationUpdateFreq = 0;
         int m_AIUpdateFreq = 0;

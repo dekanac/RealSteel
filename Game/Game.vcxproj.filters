@@ -86,6 +86,9 @@
     <ClInclude Include="src\Entities\Bullet.h">
       <Filter>src\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="InvisibleWallSpawner.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -136,6 +139,9 @@
     <ClCompile Include="src\Entities\GridSystem.cpp" />
     <ClCompile Include="src\Levels\LevelManager.cpp" />
     <ClCompile Include="src\Entities\Bullet.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="InvisibleWallSpawner.cpp">
       <Filter>src\Entities</Filter>
     </ClCompile>
   </ItemGroup>
