@@ -41,7 +41,7 @@ namespace Engine {
 		else {
 
 			auto sound = GetSound(name_)->m_Sound;
-			
+			Mix_Volume(-1, MIX_MAX_VOLUME / 3);
 			Mix_PlayChannel(-1, sound, loops);
 
 		}
