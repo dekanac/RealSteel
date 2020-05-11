@@ -153,7 +153,7 @@ namespace Game {
 			{
 				// Tenk je unisten.
 				auto xs = entityManager_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
-				if (xs.size() != 0)
+				if (xs.size() != 0 && !tank->GetComponent<OwnershipComponent>()->ownedByPlayer)
 				{
 					auto x = xs.at(0);
 					auto s = x->GetComponent<Engine::ScoreComponent>();

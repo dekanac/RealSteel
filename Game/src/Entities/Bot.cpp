@@ -71,7 +71,7 @@ namespace Game
 
             if (true)
             {
-                Tank::Shoot(botTank, true, entityManager_, soundManager_, textureManager_, false,
+                Tank::Shoot(botTank, false, entityManager_, soundManager_, textureManager_, false,
                     botTank->GetComponent<Game::TankComponent>()->missilePower);
             }
 

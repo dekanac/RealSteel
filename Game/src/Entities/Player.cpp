@@ -23,6 +23,7 @@ namespace Game {
 
         auto playersTank = std::make_unique<Tank>();
         auto playersTankEntity = playersTank->CreateTank(m_startingPosition, entityManager_, textureManager_);
+        playersTankEntity->GetComponent <TankComponent>()->missilePower *= 2;
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity = std::move(playersTankEntity);
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<OwnershipComponent>()->ownedByPlayer = true;
 
