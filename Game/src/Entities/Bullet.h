@@ -8,7 +8,7 @@ namespace Game {
 	#define BULLET_COLLISION_X 15.f
 	#define BULLET_COLLISION_Y 15.f
 
-	#define BULLET_SPEED 170.0f
+	#define BULLET_SPEED 1700.0f
 
 	class Bullet
 	{

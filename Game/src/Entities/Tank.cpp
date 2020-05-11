@@ -180,7 +180,7 @@ namespace Game {
 		if (shoot->cooldown)
 		{
 			duration<double, std::milli> diff = (high_resolution_clock::now() - shoot->last_fired);
-			if(diff.count() > 1000)
+			if(diff.count() > TANK_RELOAD_SPEED)
 				shoot->cooldown = false;
 		}
 

@@ -13,6 +13,7 @@
 #include "Entities/Player.h"
 #include "Entities/Bot.h"
 #include "Entities/Terrain.h"
+#include "InvisibleWallSpawner.h"
 #include "Menu/MenuController.h"
 #include "Levels/LevelManager.h"
 #include "AI/AI.h"
@@ -71,6 +72,7 @@ bool Game::GameApp::GameSpecificInit()
     m_AnimationsController = std::make_unique<Animation>();
     m_MenuController = std::make_unique<MenuController>();
     m_LevelManager = std::make_unique<LevelManager>();
+    m_InvisibleWallSpawner = std::make_unique<InvisibleWallSpawner>();
 
     //CONTROLLERS INIT -- Redosled je bitan!
     m_PhysicsController->Init(m_EntityManager.get());
@@ -78,6 +80,7 @@ bool Game::GameApp::GameSpecificInit()
     m_LevelManager->Init(m_EntityManager.get(), m_TextureManager.get(), m_AnimationsController.get()); // Is supposed to draw one of the predefined levels
     m_HealthBarsController->Init(m_EntityManager.get(), m_TextureManager.get());
     m_MenuController->Init(m_EntityManager.get(), m_TextureManager.get());
+    m_InvisibleWallSpawner->Init(m_EntityManager.get());
 
 
    

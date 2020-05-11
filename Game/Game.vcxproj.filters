@@ -94,6 +94,9 @@
       <Filter>src\Levels</Filter>
     </ClInclude>
     <ClInclude Include="src\Entities\Bot.h" />
+    <ClInclude Include="InvisibleWallSpawner.h">
+      <Filter>src\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\precomp.cpp">
@@ -151,6 +154,9 @@
       <Filter>src\Levels</Filter>
     </ClCompile>
     <ClCompile Include="src\Entities\Bot.cpp" />
+    <ClCompile Include="InvisibleWallSpawner.cpp">
+      <Filter>src\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

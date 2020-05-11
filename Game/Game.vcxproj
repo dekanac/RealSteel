@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Entities\Bot.h" />
+    <ClInclude Include="InvisibleWallSpawner.h" />
     <ClInclude Include="PhysicsController.h" />
     <ClInclude Include="src\Entities\Bullet.h" />
     <ClInclude Include="src\Levels\LevelManager.h" />
@@ -180,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Entities\Bot.cpp" />
+    <ClCompile Include="InvisibleWallSpawner.cpp" />
     <ClCompile Include="PhysicsController.cpp" />
     <ClCompile Include="src\Entities\Bullet.cpp" />
     <ClCompile Include="src\Levels\LevelManager.cpp" />
