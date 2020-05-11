@@ -45,6 +45,7 @@ namespace Game {
 
 				if (collided->HasComponent<Game::WallComponent>()) {
 					entityManager_->RemoveEntity(bullet);
+					break;
 				}
 			}
 
