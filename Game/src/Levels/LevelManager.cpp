@@ -37,7 +37,7 @@ void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::Sou
 {
     m_Terrain->Update(dt, em_);
     m_PickupsController->Update(dt, em_, sm_, m_GridSystem.get());
-    m_BotController->Update(dt, em_, m_GridSystem.get());
+    m_BotController->Update(dt, em_, m_GridSystem.get(), sm_, tm_);
     m_TanksController->Update(dt, em_, tm_, sm_);
     m_PlayersController->Update(dt, em_, sm_, tm_);    
     m_StaticObjectsController->Update(dt, em_, sm_);

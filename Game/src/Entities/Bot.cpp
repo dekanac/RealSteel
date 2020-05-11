@@ -30,7 +30,7 @@ namespace Game
         return true;
     }
 
-    void Game::Bot::Update(float dt, Engine::EntityManager* entityManager_, Game::GridSystem* gridSystem_)
+    void Game::Bot::Update(float dt, Engine::EntityManager* entityManager_, Game::GridSystem* gridSystem_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_)
     {
         auto player = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>()[0];
         auto playerTransfComp = player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<Engine::TransformComponent>();
@@ -67,6 +67,12 @@ namespace Game
                 else {
                     bot->GetComponent<Game::BotComponent>()->m_isMoving = false;
                 }
+            }
+
+            if (true)
+            {
+                Tank::Shoot(botTank, true, entityManager_, soundManager_, textureManager_, false,
+                    botTank->GetComponent<Game::TankComponent>()->missilePower);
             }
 
 
