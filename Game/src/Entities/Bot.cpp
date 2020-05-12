@@ -60,31 +60,31 @@ namespace Game
 
         m_time += dt;
 
+        if (m_time >= 0.3f) {
+            for (auto& bot : bots) {
+                auto botTank = bot->GetComponent<Game::BotComponent>()->tankEntity;
+                ASSERT(botTank != nullptr, "players tank not initialized!");
 
-        for (auto& bot : bots) {
-            auto botTank = bot->GetComponent<Game::BotComponent>()->tankEntity;
-            ASSERT(botTank != nullptr, "players tank not initialized!");
+                bool rotateLeft = false, rotateRight = false;
+                bool moveUp = false, moveDown = false;
 
-            bool rotateLeft = false, rotateRight = false;
-            bool moveUp = false, moveDown = false;
+                auto playersTankTurret = botTank->GetComponent<Game::TankComponent>()->tankTurretEntity;
 
-            auto playersTankTurret = botTank->GetComponent<Game::TankComponent>()->tankTurretEntity;
+                auto move = botTank->GetComponent<Engine::MoverComponent>();
+                auto speed = botTank->GetComponent<Game::TankComponent>()->tankSpeed;
+                auto tankTransf = botTank->GetComponent<Engine::TransformComponent>();
+                std::vector<int> botGridCoordinates = gridSystem_->transformToGridCoordinates(tankTransf->m_Position[0], tankTransf->m_Position[1]);
+                std::vector<int> playerGridCoordinates = gridSystem_->transformToGridCoordinates(playerTransfComp->m_Position[0], playerTransfComp->m_Position[1]);
 
-            auto move = botTank->GetComponent<Engine::MoverComponent>();
-            auto speed = botTank->GetComponent<Game::TankComponent>()->tankSpeed;
-            auto tankTransf = botTank->GetComponent<Engine::TransformComponent>();
-            std::vector<int> botGridCoordinates = gridSystem_->transformToGridCoordinates(tankTransf->m_Position[0], tankTransf->m_Position[1]);
-            std::vector<int> playerGridCoordinates = gridSystem_->transformToGridCoordinates(playerTransfComp->m_Position[0], playerTransfComp->m_Position[1]);
+                if (botTank->GetComponent<Engine::HealthComponent>()->dead)
+                {
+                    move->m_TranslationSpeed.y = 0.0f;
+                    move->m_TranslationSpeed.x = 0.0f;
+                    move->m_RotationSpeed = 0.0f;
+                    continue;
+                }
 
-            if (botTank->GetComponent<Engine::HealthComponent>()->dead)
-            {
-                move->m_TranslationSpeed.y = 0.0f;
-                move->m_TranslationSpeed.x = 0.0f;
-                move->m_RotationSpeed = 0.0f;
-                continue;
-            }
 
-            if (m_time >= 0.3f) {
                 float distanceToPlayer = distanceToPLayer(tankTransf->m_Position, playerTransfComp->m_Position);
                 if (distanceToPlayer > 150.f) {
                     //std::cout << "Bot:" << botGridCoordinates[0] << ", " << botGridCoordinates[1] << std::endl;
@@ -96,62 +96,63 @@ namespace Game
                 else {
                     bot->GetComponent<Game::BotComponent>()->m_isMoving = false;
                 }
-            }
-
-            auto botPos = botTank->GetComponent<Engine::Box2dBodyComponent>()->body->GetPosition();
-            auto playerBody = player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<Engine::Box2dBodyComponent>();
-            if (HasLineOfSight(entityManager_, botPos, playerBody->body))
-            {
-                Tank::Shoot(botTank, false, entityManager_, soundManager_, textureManager_, false,
-                    botTank->GetComponent<Game::TankComponent>()->missilePower);
-            }
 
 
-            if (tankTransf->m_Rotation <= -360.0f) {
-                tankTransf->m_Rotation += 360.0f;
-            }
-            else if (tankTransf->m_Rotation >= 360.0f) {
-                tankTransf->m_Rotation -= 360.0f;
-            }
-            auto rotationDeg = tankTransf->m_Rotation;
-            float rotationRad = (rotationDeg * 3.14f) / 180.f;
-
-
-            //orijentisanje bota ka novoj poziciji
-            vec2 orientationDirection = tankTransf->m_Position - m_newPosition;
-            float orientationAngleDeg = std::fmod(atan2(orientationDirection.x, orientationDirection.y) * (-180.f / 3.14f), 360.f);
-            float orientationAngleRad = (orientationAngleDeg * 3.14f) / 180.f;
-
-
-            if (orientationAngleDeg > rotationDeg) {
-                if (std::fabs(std::fabs(orientationAngleDeg) - std::fabs(rotationDeg)) > 2.f) {
-                    rotateRight = true;
+                auto botPos = botTank->GetComponent<Engine::Box2dBodyComponent>()->body->GetPosition();
+                auto playerBody = player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<Engine::Box2dBodyComponent>();
+                if (HasLineOfSight(entityManager_, botPos, playerBody->body))
+                {
+                    Tank::Shoot(botTank, false, entityManager_, soundManager_, textureManager_, false,
+                        botTank->GetComponent<Game::TankComponent>()->missilePower);
                 }
-            }
-            else if (orientationAngleDeg < rotationDeg) {
-                if (std::fabs(std::fabs(orientationAngleDeg) - std::fabs(rotationDeg)) > 2.f) {
-                    rotateLeft = true;
+
+
+                if (tankTransf->m_Rotation <= -360.0f) {
+                    tankTransf->m_Rotation += 360.0f;
                 }
+                else if (tankTransf->m_Rotation >= 360.0f) {
+                    tankTransf->m_Rotation -= 360.0f;
+                }
+                auto rotationDeg = tankTransf->m_Rotation;
+                float rotationRad = (rotationDeg * 3.14f) / 180.f;
+
+
+                //orijentisanje bota ka novoj poziciji
+                vec2 orientationDirection = tankTransf->m_Position - m_newPosition;
+                float orientationAngleDeg = std::fmod(atan2(orientationDirection.x, orientationDirection.y) * (-180.f / 3.14f), 360.f);
+                float orientationAngleRad = (orientationAngleDeg * 3.14f) / 180.f;
+
+
+                if (orientationAngleDeg > rotationDeg) {
+                    if (std::fabs(std::fabs(orientationAngleDeg) - std::fabs(rotationDeg)) > 2.f) {
+                        rotateRight = true;
+                    }
+                }
+                else if (orientationAngleDeg < rotationDeg) {
+                    if (std::fabs(std::fabs(orientationAngleDeg) - std::fabs(rotationDeg)) > 2.f) {
+                        rotateLeft = true;
+                    }
+                }
+
+                move->m_RotationSpeed = 2 * speed * ((rotateLeft ? -1.0f : 0.0f) + (rotateRight ? 1.0f : 0.0f));
+                if (bot->GetComponent<Game::BotComponent>()->m_isMoving) {
+                    move->m_TranslationSpeed.y = speed * (-cos(rotationRad));
+                    move->m_TranslationSpeed.x = speed * (sin(rotationRad));
+                }
+                else {
+                    move->m_TranslationSpeed.y = 0.0f;
+                    move->m_TranslationSpeed.x = 0.0f;
+                }
+
+
+
+                //posebna rotacija za turret koja prati poziciju misa
+                auto turretTransf = playersTankTurret->GetComponent<Engine::TransformComponent>();
+                vec2 direction = playerTransfComp->m_Position - tankTransf->m_Position;
+                float angle = atan2(direction.x, direction.y) * (180.f / 3.14f);
+                //malo tvikovanja i radi :D
+                turretTransf->m_Rotation = angle * (-1.f) + 180.f;
             }
-
-            move->m_RotationSpeed = 2 * speed * ((rotateLeft ? -1.0f : 0.0f) + (rotateRight ? 1.0f : 0.0f));
-            if (bot->GetComponent<Game::BotComponent>()->m_isMoving) {
-                move->m_TranslationSpeed.y = speed * (-cos(rotationRad));
-                move->m_TranslationSpeed.x = speed * (sin(rotationRad));
-            }
-            else {
-                move->m_TranslationSpeed.y = 0.0f;
-                move->m_TranslationSpeed.x = 0.0f;
-            }
-
-
-
-            //posebna rotacija za turret koja prati poziciju misa
-            auto turretTransf = playersTankTurret->GetComponent<Engine::TransformComponent>();
-            vec2 direction = playerTransfComp->m_Position - tankTransf->m_Position;
-            float angle = atan2(direction.x, direction.y) * (180.f / 3.14f);
-            //malo tvikovanja i radi :D
-            turretTransf->m_Rotation = angle * (-1.f) + 180.f;
         }
 
     }
