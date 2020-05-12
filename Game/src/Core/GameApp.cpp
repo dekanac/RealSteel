@@ -135,7 +135,7 @@ bool Game::GameApp::GameSpecificShutdown()
 bool Game::GameApp::InitTextures() {
 
     return
-        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "terrain", "data/textures/static_objects/terrain.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "terrain", "data/textures/static_objects/terrain_bcp.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "lake", "data/textures/static_objects/lake.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankTurret", "data/textures/tank_turret.png", "data/textures/tank_turret_shadow.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "tankBody", "data/textures/tank_body.png", "data/textures/tank_body_shadow.png") &&
