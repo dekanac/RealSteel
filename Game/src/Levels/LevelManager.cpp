@@ -48,7 +48,13 @@ void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::Sou
         m_level++;
 
         for (int i = 0; i < m_level; i++) {
-            m_BotController->AddBot(vec2{rand()%1000+50.f, rand()%600+50.f}, em_, tm_);
+            float x, y;
+            do {
+                x = rand() % 1000 + 50.f;
+                y = rand() % 600 + 50.f;
+            } while (!m_GridSystem.get()->screenCoordinatesValid(x, y));
+
+            m_BotController->AddBot(vec2{x, y}, em_, tm_);
         }
     }
 
