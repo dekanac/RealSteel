@@ -27,7 +27,7 @@ void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager
     //CONTROLLERS INIT
     m_GridSystem->Init();
     auto randLevel = rand() % 3 + 1;
-    LoadLevel(randLevel, em_, tm_, ac_, m_GridSystem.get(), m_StaticObjectsController.get()); //TODO: Ubaciti randLevel kao prvi parametar kad se odrade ostali tereni
+    LoadLevel(2, em_, tm_, ac_, m_GridSystem.get(), m_StaticObjectsController.get()); //TODO: Ubaciti randLevel kao prvi parametar kad se odrade ostali tereni
     m_Terrain->Init(em_, tm_);
     m_PickupsController->Init(em_, tm_);
     
@@ -98,7 +98,7 @@ void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine
         gs_->createLake(0.f, 880.f, 210.f, em_, tm_, sc_);
       
         //2 random tenka za probu
-        m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
+        //m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
         m_BotController->AddBot(vec2{ 200.f, 470.f }, em_, tm_);
         m_PlayersController->AddPlayer(vec2{ 1100.f, 250.f }, em_, tm_);
         
@@ -118,7 +118,7 @@ void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine
         gs_->createWallVertical(600.f, 400.f, 5, em_, tm_, sc_);
         //2 random tenka za probu
         m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
-        m_BotController->AddBot(vec2{ 200.f, 470.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 500.f, 470.f }, em_, tm_);
         m_PlayersController->AddPlayer(vec2{ 1100.f, 250.f }, em_, tm_);
 
         //Palme
@@ -135,7 +135,7 @@ void Game::LevelManager::LoadLevel(int level, Engine::EntityManager* em_, Engine
         gs_->createWallVertical(600.f, 400.f, 5, em_, tm_, sc_);
         //2 random tenka za probu
         m_BotController->AddBot(vec2{ 200.f, 250.f }, em_, tm_);
-        m_BotController->AddBot(vec2{ 200.f, 470.f }, em_, tm_);
+        m_BotController->AddBot(vec2{ 500.f, 470.f }, em_, tm_);
         m_PlayersController->AddPlayer(vec2{ 1100.f, 250.f }, em_, tm_);
 
         //Palme

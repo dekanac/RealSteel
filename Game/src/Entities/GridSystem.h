@@ -19,13 +19,15 @@ namespace Game {
 		bool createLake(float rotation, float screenStartingPosX, float screenStartingPosY, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_, Game::StaticObject* staticObjectManager_);
 		std::vector<int> transformToGridCoordinates(float x, float y);
 		vec2 BFS(std::vector<int> botCoordinates, std::vector<int> playerCoordinates);
+		vec2 Astar(std::vector<int> botCoordinates, std::vector<int> playerCoordinates);
 
 	private:
 		int m_sizeX = static_cast<int>(DEFAULT_WIDTH / 40);
 		int m_sizeY = static_cast<int>(DEFAULT_HEIGHT / 40);
 		std::vector< std::vector<int> > m_TerrainGrid{ m_sizeX , std::vector<int>(m_sizeY) };
 		bool screenCoordinatesValid(float screenStartingPosX, float screenStartingPosY);
-		std::vector<pair> getAdj(pair p);
+		std::vector<std::pair<pair, float> > getAdj(pair p);
+		std::vector<pair> getAdjBFS(pair p);
 	};
 }
 
