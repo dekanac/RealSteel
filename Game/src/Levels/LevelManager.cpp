@@ -14,7 +14,7 @@
 #include "Entities/Bullet.h"
 
 void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager* tm_, Game::Animation* ac_)
-{
+{   
     m_Terrain = std::make_unique<Terrain>();
     m_BotController = std::make_unique<Bot>();
     m_TanksController = std::make_unique<Tank>();
@@ -34,7 +34,24 @@ void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager
 }
 
 void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::SoundManager* sm_, Engine::TextureManager* tm_)
-{
+{   
+    auto bots = em_->GetAllEntitiesWithComponent<Game::BotComponent>();
+    bool aliveBot = false;
+    
+    for (auto& bot : bots) {
+         auto tank = bot->GetComponent<Game::BotComponent>()->tankEntity;
+         if (tank != nullptr && tank->GetComponent<Engine::HealthComponent>()->m_CurrentHealth > 0)
+             aliveBot = true;
+    }
+
+    if (!aliveBot) {
+        m_level++;
+
+        for (int i = 0; i < m_level; i++) {
+            m_BotController->AddBot(vec2{rand()%1000+50.f, rand()%600+50.f}, em_, tm_);
+        }
+    }
+
     m_Terrain->Update(dt, em_);
     m_PickupsController->Update(dt, em_, sm_, m_GridSystem.get());
     m_BotController->Update(dt, em_, m_GridSystem.get(), sm_, tm_);

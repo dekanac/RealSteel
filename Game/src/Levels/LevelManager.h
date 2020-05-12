@@ -28,6 +28,7 @@ namespace Game {
 		std::unique_ptr<StaticObject> m_StaticObjectsController{};
 		std::unique_ptr<Pickup> m_PickupsController{};
 		std::unique_ptr<GridSystem> m_GridSystem{};
+		int m_level{ 1 };
 	};
 }
 
