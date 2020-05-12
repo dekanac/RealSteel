@@ -206,18 +206,37 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data\music\music_test.ogg" />
+    <None Include="data\sounds\ammunition.ogg" />
     <None Include="data\sounds\birds_fly.ogg" />
+    <None Include="data\sounds\empty.ogg" />
+    <None Include="data\sounds\explosion.ogg" />
+    <None Include="data\sounds\menu_confirm.ogg" />
+    <None Include="data\sounds\menu_scroll.ogg" />
+    <None Include="data\sounds\pickup_voice.ogg" />
+    <None Include="data\sounds\powerup.ogg" />
+    <None Include="data\sounds\repair.ogg" />
+    <None Include="data\sounds\shield.ogg" />
+    <None Include="data\sounds\shot.ogg" />
+    <None Include="data\sounds\special_attack.ogg" />
+    <None Include="data\sounds\speed.ogg" />
     <None Include="data\sounds\tank_fire.ogg" />
     <None Include="data\sounds\tank_move.ogg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\textures\bird_animation.png" />
+    <Image Include="data\textures\bullet.png" />
+    <Image Include="data\textures\destroyed_tank.png" />
     <Image Include="data\textures\explosion_animation.png" />
     <Image Include="data\textures\grass.png" />
     <Image Include="data\textures\health_bar_frame.png" />
     <Image Include="data\textures\health_bar_green.png" />
     <Image Include="data\textures\health_bar_red.png" />
+    <Image Include="data\textures\Main_menu_screen.jpg" />
+    <Image Include="data\textures\muzzle_flash.png" />
+    <Image Include="data\textures\Pause_menu_screen.jpg" />
+    <Image Include="data\textures\Selection_box.png" />
+    <Image Include="data\textures\specialBullet.png" />
     <Image Include="data\textures\static_objects\palm.png" />
     <Image Include="data\textures\static_objects\palm_shadow.png" />
     <Image Include="data\textures\static_objects\terrain.png" />

@@ -5,10 +5,12 @@ namespace Game {
 	#define BULLET_SIZE_X 16.f
 	#define BULLET_SIZE_Y 6.f
 
+	#define FLASH_SIZE 50.f	
+
 	#define BULLET_COLLISION_X 15.f
 	#define BULLET_COLLISION_Y 15.f
 
-	#define BULLET_SPEED 1700.0f
+	#define BULLET_SPEED 1200.0f
 
 	class Bullet
 	{
@@ -16,6 +18,7 @@ namespace Game {
 		static Engine::Entity* CreateBullet(vec2 position_, float rotation_, bool players,
 			Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_, bool special, int missilePower);
 
-		static void Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_);
+		static void Update(float dt, Engine::EntityManager* entityManager_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_);
+		static void ExplodeBullet(Engine::Entity*, Engine::EntityManager* entityManager_, Engine::TextureManager* textureManager_);
 	};
 }

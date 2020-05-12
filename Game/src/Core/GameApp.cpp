@@ -143,6 +143,7 @@ bool Game::GameApp::InitTextures() {
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "healthBarFrame", "data/textures/health_bar_frame.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "bullet", "data/textures/bullet.png") &&
         m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "specialBullet", "data/textures/specialBullet.png") &&
+        m_TextureManager->CreateTexture(m_RenderSystem->GetRenderer(), "muzzleFlash", "data/textures/muzzle_flash.png") &&
         m_TextureManager->CreateAnimationTexture(
             vec2{ 200, 200 }, 
             4, 

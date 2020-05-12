@@ -67,6 +67,15 @@ namespace Game
 
 	};
 
+	struct TimedComponent : public Engine::Component {
+		std::chrono::steady_clock::time_point created;
+		int lifeMillis = 0;
+
+		TimedComponent(int m_) : lifeMillis(m_) {
+			created = std::chrono::high_resolution_clock::now();
+		};
+	};
+
 	enum class PickupType {
 
 		Health = 0,

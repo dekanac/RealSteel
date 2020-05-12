@@ -41,7 +41,7 @@ void Game::LevelManager::Update(float dt,Engine::EntityManager* em_, Engine::Sou
     m_TanksController->Update(dt, em_, tm_, sm_);
     m_PlayersController->Update(dt, em_, sm_, tm_);    
     m_StaticObjectsController->Update(dt, em_, sm_);
-    Game::Bullet::Update(dt, em_, sm_);
+    Game::Bullet::Update(dt, em_, sm_, tm_);
 
     // Refaktorisati
     auto xs = em_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
