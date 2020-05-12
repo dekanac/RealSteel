@@ -27,7 +27,7 @@ void Game::LevelManager::Init(Engine::EntityManager* em_, Engine::TextureManager
     //CONTROLLERS INIT
     m_GridSystem->Init();
     auto randLevel = rand() % 3 + 1;
-    LoadLevel(2, em_, tm_, ac_, m_GridSystem.get(), m_StaticObjectsController.get()); //TODO: Ubaciti randLevel kao prvi parametar kad se odrade ostali tereni
+    LoadLevel(randLevel, em_, tm_, ac_, m_GridSystem.get(), m_StaticObjectsController.get()); //TODO: Ubaciti randLevel kao prvi parametar kad se odrade ostali tereni
     m_Terrain->Init(em_, tm_);
     m_PickupsController->Init(em_, tm_);
     

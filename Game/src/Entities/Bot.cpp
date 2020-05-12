@@ -76,6 +76,14 @@ namespace Game
             std::vector<int> botGridCoordinates = gridSystem_->transformToGridCoordinates(tankTransf->m_Position[0], tankTransf->m_Position[1]);
             std::vector<int> playerGridCoordinates = gridSystem_->transformToGridCoordinates(playerTransfComp->m_Position[0], playerTransfComp->m_Position[1]);
 
+            if (botTank->GetComponent<Engine::HealthComponent>()->dead)
+            {
+                move->m_TranslationSpeed.y = 0.0f;
+                move->m_TranslationSpeed.x = 0.0f;
+                move->m_RotationSpeed = 0.0f;
+                continue;
+            }
+
             if (m_time >= 0.3f) {
                 float distanceToPlayer = distanceToPLayer(tankTransf->m_Position, playerTransfComp->m_Position);
                 if (distanceToPlayer > 150.f) {

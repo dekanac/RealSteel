@@ -23,7 +23,8 @@ namespace Game {
 
         auto playersTank = std::make_unique<Tank>();
         auto playersTankEntity = playersTank->CreateTank(m_startingPosition, entityManager_, textureManager_);
-        playersTankEntity->GetComponent <TankComponent>()->missilePower *= 2;
+        playersTankEntity->GetComponent <TankComponent>()->missilePower *= 3;
+        playersTankEntity->GetComponent<Engine::HealthComponent>()->m_MaxHealth *= 2;
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity = std::move(playersTankEntity);
         player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<OwnershipComponent>()->ownedByPlayer = true;
 
@@ -98,6 +99,15 @@ namespace Game {
     void Player::Reset(Engine::EntityManager* entityManager_)
     {
         auto playerEntities = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>();
+
+        auto xs = entityManager_->GetAllEntitiesWithComponent<Engine::ScoreComponent>();
+        if (xs.size() != 0)
+        {
+            auto x = xs.at(0);
+            auto s = x->GetComponent<Engine::ScoreComponent>();
+
+            s->score_num = 0;
+        }
 
         for (auto& player : playerEntities) {
             auto playersTank = player->GetComponent<Game::PlayerGameComponent>()->tankEntity;
