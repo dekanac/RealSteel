@@ -45,7 +45,7 @@ namespace Game {
 				return false;
 			}
 
-			m_TerrainGrid[x][y] = 1; // 1 -> obstacle
+			m_TerrainGrid[x][y] = 0; // palma nije obstacle
 			staticObjectManager_->CreatePalm(vec2{ static_cast<float>(x * 40 + 20), static_cast<float>(y * 40 + 20) }, entityManager_, textureManager_, animationManager_);
 		}
 		return true;
@@ -212,7 +212,7 @@ namespace Game {
 				return newPosition;
 			}
 
-			std::vector<pair> adjacents = getAdj(current);
+			std::vector<pair> adjacents = getAdjBFS(current);
 			if (adjacents.size() != 0) {
 				for (auto p : adjacents) {
 					if (m_TerrainGrid[p.first][p.second] != 1) {
@@ -227,6 +227,83 @@ namespace Game {
 		}
 	}
 
+	vec2 GridSystem::Astar(std::vector<int> botCoordinates, std::vector<int> playerCoordinates)
+	{
+		std::set<pair> openSet;
+		std::set<pair> closedSet;
+		std::map<pair, pair> parents;
+		std::map<pair, float> g;
+
+		pair start = std::make_pair(botCoordinates[0], botCoordinates[1]);
+		pair end = std::make_pair(playerCoordinates[0], playerCoordinates[1]);
+
+		auto heuristic = [end](pair pos) {
+			return std::fabs(pos.first - end.first) + std::fabs(pos.second - end.second);
+			//return std::sqrt(std::powf(pos.first - end.first, 2) + std::powf(pos.second - end.second, 2));
+		};
+
+
+		openSet.insert(start);
+		parents[start] = start;
+		g[start] = 0.0f;
+
+		while (openSet.size() > 0) {
+
+			auto current = *openSet.begin();
+
+			for (auto p : openSet) {
+				if (g.find(p) != g.end()) {
+					if (g[p] + heuristic(p) < g[current] + heuristic(current)) {
+						current = p;
+					}
+				}
+			}
+
+			if (current == end) {
+
+				std::list<pair> path;
+				while (parents[current] != current) {
+					path.push_back(current);
+					current = parents[current];
+				}
+				pair point = path.back();
+				vec2 newPosition = { static_cast<float>(point.first * 40 + 20), static_cast<float>(point.second * 40 + 20) };
+
+				return newPosition;
+			}
+
+			std::vector<std::pair<pair, float> > adjacents = getAdj(current);
+			for (auto p : adjacents) {
+				pair adj = p.first;
+				float d = adj.second;
+
+				if (openSet.find(adj) == openSet.end() && closedSet.find(adj) == closedSet.end()) {
+					openSet.insert(adj);
+					parents[adj] = current;
+					g[adj] = g[current] + d;
+				}
+				else {
+					if (g.find(adj) != g.end()) {
+						if (g[adj] > g[current] + d) {
+							g[adj] = g[current] + d;
+							parents[adj] = current;
+
+							if (closedSet.find(adj) != closedSet.end()) {
+								auto it = closedSet.find(adj);
+								closedSet.erase(it);
+								openSet.insert(adj);
+							}
+						}
+					}
+				}
+			}
+			auto it = openSet.find(current);
+			openSet.erase(it);
+			closedSet.insert(current);
+		}
+		return vec2();
+	}
+
 	bool GridSystem::screenCoordinatesValid(float screenStartingPosX, float screenStartingPosY)
 	{
 		if (screenStartingPosX < 0 || screenStartingPosX > DEFAULT_WIDTH || screenStartingPosY < 0 || screenStartingPosY > DEFAULT_HEIGHT) {
@@ -235,7 +312,37 @@ namespace Game {
 		}
 		return true;
 	}
-	std::vector<pair> GridSystem::getAdj(pair p)
+	std::vector<std::pair<pair, float> > GridSystem::getAdj(pair p)
+	{
+		std::vector<std::pair<pair, float> > adjacents;
+		int x = p.first;
+		int y = p.second;
+		float d;
+
+		for (int i = x - 1; i != x + 2; i++) {
+			for (int j = y - 1; j != y + 2; j++) {
+				if ((i == x && j != y) || (i != x && j == y)) {
+					d = 1.0f;
+				}
+				else {
+					d = 2.0f;
+				}
+				if ((i < 0 || j < 0 || i > m_sizeX - 1 || j > m_sizeY - 1) || (i == x && j == y)) {
+					continue;
+				}
+				else if (isBlockOccupied(i, j)) {
+					continue;
+				}
+				else {
+					adjacents.push_back(std::make_pair(std::make_pair(i, j), d));
+				}
+			}
+		}
+
+		return adjacents;
+	}
+
+	std::vector<pair> GridSystem::getAdjBFS(pair p)
 	{
 		std::vector<pair> adjacents;
 		int x = p.first;
@@ -243,7 +350,7 @@ namespace Game {
 
 		for (int i = x - 1; i != x + 2; i++) {
 			for (int j = y - 1; j != y + 2; j++) {
-				if (i < 0 || j < 0 || i > m_sizeX - 1 || j > m_sizeY - 1) {
+				if ((i < 0 || j < 0 || i > m_sizeX - 1 || j > m_sizeY - 1) || (i == x && j == y)) {
 					continue;
 				}
 				else if (isBlockOccupied(i, j)) {

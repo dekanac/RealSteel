@@ -120,6 +120,6 @@ namespace Game
 		int m_GridX;
 		int m_GridY;
 		bool m_FiredRecently;
-		bool m_isMoving = true;
+		bool m_isMoving = false;
 	};
 }
