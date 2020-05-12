@@ -3,6 +3,7 @@
 #include "src/Entities/GridSystem.h"
 #include "src/Entities/Bot.h"
 #include "src/Entities/Tank.h"
+#include "RayCastCallback.h"
 
 namespace Game 
 
@@ -30,9 +31,29 @@ namespace Game
         return true;
     }
 
+    bool HasLineOfSight(Engine::EntityManager* entityManager_, b2Vec2 botPos_, b2Body* playerBody_)
+    {
+
+        RayCastCallback ray_callback;
+
+        auto physicsComp = entityManager_->GetAllEntitiesWithComponent<Game::PhysicsComponent>();
+        physicsComp[0]->GetComponent<Game::PhysicsComponent>()->world->RayCast(&ray_callback, botPos_, playerBody_->GetPosition());
+        if (ray_callback.m_fixture) 
+        {
+            if (ray_callback.m_fixture->GetBody() == playerBody_)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void Game::Bot::Update(float dt, Engine::EntityManager* entityManager_, Game::GridSystem* gridSystem_, Engine::SoundManager* soundManager_, Engine::TextureManager* textureManager_)
     {
-        auto player = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>()[0];
+        auto playerEntities = entityManager_->GetAllEntitiesWithComponent<Game::PlayerGameComponent>();
+
+        auto player = playerEntities[0];
         auto playerTransfComp = player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<Engine::TransformComponent>();
 
         auto bots = entityManager_->GetAllEntitiesWithComponent<Game::BotComponent>();
@@ -69,7 +90,9 @@ namespace Game
                 }
             }
 
-            if (true)
+            auto botPos = botTank->GetComponent<Engine::Box2dBodyComponent>()->body->GetPosition();
+            auto playerBody = player->GetComponent<Game::PlayerGameComponent>()->tankEntity->GetComponent<Engine::Box2dBodyComponent>();
+            if (HasLineOfSight(entityManager_, botPos, playerBody->body))
             {
                 Tank::Shoot(botTank, false, entityManager_, soundManager_, textureManager_, false,
                     botTank->GetComponent<Game::TankComponent>()->missilePower);
